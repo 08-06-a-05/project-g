@@ -3,7 +3,9 @@ from django.http import HttpResponse
 
 # Create your views here.
 def registration_page(request):
-    return HttpResponse('Hello, world!')
+    #return HttpResponse('Hello, world!')
+    context={}
+    return render(request,'registration_page.html',context)
 
 def authorization_page(request):
     return HttpResponse('number 2')
