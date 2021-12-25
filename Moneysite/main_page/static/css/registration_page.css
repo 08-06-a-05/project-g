@@ -1,14 +1,36 @@
 .root{
-    width:95%;
+    display:block;
+    width:auto;
     margin:2.5%;
-    height:95%;
+    flex-direction: row;
+    height:100vh;
+
+}
+.desc_and_reg{
+    display: flex;
+    width:auto;
+    margin:2.5%;
+    flex-direction: row;
+    height:70%;
+}
+.name{
+    width:90%;
+    height:20%;
+    margin: 2.5%;
+    display: flex;
+}
+.text{
+    margin:auto;
 }
 .registration_container{
-    margin-left: 2.35%;
-    margin-right: 2.35%;
-    display: inline-block;
+    min-height: 250px;
+    display: block;
     width:45%;
-    height:95%;
-    margin-top:2.5%;
-    margin-bottom: 2.5%;
+    margin: auto;
+}
+@media screen and (max-width:450px)
+{
+    .root{
+        flex-direction: column;
+    }
 }
