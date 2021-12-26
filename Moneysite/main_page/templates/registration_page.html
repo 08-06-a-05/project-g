@@ -11,31 +11,30 @@
 
 {% block content %}
     <div class="root">
-        <div class="name">
-            <h1 class="text">Регистрация</h1>
+        <div class="information_container">
+            <img class="logo" src="{% static 'logo.png' %}" alt="Упс... Кажется, картинка где-то потерялась. Мы скоро все исправим">
+            <p class="description">Отслеживайте свой бюджет. Стройте графики расходов и доходов. Прогнзируйте свой бюджет на будущее с учётом инфляции</p>
         </div>
-        <div class=desc_and_reg>
-            <div class="registration_container">
-                <p class="description">Мы тут!</p>
-            </div>
-            <div class="registration_container">
-                <form action="POST" name="registration_form">
-                    <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+        <div class="registration_container">
+            <p class="name">Регистрация</p>
+            <form class="registration_form" action="POST" name="registration_form">
+                <div class="mb-3">
+                    <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
                     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="mb-3">
+                    <input type="name" class="form-control" id="exampleInputPassword1" placeholder="Name">
                     </div>
-                    <div class="mb-3">
-                    <label for="exampleInputPassword1" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="exampleInputPassword1">
-                    </div>
-                    <div class="mb-3 form-check">
-                    <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                    <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-            </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Repeat password">
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="registration_button">Register</button>
+                </div> 
+            </form>
         </div>
     </div>
 {% endblock %}
