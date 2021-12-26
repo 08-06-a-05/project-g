@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@800&display=swap://vk.com/away.php?utf=1&to=https%3A%2F%2Ffonts.googlehttps://fonts.googleapis.com/css2?family=Raleway:wght@800&display=swapapis.com%2Fcss2%3Ffamily%3DRaleway%3Awght%40800%26display%3Dswap://fonts.googleapis.com/css2?family=Pushster&family=Roboto:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500;800&display=swap');
 
 html { 
     position: absolute;
@@ -35,11 +35,14 @@ body {
     margin: auto;
     flex-direction: column;
     height:100%;
+    padding-left: 100px;
+    
 }
 
 .name{
     font-size: 24px;
     font-family: 'Raleway';
+    font-weight: 800;
     margin: auto;
 }
 
@@ -66,7 +69,9 @@ body {
     outline:none;
     margin: auto;
     width: 100%;
-    font-size: 20px;
+    font-size: 18px;
+    font-family: 'Raleway';
+    font-weight: 800;
 }
 
 .form-control-with-text{
@@ -76,8 +81,10 @@ body {
     margin:32px auto;
     margin-bottom: 8px;
     width: 100%;
-    font-size: 20px;
+    font-size: 18px;
     margin-top: 16px;
+    font-family: 'Raleway';
+    font-weight: 800;
 }
 
 .form-control:focus,.form-control-with-text:focus{
@@ -91,6 +98,7 @@ body {
 .registration_button{
     font-size: 20px;
     font-family: 'Raleway';
+    font-weight: 800;
     width:70%;
     margin: auto;
     background-color: #7fca84;
@@ -98,14 +106,22 @@ body {
 }
 
 .logo{
-    width: 200px;
+    width: 300px;
     height: auto;
     margin: auto;
 }
 .description{
+    text-align: left;
+    list-style-type: none;
+    width: 400px; 
+    margin: 16px auto;
+}
+
+.description-item {
     font-size: 16px;
-    text-align: center;
-    margin: 16px 50px;
+    font-family: 'Raleway';
+    font-weight: 500;
+    margin: 8px auto;
 }
 
 @media screen and (max-width:1000px)
