@@ -40,7 +40,7 @@ body {
 .name{
     font-size: 24px;
     font-family: 'Raleway';
-    margin: 16px auto;
+    margin: auto;
 }
 
 .registration_form{
@@ -77,6 +77,7 @@ body {
     margin-bottom: 8px;
     width: 100%;
     font-size: 20px;
+    margin-top: 16px;
 }
 
 .form-control:focus,.form-control-with-text:focus{
@@ -89,10 +90,11 @@ body {
 }
 .registration_button{
     font-size: 20px;
-    width:60%;
+    font-family: 'Raleway';
+    width:70%;
     margin: auto;
-    background-color: yellow;
-    border-radius: 10px;
+    background-color: #7fca84;
+    border-radius: 2px;
 }
 
 .logo{
