@@ -16,12 +16,10 @@
         {% include 'snippets/base_js.js' %}
         {% include 'snippets/header.html' %}
 
-        <div class="main">
-            {% block content %}
+        {% block content %}
 
-            {% endblock %}
-        </div>
-
+        {% endblock %}
+        
         {% include 'snippets/footer.html' %}
     </body>
 
