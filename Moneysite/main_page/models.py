@@ -3,7 +3,6 @@ import datetime
 
 class Users(models.Model):
     name = models.CharField(max_length=30)
-    surname = models.CharField(max_length=30)
     email = models.EmailField(unique=True)
     password = models.CharField(max_length=300)
     displayed_currency = models.CharField(max_length=30,default='ruble')
