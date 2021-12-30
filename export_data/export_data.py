@@ -70,7 +70,7 @@ class XlsxBook():
 
 
 def export_operations_to_xlsx(operations):
-    book = XlsxBook(name="my_book")
+    book = XlsxBook(name="./export_data/my_book")
     book.create_headers()
 
     book.write_data(operations)
@@ -88,7 +88,7 @@ def mainloop():
     invitation = "Введите id пользователя или q для выхода: "
     info_for_user = "Информация о пользователе с id="
 
-    database = Database("Moneysite/db.sqlite3")
+    database = Database("./export_data/db.sqlite3")
 
     print()
     while True:
