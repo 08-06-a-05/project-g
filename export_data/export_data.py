@@ -26,8 +26,11 @@ class Database:
         self.__connection.close()
 
     def get_operations_for_user(self, user_id: int):
-        request = "SELECT datetime, operation_type, amount, currency, category_id, description FROM operations_operations \
-        WHERE user_id = :user_id;"
+        request = """SELECT datetime, operation_type, amount, currency,
+        (SELECT category_name FROM operations_categories WHERE operations_categories.id = operations_operations.category_id),
+        description
+        FROM operations_operations 
+        WHERE user_id = :user_id;"""
 
         result = self.__cursor.execute(request, {"user_id": str(user_id)})
         return result.fetchall()
@@ -54,7 +57,7 @@ class XlsxBook():
         self.__sheet["B1"] = "Operation type"
         self.__sheet["C1"] = "Amount"
         self.__sheet["D1"] = "Currency"
-        self.__sheet["E1"] = "Category id"
+        self.__sheet["E1"] = "Category"
         self.__sheet["F1"] = "Description"
 
     def write_data(self, operations):
