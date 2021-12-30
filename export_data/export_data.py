@@ -25,7 +25,7 @@ class Database:
     def close(self):
         self.__connection.close()
 
-    def get_operations_for_user(self, user_id: int):
+    def get_all_operations_for_user(self, user_id: int):
         request = """SELECT datetime, operation_type, amount, currency,
         (SELECT category_name FROM operations_categories WHERE operations_categories.id = operations_operations.category_id),
         description
@@ -33,6 +33,19 @@ class Database:
         WHERE user_id = :user_id;"""
 
         result = self.__cursor.execute(request, {"user_id": str(user_id)})
+        return result.fetchall()
+
+    def get_operations_for_the_period_for_user(self, user_id: int, start_date: str, finish_date: str):
+        request = """SELECT datetime, operation_type, amount, currency,
+                (SELECT category_name FROM operations_categories WHERE operations_categories.id = operations_operations.category_id),
+                description
+                FROM operations_operations 
+                WHERE user_id = :user_id AND (datetime >= :start_date AND datetime <= :finish_date);"""
+
+        keys = {"user_id": str(user_id),
+                "start_date": start_date,
+                "finish_date": finish_date}
+        result = self.__cursor.execute(request, keys)
         return result.fetchall()
 
     def add_test_data_to_db(self):
@@ -118,8 +131,12 @@ def mainloop():
         else:
             user_id = int(input_data)
             print(info_for_user + f"{user_id}:")
-            operations = database.get_operations_for_user(user_id)
+            start_date = "2021-01-29"
+            finish_date = "2022-01-01"
+            # operations = database.get_all_operations_for_user(user_id)
+            operations = database.get_operations_for_the_period_for_user(user_id, start_date, finish_date)
             operations = transform_datetime_in_all_operations(operations)
+
             print_operations(operations)
             export_operations_to_xlsx(operations)
         print()
