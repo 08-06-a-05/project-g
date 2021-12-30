@@ -15,6 +15,14 @@ class Database:
         self.__connection = sqlite3.connect(path)  # Database object
         self.__cursor = self.__connection.cursor()
 
+    @property
+    def connection(self):
+        return self.__connection
+
+    @property
+    def cursor(self) -> sqlite3.Cursor:
+        return self.__cursor
+
     def close(self):
         self.__connection.close()
 
@@ -22,7 +30,6 @@ class Database:
                                 start_date: Optional[str] = None,
                                 finish_date: Optional[str] = None):
         """
-
         :param user_id: id of the user whose operations information needs to be obtained
         :param start_date: from this date ("%Y-%m-%d")
         :param finish_date: until this date ("%Y-%m-%d")
@@ -39,7 +46,7 @@ class Database:
             request += " AND datetime >= :start_date"
 
         if finish_date is not None:
-            request += " AND datetime <= :finish_date)"
+            request += " AND datetime <= :finish_date"
 
         request += ";"
 
@@ -180,12 +187,12 @@ def mainloop():
             finish_date = None if finish_date == "f" else finish_date
 
             operations = OperationsInfo(user_id=user_id)
-            operations.load_from_db("../export_data/db.sqlite3", start_date=start_date, finish_date=finish_date)
+            operations.load_from_db("./export_data/db.sqlite3", start_date=start_date, finish_date=finish_date)
             operations.change_datetime_format()
 
             print(info_for_user + f"{user_id}:")
             operations.print_to_terminal()
-            operations.export_to_xlsx_file(f"../export_data/data_{user_id}.xlsx")
+            operations.export_to_xlsx_file(f"./export_data/data_{user_id}.xlsx")
             print(info_saved)
 
         print()
