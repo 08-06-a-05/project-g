@@ -157,8 +157,12 @@ class TestXlsxBook(unittest.TestCase):
         self.book.create_table(written_data)
         self.book.save_file()
         self.book.close()
-
         # Act for check
+        read_data = self.__get_data_from_xlsx_file()
+        # Assert
+        self.assertEqual([headers] + written_data, read_data)
+
+    def __get_data_from_xlsx_file(self):
         book = openpyxl.open(self.BOOK_PATH, read_only=True)
         sheet = book.active
 
@@ -169,8 +173,9 @@ class TestXlsxBook(unittest.TestCase):
                 line.append(sheet[i][j].value)
             read_data.append(line)
 
-        # Assert
-        self.assertEqual([headers] + written_data, read_data)
+        book.close()
+
+        return read_data
 
 
 if __name__ == "__main__":
