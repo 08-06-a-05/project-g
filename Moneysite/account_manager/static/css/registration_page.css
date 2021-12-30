@@ -59,26 +59,28 @@ body {
     width:90%;
     display: flex;
     flex-direction: column;
-    height: 20%;
+    height: 16.66%;
 }
 
 .form-control{
     border:0;
-    box-shadow: 0 2px 0 0 black;
     outline:none;
-    margin: auto;
+    margin-top: auto;
+    margin-bottom: 3px;
+    margin-left: auto;
+    margin-right: auto;
     width: 100%;
     font-size: 18px;
     font-family: 'Raleway';
     font-weight: 800;
 }
-
 .form-control-with-text{
     border:0;
-    box-shadow: 0 2px 0 0 black;
     outline:none;
-    margin:32px auto;
-    margin-bottom: 8px;
+    margin-top: auto;
+    margin-bottom: 3px;
+    margin-left: auto;
+    margin-right: auto;
     width: 100%;
     font-size: 18px;
     margin-top: 16px;
@@ -86,13 +88,30 @@ body {
     font-weight: 800;
 }
 
-.form-control:focus,.form-control-with-text:focus{
-    box-shadow: 0 2px 0 0 red;
+.line{
+    margin-top: 2px;
+    margin-bottom: auto;
+    margin-left: auto;
+    margin-right: auto;
+    height: 3px;
+    width: 100%;
+    background-size: 200% 100%;
+    background-image: linear-gradient(to right, black 50%, #7fca84 50%);
+    transition: background-position 1s;
 }
+
+.form-control:focus ~ .line{
+    background-position: -100% 0;
+}
+.form-control-with-text:focus ~ .line{
+    background-position: -100% 0;
+}
+
 .form-text{
     margin: auto;
     margin-top: 0px;
     color:grey;
+    font-size:14px;
 }
 .registration_button{
     font-size: 20px;
@@ -142,6 +161,9 @@ body {
     }
     .registration_form{
         width:85vw;
+    }
+    .registration_button{
+        font-size: 0.8em;
     }
 
 }
