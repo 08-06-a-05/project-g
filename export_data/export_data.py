@@ -46,6 +46,9 @@ class Database:
         self.__connection.commit()
 
 
+""" .strftime() """
+
+
 class XlsxBook():
     def __init__(self, name: str):
         self.__name = name
@@ -87,6 +90,18 @@ def print_operations(operations):
         print(operation)
 
 
+def transform_datetime(input_str):
+    return datetime.datetime.strptime(input_str, "%Y-%m-%d %H:%M:%S.%f").strftime("%d.%m.%Y %H:%M")
+
+
+def transform_datetime_in_all_operations(operations):
+    new_operations = operations
+    for i in range(len(operations)):
+        new_operations[i] = list(operations[i])
+        new_operations[i][0] = transform_datetime(new_operations[i][0])
+    return new_operations
+
+
 def mainloop():
     invitation = "Введите id пользователя или q для выхода: "
     info_for_user = "Информация о пользователе с id="
@@ -104,6 +119,7 @@ def mainloop():
             user_id = int(input_data)
             print(info_for_user + f"{user_id}:")
             operations = database.get_operations_for_user(user_id)
+            operations = transform_datetime_in_all_operations(operations)
             print_operations(operations)
             export_operations_to_xlsx(operations)
         print()
