@@ -3,6 +3,7 @@ import random
 import sqlite3
 
 import openpyxl
+import openpyxl.styles
 
 
 class Database:
@@ -81,6 +82,26 @@ class XlsxBook():
             for j in range(len(operations[i])):
                 self.__sheet[2 + i][j].value = operations[i][j]
 
+    def add_styles(self):
+        for i in range(6):
+            self.__sheet.column_dimensions[chr(i + 97)].width = 18
+
+        bold_font = openpyxl.styles.Font(b=True, name="Arial")
+        light_font = openpyxl.styles.Font(name="Arial")
+        """
+        for i in range(6):
+            self.__sheet[1][i].font = bold_font
+        """
+        side = openpyxl.styles.Side(style="hair")
+        border = openpyxl.styles.Border(left=side, right=side, top=side, bottom=side)
+        for j in range(1, self.__sheet.max_row + 1):
+            for i in range(6):
+                self.__sheet[j][i].border = border
+                if j == 1:
+                    self.__sheet[j][i].font = bold_font
+                else:
+                    self.__sheet[j][i].font = light_font
+
     def save(self):
         self.__book.save(self.__name + ".xlsx")
 
@@ -93,6 +114,7 @@ def export_operations_to_xlsx(operations):
     book.create_headers()
 
     book.write_data(operations)
+    book.add_styles()
 
     book.save()
     book.close()
@@ -133,8 +155,8 @@ def mainloop():
             print(info_for_user + f"{user_id}:")
             start_date = "2021-01-29"
             finish_date = "2022-01-01"
-            # operations = database.get_all_operations_for_user(user_id)
-            operations = database.get_operations_for_the_period_for_user(user_id, start_date, finish_date)
+            operations = database.get_all_operations_for_user(user_id)
+            # operations = database.get_operations_for_the_period_for_user(user_id, start_date, finish_date)
             operations = transform_datetime_in_all_operations(operations)
 
             print_operations(operations)
