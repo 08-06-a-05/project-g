@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+
+{% block localCssLink %}
+    {% load static %}
+    <link href="{% static 'css/registration_page.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block name %}
+    Регистрация
+{% endblock %}
+
+{% block content %}
+    <div class="root">
+        <div class="information_container">
+            <img class="logo" src="{% static 'img/logo.png' %}" alt="Упс... Кажется, картинка где-то потерялась. Мы скоро все исправим">
+            <ul class="description">
+                <li class="description-item">
+                    Отслеживайте свой бюджет
+                </li>
+                <li class="description-item">
+                    Стройте графики расходов и доходов
+                </li>
+                <li class="description-item">
+                    Прогнозируйте свой бюджет на будущее с учётом инфляции
+                </li>
+            </ul>
+        </div>
+        <div class="registration_container">
+            <form class="registration_form" action="POST" name="registration_form">
+                <div class="mb-3">
+                    <p class="name">Регистрация</p>
+                </div>
+                <div class="mb-3">
+                    <input type="email" class="form-control-with-text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
+                    <div class="line"></div>
+                    <div id="emailHelp" class="form-text">Мы никому не передаем ваши данные</div>
+                </div>
+                <div class="mb-3">
+                    <input type="name" class="form-control" id="exampleInputPassword1" placeholder="Имя">
+                    <div class="line"></div>
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Пароль">
+                    <div class="line"></div>
+                </div>
+                <div class="mb-3">
+                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Повторите пароль">
+                    <div class="line"></div>
+                </div>
+                <div class="mb-3">
+                    <button type="submit" class="registration_button">Зарегистрироваться</button>
+                </div> 
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
