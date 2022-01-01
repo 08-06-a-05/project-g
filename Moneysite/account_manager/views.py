@@ -74,10 +74,12 @@ def logout_request(request):
     
 
 def activate_user(request, uidb64, token):
-    uid = force_str(urlsafe_base64_decode(uidb64))
-    print(uid)
-    user = Users.objects.get(pk=uid)
-    
+    try:
+        uid = force_str(urlsafe_base64_decode(uidb64))
+        user = Users.objects.get(pk=uid)
+    except:
+        user = None
+
     if user is not None and generate_token.check_token(user, token):
         user.is_email_verified = True
         user.save()
