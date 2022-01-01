@@ -95,16 +95,17 @@ body {
     margin-right: auto;
     height: 3px;
     width: 100%;
-    background-size: 200% 100%;
-    background-image: linear-gradient(to right, black 50%, #7fca84 50%);
+    background-size: 600% 100%;
+    background-image: url('http://127.0.0.1:8000/static/line2.png');
+    background-position: 0;
     transition: background-position 1s;
 }
 
 .form-control:focus ~ .line{
-    background-position: -100% 0;
+    background-position: 50% 0 !important;
 }
 .form-control-with-text:focus ~ .line{
-    background-position: -100% 0;
+    background-position: 50% 0 !important;
 }
 
 .form-text{
