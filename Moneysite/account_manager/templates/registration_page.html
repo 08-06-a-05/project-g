@@ -38,12 +38,14 @@
                     <!-- <input type="email" class="form-control-with-text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email"> -->
                     {{ form.email }}
                     <div class="line" id="email_line"></div>
+                    <div class="error_message" id="error_message"></div>
                     <div id="emailHelp" class="form-text">Мы никому не передаем ваши данные</div>
                 </div>
                 <div class="mb-3">
                     {{ form.username }}
                     <!-- <input type="name" class="form-control" id="exampleInputPassword1" placeholder="Имя"> -->
                     <div class="line" id="name_line"></div>
+                    <div class="error_name_message" id="error_name_message"></div>
                 </div>
                 <div class="mb-3">
                     {{ form.password1 }}
