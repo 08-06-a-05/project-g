@@ -15,9 +15,9 @@ from .models import Users
 
 # Create your views here.
 def registration_page(request):
-    form = CreateUserForm()
+    form = CreateUserForm(use_required_attribute=False)
     if request.method == 'POST':
-        form = CreateUserForm(request.POST)
+        form = CreateUserForm(request.POST, use_required_attribute=False)
         if form.is_valid():
             user = form.save(commit=False)
             user.save()
@@ -44,9 +44,8 @@ def registration_page(request):
                                  'Мы отправили Вам письмо для подтверждения регистрации.')
             
             return redirect('login')
-    else:
-        form = CreateUserForm()
     
+
     return render(request,'registration_page.html', {'form': form})
 
 def authorization_page(request):
