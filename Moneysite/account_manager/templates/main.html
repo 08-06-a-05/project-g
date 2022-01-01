@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block localCssLink %}
+    {% load static %}
+    <!-- <link href="{% static 'css/registration_page.css' %}" rel="stylesheet" type="text/css"> -->
+{% endblock %}
+
+{% block name %}
+    Главная
+{% endblock %}
+
+{% block content %}
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
+
+    {% if user.is_authenticated %}
+        {{ user.username }}
+        <button><a href="{% url 'logout' %}">Logout</a></button>
+    {% else %}
+        <p>Hi</p>
+    {% endif %}
+{% endblock %}

@@ -24,7 +24,6 @@ def authorization_page(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
-        print(email, password)
         user = authenticate(request, email=email, password=password)
 
         if user is not None:
@@ -35,5 +34,11 @@ def authorization_page(request):
     context = {}
     return render(request, 'login.html', context)
 
+def logout_request(request):
+    logout(request)
+    messages.info(request, "You have successfully logged out.")
+    return render(request, 'main.html')
+
 def main_page(request):
-    return HttpResponse('glavnaia')
+    context = {}
+    return render(request, 'main.html', context) 

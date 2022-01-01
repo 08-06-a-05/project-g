@@ -1,45 +1,49 @@
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
-class AccountManager(BaseUserManager):
-
-    def create_user(self, email, username, password=None):
-        if not email:
-            raise ValueError("Вам необходимо указать Email.")
-        if not username:
-            raise ValueError("Вам необходимо указать пароль.")
-        user = self.model(
-            email=self.normalize_email(email),
-            username=username
-        )
+class CustomUsersManager(BaseUserManager):
+    def create_user(self, email, username, password):
+        user = self.model(email=email, username=username, password=password)
         user.set_password(password)
-
+        user.is_staff = False
+        user.is_superuser = False
         user.save(using=self._db)
         return user
 
     def create_superuser(self, email, username, password):
-        user = self.create_user(
-            email=self.normalize_email(email),
-            username=username,
-            password=password
-        )
+        user = self.create_user(email=email, username=username, password=password)
+        user.is_active = True
         user.is_staff = True
-
+        user.is_superuser = True
         user.save(using=self._db)
         return user
 
+    def get_by_natural_key(self, email_):
+        print(email_)
+        return self.get(email=email_)
 
-class Users(AbstractBaseUser):
-    name = models.CharField(max_length=30)
+
+class Users(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
-    password = models.CharField(max_length=300)
-    displayed_currency = models.CharField(max_length=30,default='ruble')
+    username = models.CharField(max_length=30)
+    displayed_currency = models.CharField(max_length=30, default='ruble')
     balance = models.BigIntegerField(default=0)
-
-    objects = AccountManager()
-
-    USERNAME_FIELD = 'email'
     
+    is_staff = models.BooleanField(default=False)
 
+    REQUIRED_FIELDS = ['username']
+    USERNAME_FIELD = 'email'
+
+    objects = CustomUsersManager()
+
+    def __str__(self):
+        return self.email
+
+    def natural_key(self):
+        return self.email
+
+    def get_short_name(self):
+        return self.email
+    
 
 
