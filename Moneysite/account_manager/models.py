@@ -30,6 +30,7 @@ class Users(AbstractBaseUser, PermissionsMixin):
     balance = models.BigIntegerField(default=0)
     
     is_staff = models.BooleanField(default=False)
+    is_email_verified = models.BooleanField(default=False)
 
     REQUIRED_FIELDS = ['username']
     USERNAME_FIELD = 'email'

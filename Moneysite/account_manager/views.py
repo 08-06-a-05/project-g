@@ -2,8 +2,16 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.sites.shortcuts import get_current_site
+from django.conf import settings
+from django.template.loader import render_to_string
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.core.mail import EmailMessage
+from django.utils.encoding import force_bytes, force_str
 
 from .forms import CreateUserForm
+from .utils import generate_token
+from .models import Users
 
 # Create your views here.
 def registration_page(request):
@@ -11,14 +19,35 @@ def registration_page(request):
     if request.method == 'POST':
         form = CreateUserForm(request.POST)
         if form.is_valid():
-            form.save()
-            messages.success(request, form.cleaned_data.get('username') + ', Ваш аккаунт был успешно создан!')
+            user = form.save(commit=False)
+            user.save()
+            
+            current_site = get_current_site(request)
+            
+            email_body = render_to_string('mail_snippets/activate_mail.html', {
+                'user': user,
+                'domain': current_site.domain,
+                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+                'token': generate_token.make_token(user)
+            })
 
+            email = EmailMessage(
+                subject='Активируйте Ваш аккаунт', 
+                body=email_body, 
+                from_email=settings.EMAIL_HOST_USER,
+                to=[form.cleaned_data.get('email')]
+            )
+
+            email.send()
+            
+            messages.add_message(request, messages.SUCCESS,
+                                 'Мы отправили Вам письмо для подтверждения регистрации.')
+            
             return redirect('login')
-
+    else:
+        form = CreateUserForm()
     
-    context = {'form': form}
-    return render(request,'registration_page.html',context)
+    return render(request,'registration_page.html', {'form': form})
 
 def authorization_page(request):
     if request.method == 'POST':
@@ -26,18 +55,39 @@ def authorization_page(request):
         password = request.POST.get('password')
         user = authenticate(request, email=email, password=password)
 
-        if user is not None:
+        if user is None:
+            messages.add_message(request, messages.ERROR, 'Обнаружены ошибки в пароле или электронной почте. Проверьте, пожалуйста, правильность введенных данных.')
+            return redirect('login')
+        elif not user.is_email_verified:
+            messages.add_message(request, messages.ERROR, 'Ваша элеткронная почта не подтверждена. Проверьте, пожалуйста, почтовый ящик.')
+            return redirect('login')
+        else:
             login(request, user)
             return redirect('main')
-        else:
-            print('nah :(')
     context = {}
     return render(request, 'login.html', context)
 
 def logout_request(request):
     logout(request)
-    messages.info(request, "You have successfully logged out.")
-    return render(request, 'main.html')
+    messages.info(request, "Вы вышли из аккаунта.")
+    return redirect('main')
+    
+
+def activate_user(request, uidb64, token):
+    uid = force_str(urlsafe_base64_decode(uidb64))
+    print(uid)
+    user = Users.objects.get(pk=uid)
+    
+    if user is not None and generate_token.check_token(user, token):
+        user.is_email_verified = True
+        user.save()
+
+        messages.add_message(request, messages.SUCCESS, 'Ваша почта подтверждена.')
+        return redirect('login')
+    
+    return HttpResponse('failed')
+
+
 
 def main_page(request):
     context = {}

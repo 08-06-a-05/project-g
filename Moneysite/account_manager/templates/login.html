@@ -11,6 +11,9 @@
 
 {% block content %}
 <div class="registration_container">
+    {% for message in messages %}
+        {{ message }}
+    {% endfor %}
     <form class="registration_form" method="POST" action="" name="registration_form">
         {% csrf_token %}
         
