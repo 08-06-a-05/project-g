@@ -152,8 +152,8 @@ username.addEventListener("input", function (event) {
     if (!username.value) {
         error_name_message.textContent="Пожалуйста, введите имя";
         perekras(name_line,error_name_message,false);
-    } else if (username.value=="Jacob"){
-        error_name_message.textContent="Ваше имя слишком уродское!";
+    } else if (username.value=="Георгий"){
+        error_name_message.textContent="Ваше имя слишком красивое!";
         perekras(name_line,error_name_message,false);
     } else {
         perekras(name_line,error_name_message,true);
