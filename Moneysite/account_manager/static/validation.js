@@ -5,28 +5,57 @@ function isNumeric(value) {
 function validate() { // При нажатии на кнопку отправки форма еще раз проходит валидацию
     var valid=true
     if (!username.value){
-        name_line.style.backgroundPosition="100% 0";
+        error_name_message.textContent="Пожалуйста, введите имя";
+        perekras(name_line,error_name_message,false);
         valid = false;
     }
     if (!email.value){
-        email_line.style.backgroundPosition="100% 0";
-        valid = false;
+        error_email_message.textContent="Пожалуйста, введите email";
+        perekras(email_line,error_email_message,false);
+        valid=false;
     } else if (email.validity.typeMismatch){
-        email_line.style.backgroundPosition="100% 0";
-        valid = false;
-        
-    }
-    if (!password.value || password.validity.tooShort){
-        password_line.style.backgroundPosition="100% 0";
+        error_email_message.textContent="Такой email не существует";
+        perekras(email_line,error_email_message,false);
         valid = false;
     }
-    if (!password_check.value || password.value!=password_check.value){
-        password_check_line.style.backgroundPosition="100% 0";
+    if (!password.value){
+        error_password_message.textContent="Пожалуйста, введите пароль";
+        perekras(password_line,error_password_message,false);
+        valid = false;
+    }
+    else if (password.validity.tooShort){
+        error_password_message.textContent="Пароль должен содержать как минимум 8 символов";
+        perekras(password_line,error_password_message,false);
+        valid = false;
+    } else if (isNumeric(password.value)) {
+        error_password_message.textContent="Пароль не может состоять только из цифр";
+        perekras(password_line,error_password_message,false);
+        valid=false;
+    }
+    if (!password_check.value){
+        error_password_check_message.textContent="Пожалуйста, введите пароль повторно";
+        perekras(password_check_line,error_password_check_message,false);
+        valid=false;
+    } else if (password.value!=password_check.value){
+        error_password_check_message.textContent="Подтверждение не совпадает с паролем";
+        perekras(password_check_line,error_password_check_message,false);
         valid=false;
     }
     return valid;
 }
 
+
+function perekras(err_line,err_mes,type){
+    if (!type){
+        err_line.style.backgroundPosition = "100% 0";
+        err_mes.style.visibility = "visible";
+        err_mes.style.opacity = "1";
+    } else {
+        err_line.style.backgroundPosition = "50% 0";
+        err_mes.style.visibility = "hidden";
+        err_mes.style.opacity = "0";
+    }
+}
 
 var email = document.getElementById("email"); //email пользователя
 var password = document.getElementById("password"); //пароль пользователя
@@ -36,47 +65,69 @@ var name_line = document.getElementById("name_line"); // валидационн�
 var email_line = document.getElementById("email_line"); // валидационная линия под email
 var password_line = document.getElementById("password_line"); // валидационная линия под паролем
 var password_check_line = document.getElementById("password_check_line"); // валидационная линия под повторно введенным паролем
-var error_message = document.getElementById("error_message"); // предупреждение об ошибке, пока не работает
-var error_name_message = document.getElementById("error_name_message");
+var error_email_message = document.getElementById("error_email_message"); // предупреждение об ошибке, при вводе email
+var error_name_message = document.getElementById("error_name_message"); // предупреждение об ошибке, при вводе имени
+var error_password_message = document.getElementById("error_password_message"); // предупреждение об ошибке, при вводе пароля
+var error_password_check_message = document.getElementById("error_password_check_message"); // предупреждение об ошибке, при повторном вводе пароля
 
 //Проверка корректности введённого email
 
 email.addEventListener("input", function (event) {
     if (!email.value){
-        email_line.style.backgroundPosition="100% 0";
-        error_message.textContent="Это обязательное поле";
-        error_message.style.visibility="visible";
-        error_message.style.opacity="1";
+        error_email_message.textContent="Пожалуйста, введите email";
+        perekras(email_line,error_email_message,false);
     } else if (email.validity.typeMismatch) {
-        email_line.style.backgroundPosition="100% 0";
-        error_message.textContent="Такой email не существует";
-        error_message.style.visibility="visible";
-        error_message.style.opacity="1";
+        error_email_message.textContent="Такой email не существует";
+        perekras(email_line,error_email_message,false);
     } else {
-        email_line.style.backgroundPosition="50% 0";
-        error_message.style.opacity="0";
-        error_message.style.visibility="hidden";
+        perekras(email_line,error_email_message,true);
     }
 });
 
 //Проверка корректности введённого пароля
 
 password.addEventListener("input", function (event) {
-    if (!password.value || password.validity.tooShort || isNumeric(password.value)) {
-        password_line.style.backgroundPosition="100% 0";
+    if (!password.value){
+        error_password_message.textContent="Пожалуйста, введите пароль";
+        perekras(password_line,error_password_message,false);
         if (password_check.value==password.value){
-            password_check_line.style.backgroundPosition="50% 0";
+            perekras(password_check_line,error_password_check_message,true);
         }
         else{
-            password_check_line.style.backgroundPosition="100% 0";
+            error_password_check_message.textContent="Подтверждение не совпадает с паролем"
+            perekras(password_check_line,error_password_check_message,false);
+        }
+    } else if (password.validity.tooShort || isNumeric(password.value)) { 
+        if (password.validity.tooShort){
+            error_password_message.textContent="Пароль должен содержать как минимум 8 символов";
+            perekras(password_line,error_password_message,false);
+            if (password_check.value==password.value){
+                perekras(password_check_line,error_password_check_message,true);
+            }
+            else{
+                error_password_check_message.textContent="Подтверждение не совпадает с паролем"
+                perekras(password_check_line,error_password_check_message,false);
+            }
+        }
+        if (isNumeric(password.value)) {
+            error_password_message.textContent="Пароль не может состоять только из цифр";
+            perekras(password_line,error_password_message,false);
+            if (password_check.value==password.value){
+                perekras(password_check_line,error_password_check_message,true);
+            }
+            else{
+                error_password_check_message.textContent="Подтверждение не совпадает с паролем"
+                perekras(password_check_line,error_password_check_message,false);
+            }
         }
     } else {
-        password_line.style.backgroundPosition="50% 0";
+        perekras(password_line,error_password_message,true);
         if (password_check.value==password.value){
-            password_check_line.style.backgroundPosition="50% 0";
+            perekras(password_check_line,error_password_check_message,true);
         }
         else{
-            password_check_line.style.backgroundPosition="100% 0";
+            error_password_check_message.textContent="Подтверждение не совпадает с паролем"
+            perekras(password_check_line,error_password_check_message,false);
         }
     }
 });
@@ -84,10 +135,14 @@ password.addEventListener("input", function (event) {
 //Проверка, что повторно введенный пароль совпадает
 
 password_check.addEventListener("input", function (event) {
-    if (!password_check.value || password.value!=password_check.value) {
-        password_check_line.style.backgroundPosition="100% 0";
+    if (!password_check.value) {
+        error_password_check_message.textContent="Пожалуйста, введите пароль повторно";
+        perekras(password_check_line,error_password_check_message,false);
+    } else if ( password.value!=password_check.value) {
+        error_password_check_message.textContent="Подтверждение не совпадает с паролем";
+        perekras(password_check_line,error_password_check_message,false);
     } else {
-        password_check_line.style.backgroundPosition="50% 0";
+        perekras(password_check_line,error_password_check_message,true);
     }
 });
 
@@ -95,18 +150,12 @@ password_check.addEventListener("input", function (event) {
 
 username.addEventListener("input", function (event) {
     if (!username.value) {
-        name_line.style.backgroundPosition="100% 0";
-        error_name_message.textContent="Это обязательное поле";
-        error_name_message.style.visibility="visible";
-        error_name_message.style.opacity="1";
+        error_name_message.textContent="Пожалуйста, введите имя";
+        perekras(name_line,error_name_message,false);
     } else if (username.value=="Jacob"){
-        name_line.style.backgroundPosition="100% 0";
         error_name_message.textContent="Ваше имя слишком уродское!";
-        error_name_message.style.visibility="visible";
-        error_name_message.style.opacity="1";
+        perekras(name_line,error_name_message,false);
     } else {
-        name_line.style.backgroundPosition="50% 0";
-        error_name_message.style.visibility="hidden";
-        error_name_message.style.opacity="0";
+        perekras(name_line,error_name_message,true);
     }
 });

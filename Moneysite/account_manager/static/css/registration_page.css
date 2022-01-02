@@ -111,7 +111,7 @@ body {
     opacity: 0 !important;
     visibility: hidden !important;
 }
-.form-control:focus ~ .error_name_message{
+.form-control:focus ~ .error_message{
     opacity: 0 !important;
     visibility: hidden !important;
 }
@@ -140,8 +140,9 @@ body {
 .description{
     text-align: left;
     list-style-type: none;
-    width: 400px; 
+    width: 300px; 
     margin: 16px auto;
+    padding-inline-start: 0;
 }
 
 .description-item {
@@ -171,25 +172,16 @@ body {
     clip-path: polygon(0% 0%, 86% 0, 100% 49%, 86% 100%, 0% 100%);
     transition: visibility 0.5s, opacity 0.5s linear;
 }
-.error_name_message{
-    padding-left: 5px;
-    padding-right: 20px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    font-size:12px;
-    font-family: 'Raleway';
-    font-weight: 500;
-    position: absolute;
-    visibility: hidden;
-    opacity: 0;
-    max-width: calc((100vw - 800px)/2);
-    right: calc((100vw - 800px)/4 + 390px);
+#error_name_message{
     top:calc(100vh/2 - 35px);
-    background-color: red;
-    z-index: 100;
-    max-height: 50px;
-    clip-path: polygon(0% 0%, 86% 0, 100% 49%, 86% 100%, 0% 100%);
-    transition: visibility 0.5s, opacity 0.5s linear;
+}
+
+#error_password_message{
+    top:calc(100vh/2 + 40px);
+}
+
+#error_password_check_message{
+    top: calc(100vh/2 + 115px);
 }
 
 @media screen and (max-width:1000px)

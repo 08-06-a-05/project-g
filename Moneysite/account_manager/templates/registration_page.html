@@ -28,7 +28,7 @@
         <div class="registration_container">
             <form class="registration_form" method="POST" action="" name="registration_form" onsubmit="return validate();" novalidate>
                 {% csrf_token %}
-                {{ form.errors }}
+                <!--{{ form.errors }}-->
                 
                 <div class="mb-3">
                     <p class="name">Регистрация</p>
@@ -38,24 +38,26 @@
                     <!-- <input type="email" class="form-control-with-text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email"> -->
                     {{ form.email }}
                     <div class="line" id="email_line"></div>
-                    <div class="error_message" id="error_message"></div>
+                    <div class="error_message" id="error_email_message"></div>
                     <div id="emailHelp" class="form-text">Мы никому не передаем ваши данные</div>
                 </div>
                 <div class="mb-3">
                     {{ form.username }}
                     <!-- <input type="name" class="form-control" id="exampleInputPassword1" placeholder="Имя"> -->
                     <div class="line" id="name_line"></div>
-                    <div class="error_name_message" id="error_name_message"></div>
+                    <div class="error_message" id="error_name_message"></div>
                 </div>
                 <div class="mb-3">
                     {{ form.password1 }}
                     <!-- <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Пароль"> -->
                     <div class="line" id="password_line"></div>
+                    <div class="error_message" id="error_password_message"></div>
                 </div>
                 <div class="mb-3">
                     {{ form.password2 }}
                     <!-- <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Повторите пароль"> -->
                     <div class="line" id="password_check_line"></div>
+                    <div class="error_message" id="error_password_check_message"></div>
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="registration_button">Зарегистрироваться</button>
