@@ -2,6 +2,26 @@ function isNumeric(value) {
     return /^-?\d+$/.test(value);
 }
 
+/*
+function runPyScript(input){
+        var jqXHR = $.ajax({
+            type: "POST",
+            url: "/zapros1",
+            async: false,
+            data: { mydata: input }
+        });
+
+        return jqXHR.responseText;
+    }
+
+    $('#submitbutton').click(function(){
+        datatosend = 'this is my matrix';
+        result = runPyScript(datatosend);
+        console.log('Got back ' + result);
+    });
+*/
+
+
 function validate() { // При нажатии на кнопку отправки форма еще раз проходит валидацию
     var valid=true
     if (!username.value){
