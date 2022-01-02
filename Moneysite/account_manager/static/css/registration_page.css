@@ -26,7 +26,7 @@ body {
     width:50%;
     margin: auto;
     flex-direction: column;
-    height:100%;
+    height:450px;
 }
 
 .information_container{
@@ -48,7 +48,7 @@ body {
 .registration_form{
     width: 400px;
     box-shadow: 0px 0px 10px 0px #0000004a;
-    height: 450px;
+    height: 100%;
     display: flex;
     flex-direction: column;
     margin: auto;
@@ -165,23 +165,23 @@ body {
     opacity: 0;
     max-width: calc((100vw - 800px)/2);
     right: calc((100vw - 800px)/4 + 390px);
-    top:calc(100vh/2 - 115px);
+    top:calc(100vh/2 - 145px);
     background-color: red;
     z-index: 100;
-    max-height: 50px;
+    height: 40px;
     clip-path: polygon(0% 0%, 86% 0, 100% 49%, 86% 100%, 0% 100%);
     transition: visibility 0.5s, opacity 0.5s linear;
 }
 #error_name_message{
-    top:calc(100vh/2 - 35px);
+    top:calc(100vh/2 - 65px);
 }
 
 #error_password_message{
-    top:calc(100vh/2 + 40px);
+    top:calc(100vh/2 + 10px);
 }
 
 #error_password_check_message{
-    top: calc(100vh/2 + 115px);
+    top: calc(100vh/2 + 85px);
 }
 
 @media screen and (max-width:1000px)
@@ -191,10 +191,34 @@ body {
     }
     .registration_container{
         width: 100%;
+        height: 500px;
     }
-    .error_name_message{
-        left:calc((100vw - 420px)/2);
-        top:calc(100vh/2 - 50px);
+    .error_message{
+        background: none;
+        width: 100vw;
+        height:14px;
+        max-width: none;
+        
+        left: 0;
+        padding: 0;
+        text-align: center;
+        color: red;
+    }
+    #error_email_message{
+        top:calc(100vh/2 - 110px);
+    }
+    #error_name_message{
+        top:calc(100vh/2 - 15px);
+    }
+    #error_password_message{
+        top:calc(100vh/2 + 70px);
+    }
+    #error_password_check_message{
+        top:calc(100vh/2 + 150px);
+    }
+    .form-text{
+        margin-top: auto;
+        margin-bottom: 0;
     }
 }
 @media screen and (max-width:450px) 
