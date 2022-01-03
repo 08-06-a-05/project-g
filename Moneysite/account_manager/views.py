@@ -14,7 +14,11 @@ from .forms import CreateUserForm
 from .utils import generate_token
 from .models import Users
 
+
+
 # Create your views here.
+
+
 def registration_page(request):
     form = CreateUserForm(use_required_attribute=False)
     emails=list(Users.objects.values_list('email',flat=True))

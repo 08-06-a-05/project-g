@@ -97,12 +97,12 @@ var error_password_message = document.getElementById("error_password_message"); 
 var error_password_check_message = document.getElementById("error_password_check_message"); // предупреждение об ошибке, при повторном вводе пароля
 
 //Проверка корректности введённого email
-
+var token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 email.onchange = function() {
     var xhr = new XMLHttpRequest();
-    var url= "http://127.0.0.1:8000/static/sample.py";
+    var url= "http://127.0.0.1:8000/abra/"
     xhr.open("POST",url,true);
-    xhr.setRequestHeader("Content-Type","application/json");
+    xhr.setRequestHeader("X-CSRFToken",token,"Content-Type","application/json")
     xhr.onreadystatechange = function () {
         if (xhr.status === 200) {
             console.log(this.responseText);
