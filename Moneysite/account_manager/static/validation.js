@@ -60,12 +60,12 @@ function validate() { // При нажатии на кнопку отправк�
         error_password_check_message.textContent="Подтверждение не совпадает с паролем";
         perekras(password_check_line,error_password_check_message,false);
         valid=false;
-    }
+    }/*
     if (email.value in emails){
         error_email_message.textContent="Этот email уже занят";
         perekras(email_line,error_email_message,false);
         valid=false;
-    }
+    }*/
     return valid;
 }
 
