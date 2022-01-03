@@ -98,6 +98,20 @@ var error_password_check_message = document.getElementById("error_password_check
 
 //Проверка корректности введённого email
 
+email.onchange = function() {
+    var xhr = new XMLHttpRequest();
+    var url= "http://127.0.0.1:8000/static/sample.py";
+    xhr.open("POST",url,true);
+    xhr.setRequestHeader("Content-Type","application/json");
+    xhr.onreadystatechange = function () {
+        if (xhr.status === 200) {
+            console.log(this.responseText);
+        }
+    };
+    var data=JSON.stringify({"name":username.value, "email":email.value});
+    xhr.send(data);
+}
+
 email.addEventListener("input", function (event) {
     if (!email.value){
         error_email_message.textContent="Пожалуйста, введите email";

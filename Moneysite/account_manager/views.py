@@ -1,3 +1,4 @@
+from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django.contrib import messages
@@ -88,8 +89,6 @@ def activate_user(request, uidb64, token):
         return redirect('login')
     
     return HttpResponse('failed')
-
-
 
 def main_page(request):
     context = {}
