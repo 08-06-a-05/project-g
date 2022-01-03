@@ -13,7 +13,9 @@ body {
     min-height: 100%;
     margin: 0;
 }
-
+.emails{
+    display: none;
+}
 .root{
     display:flex;
     flex-direction: row;

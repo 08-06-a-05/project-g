@@ -11,6 +11,7 @@
 
 {% block content %}
     <div class="root">
+        <div class="emails" id="emails">{{emails}}</div>
         <div class="information_container">
             <img class="logo" src="{% static 'img/main_logo.png' %}" alt="Упс... Кажется, картинка где-то потерялась. Мы скоро все исправим">
             <ul class="description">
@@ -29,7 +30,6 @@
             <form class="registration_form" method="POST" action="" name="registration_form" onsubmit="return validate();" novalidate>
                 {% csrf_token %}
                 <!--{{ form.errors }}-->
-                
                 <div class="mb-3">
                     <p class="name">Регистрация</p>
                 </div>
@@ -43,6 +43,7 @@
                 </div>
                 <div class="mb-3">
                     {{ form.username }}
+                    
                     <!-- <input type="name" class="form-control" id="exampleInputPassword1" placeholder="Имя"> -->
                     <div class="line" id="name_line"></div>
                     <div class="error_message" id="error_name_message"></div>

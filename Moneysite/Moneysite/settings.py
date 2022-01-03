@@ -34,6 +34,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     'account_manager.apps.AccountManagerConfig',
     'operations.apps.OperationsConfig',
+    'account_manager.templatetags.extra',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
