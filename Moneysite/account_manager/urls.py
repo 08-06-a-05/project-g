@@ -8,7 +8,7 @@ urlpatterns=[
     path('login/',views.authorization_page, name='login'),
     path('logout/', views.logout_request, name='logout'),
     path('', views.main_page, name='main'),
-    path('abra/',script.what,name='what'),
+    path('abra/',script.valid_email,name='what'),
     
     path('activate_user/<uidb64>/<token>', views.activate_user, name='activate'),
 ]
