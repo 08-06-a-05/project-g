@@ -5,6 +5,8 @@ from .models import Users
 def what(request):
     mail=json.load(request)["email"]
     if mail in list(Users.objects.values_list("email",flat=True)):
-        return JsonResponse({'field':'yes'})
+        print(20)
+        return JsonResponse({'is_registered':'true'})
     else:
-        return JsonResponse({'field':'no'})
+        print(40)
+        return JsonResponse({'is_registered':'false'})

@@ -21,6 +21,14 @@ function runPyScript(input){
     });
 */
 
+function send_JSON() {
+    
+    var url= "http://127.0.0.1:8000/abra/"
+    xhr.open("POST",url,true);
+    xhr.setRequestHeader("X-CSRFToken",token,"Content-Type","application/json")
+    var data=JSON.stringify({"name":username.value, "email":email.value});
+    xhr.send(data);
+}
 
 function validate() { // При нажатии на кнопку отправки форма еще раз проходит валидацию
     var valid=true
@@ -97,22 +105,24 @@ var error_password_message = document.getElementById("error_password_message"); 
 var error_password_check_message = document.getElementById("error_password_check_message"); // предупреждение об ошибке, при повторном вводе пароля
 
 //Проверка корректности введённого email
-var token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
-email.onchange = function() {
-    var xhr = new XMLHttpRequest();
-    var url= "http://127.0.0.1:8000/abra/"
-    xhr.open("POST",url,true);
-    xhr.setRequestHeader("X-CSRFToken",token,"Content-Type","application/json")
-    xhr.onreadystatechange = function () {
-        if (xhr.status === 200) {
-            console.log(this.responseText);
-        }
-    };
-    var data=JSON.stringify({"name":username.value, "email":email.value});
-    xhr.send(data);
-}
 
-email.addEventListener("input", function (event) {
+var token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
+var result;
+var xhr = new XMLHttpRequest();
+
+xhr.onreadystatechange = function () {
+    if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        //console.log(this.responseText==='{"is_registered": "true"}');
+        if (this.responseText=='{"is_registered": "true"}'){
+            error_email_message.textContent="Этот email уже занят";
+            perekras(email_line,error_email_message,false);
+        } else {
+            perekras(email_line,error_email_message,true);
+        }
+    }
+};
+
+email.addEventListener("blur", function (event) {
     if (!email.value){
         error_email_message.textContent="Пожалуйста, введите email";
         perekras(email_line,error_email_message,false);
@@ -120,13 +130,13 @@ email.addEventListener("input", function (event) {
         error_email_message.textContent="Такой email не существует";
         perekras(email_line,error_email_message,false);
     } else {
-        perekras(email_line,error_email_message,true);
+        send_JSON();  
     }
 });
 
 //Проверка корректности введённого пароля
 
-password.addEventListener("input", function (event) {
+password.addEventListener("blur", function (event) {
     if (!password.value){
         error_password_message.textContent="Пожалуйста, введите пароль";
         perekras(password_line,error_password_message,false);
@@ -174,7 +184,7 @@ password.addEventListener("input", function (event) {
 
 //Проверка, что повторно введенный пароль совпадает
 
-password_check.addEventListener("input", function (event) {
+password_check.addEventListener("blur", function (event) {
     if (!password_check.value) {
         error_password_check_message.textContent="Пожалуйста, введите пароль повторно";
         perekras(password_check_line,error_password_check_message,false);
@@ -188,7 +198,7 @@ password_check.addEventListener("input", function (event) {
 
 //Проверка, что введено имя
 
-username.addEventListener("input", function (event) {
+username.addEventListener("blur", function (event) {
     if (!username.value) {
         error_name_message.textContent="Пожалуйста, введите имя";
         perekras(name_line,error_name_message,false);
