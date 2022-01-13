@@ -2,30 +2,12 @@ function isNumeric(value) {
     return /^-?\d+$/.test(value);
 }
 
-/*
-function runPyScript(input){
-        var jqXHR = $.ajax({
-            type: "POST",
-            url: "/zapros1",
-            async: false,
-            data: { mydata: input }
-        });
-
-        return jqXHR.responseText;
-    }
-
-    $('#submitbutton').click(function(){
-        datatosend = 'this is my matrix';
-        result = runPyScript(datatosend);
-        console.log('Got back ' + result);
-    });
-*/
 
 function send_JSON() {
     var url= "http://127.0.0.1:8000/abra/";
     xhr.open("POST",url,true);
     xhr.setRequestHeader("X-CSRFToken",token,"Content-Type","application/json");
-    var data=JSON.stringify({"name":username.value, "email":email.value});
+    var data=JSON.stringify({"email":email.value});
     xhr.send(data);
 }
 
