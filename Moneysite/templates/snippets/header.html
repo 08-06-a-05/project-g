@@ -21,13 +21,13 @@
                 <div class = "right">
                     {% if not 'login' in request.path %}
                     <li class = "menu-item">
-                        <a href = "{% url 'login' %}" class = "text">  <p> Login </p> </a>
+                        <a href = "{% url 'login' %}" class = "text">  <p name = "hf-text"> Login </p> </a>
                     </li>
                     {% endif %}
 
                     {% if not 'register' in request.path %}
                     <li class = "menu-item" style = "background-color: blueviolet; margin-left: 1%;">
-                        <a  href = "{% url 'register' %}" class = "text"> <p> Sign Up </p> </a>
+                        <a  href = "{% url 'register' %}" class = "text"> <p name = "hf-text"> Sign Up </p> </a>
                     </li>
                     {% endif %}
                 </div>
