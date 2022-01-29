@@ -54,6 +54,7 @@ body {
     display: flex;
     flex-direction: column;
     margin: auto;
+    position: relative;
 }
 
 .mb-3{
@@ -174,25 +175,28 @@ body {
     opacity: 0;
     width: 200px;
     max-width: calc((100vw - 800px)/2);
-    right: calc((100vw - 800px)/4 + 390px);
-    top:calc(100vh/2 - 150px);
     background-color: red;
     z-index: 100;
+    right: 390px;
     height: 50px;
     clip-path: polygon(0% 0%, 86% 0, 100% 49%, 86% 100%, 0% 100%);
     transition: visibility 0.5s, opacity 0.5s linear;
 }
 
+#error_email_message{
+    top: 72px;
+}
+
 #error_name_message{
-    top:calc(100vh/2 - 70px);
+    top: 155px;
 }
 
 #error_password_message{
-    top:calc(100vh/2 + 5px);
+    top: 230px;
 }
 
 #error_password_check_message{
-    top: calc(100vh/2 + 80px);
+    top: 305px;
 }
 
 @media screen and (max-width:1000px)
@@ -208,7 +212,7 @@ body {
 
     .error_message{
         background: none;
-        width: 100vw;
+        width: 100%;
         height:14px;
         max-width: none;
         
@@ -219,19 +223,19 @@ body {
     }
 
     #error_email_message{
-        top:calc(100vh/2 - 110px);
+        top: 135px;
     }
 
     #error_name_message{
-        top:calc(100vh/2 - 15px);
+        top: 230px;
     }
 
     #error_password_message{
-        top:calc(100vh/2 + 70px);
+        top: 310px;
     }
 
     #error_password_check_message{
-        top:calc(100vh/2 + 150px);
+        top: 395px;
     }
 
     .form-text{
