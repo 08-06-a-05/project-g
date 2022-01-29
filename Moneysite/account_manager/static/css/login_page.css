@@ -14,20 +14,11 @@ body {
     margin: 0;
 }
 
-
 .root{
     display:flex;
     flex-direction: row;
     min-height: 100vh;
     min-width: 300px;
-}
-
-.registration_container{
-    display: flex;
-    width:50%;
-    margin: auto;
-    flex-direction: column;
-    height:450px;
 }
 
 .login_container{
@@ -39,15 +30,6 @@ body {
 }
 
 
-.information_container{
-    display: flex;
-    width:50%;
-    margin: auto;
-    flex-direction: column;
-    height:100%;
-
-}
-
 .name{
     font-size: 24px;
     font-family: 'Raleway';
@@ -55,13 +37,14 @@ body {
     margin: auto;
 }
 
-.registration_form{
+.login_form{
     width: 400px;
     box-shadow: 0px 0px 10px 0px #0000004a;
     height: 100%;
     display: flex;
     flex-direction: column;
     margin: auto;
+    position: relative;
 }
 
 .mb-3{
@@ -137,7 +120,7 @@ body {
     font-size:14px;
 }
 
-.registration_button{
+.login_button{
     font-size: 20px;
     font-family: 'Raleway';
     font-weight: 800;
@@ -152,6 +135,7 @@ body {
     height: auto;
     margin: auto;
 }
+
 .description{
     text-align: left;
     list-style-type: none;
@@ -182,8 +166,7 @@ body {
     opacity: 0;
     width: 200px;
     max-width: calc((100vw - 800px)/2);
-    right: calc((100vw - 800px)/4 + 390px);
-    top:calc(100vh/2 - 150px);
+    right: 390px;
     background-color: red;
     z-index: 100;
     height: 50px;
@@ -191,17 +174,14 @@ body {
     transition: visibility 0.5s, opacity 0.5s linear;
 }
 
-#error_name_message{
-    top:calc(100vh/2 - 70px);
+#error_email_message{
+    top: 65px;
 }
 
 #error_password_message{
-    top:calc(100vh/2 + 5px);
+    top: 135px;
 }
 
-#error_password_check_message{
-    top: calc(100vh/2 + 80px);
-}
 
 @media screen and (max-width:1000px)
 {
@@ -209,14 +189,13 @@ body {
         display: none;
     }
 
-    .registration_container{
+    .login_container{
         width: 100%;
-        height: 500px;
     }
 
     .error_message{
         background: none;
-        width: 100vw;
+        width: 100%;
         height:14px;
         max-width: none;
 
@@ -227,39 +206,16 @@ body {
     }
 
     #error_email_message{
-        top:calc(100vh/2 - 110px);
-    }
-
-    #error_name_message{
-        top:calc(100vh/2 - 15px);
+        top: 120px;
     }
 
     #error_password_message{
-        top:calc(100vh/2 + 70px);
-    }
-
-    #error_password_check_message{
-        top:calc(100vh/2 + 150px);
+        top: 185px;
     }
 
     .form-text{
         margin-top: auto;
         margin-bottom: 0;
-    }
-
-    @media screen and (max-height:500px) {
-        #error_email_message{
-            top:135px;
-        }
-        #error_name_message{
-            top:230px;
-        }
-        #error_password_message{
-            top:310px;
-        }
-        #error_password_check_message{
-            top:395px;
-        }
     }
 }
 
@@ -268,13 +224,13 @@ body {
     .information_container{
         display: none;
     }
-    .registration_container{
+    .login_container{
         width: 100%;
     }
-    .registration_form{
+    .login_form{
         width:85vw;
     }
-    .registration_button{
+    .login_button{
         font-size: 0.8em;
     }
     .error_message{

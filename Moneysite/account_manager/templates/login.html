@@ -14,7 +14,7 @@
 
 
     <div class="login_container">
-        <form class="registration_form" method="POST" action="" name="registration_form" onsubmit="return validate();" novalidate>
+        <form class="login_form" method="POST" action="" name="login_form" onsubmit="return validate();" novalidate>
             {% csrf_token %}
             <div class="mb-3">
                 <p class="name">Вход</p>
@@ -31,7 +31,7 @@
                 <div class="error_message" id="error_password_message"></div>
             </div>
             <div class="mb-3">
-                <button type="submit" class="registration_button">Войти</button>
+                <button type="submit" class="login_button">Войти</button>
             </div>
         </form>
         <script src="{% static 'login_validation.js' %}"></script>

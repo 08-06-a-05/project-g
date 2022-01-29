@@ -242,21 +242,6 @@ body {
         margin-top: auto;
         margin-bottom: 0;
     }
-
-    @media screen and (max-height:500px) {
-        #error_email_message{
-            top:135px;
-        }
-        #error_name_message{
-            top:230px;
-        }
-        #error_password_message{
-            top:310px;
-        }
-        #error_password_check_message{
-            top:395px;
-        }
-    }
 }
 
 @media screen and (max-width:450px) 
