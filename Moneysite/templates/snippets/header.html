@@ -1,35 +1,32 @@
-<head>
-    {% load static %}
-    <link rel = "stylesheet" type = "text/css" href = "{% static 'css/base_css.css' %}">
-</head>
-<body>
-    <header class = "header-footer">
-        <div class = "menu">
-            <ul class = "list">
-                <li class = "menu-item" name = "logo">
-                    <a href = "{% url 'main' %}" > <img src = "{% static 'img/main_logo.png' %}" alt = "logo"> </a>
+{% load static %}
+
+<link rel = "stylesheet" type = "text/css" href = "{% static 'css/base_css.css' %}">
+
+<header class = "header-footer">
+    <div class = "menu">
+        <ul class = "list">
+            <li class = "menu-item" name = "logo">
+                <a href = "{% url 'main' %}" > <img src = "{% static 'img/main_logo.png' %}" alt = "logo"> </a>
+            </li>
+            {% if user.is_authenticated %}
+
+            {% else %}
+            <div class = "right">
+                {% if not 'login' in request.path %}
+                <li class = "menu-item" onclick="location.href='{% url 'login' %}';">
+                    <p name = "hf-text"> Login </p>
                 </li>
-                {% if user.is_authenticated %}
-
-                {% else %}
-                <div class = "right">
-                    {% if not 'login' in request.path %}
-                    <li class = "menu-item" onclick="location.href='{% url 'login' %}';">
-                        <p name = "hf-text"> Login </p>
-                    </li>
-                    {% endif %}
-
-                    {% if not 'register' in request.path %}
-                    <li class = "menu-item" style = "background-color: blueviolet; margin-left: 1%;"  onclick="location.href='{% url 'register' %}';">
-                        <p name = "hf-text"> Sign Up </p>
-                    </li>
-                    {% endif %}
-                </div>
-
                 {% endif %}
-            </ul>
-        </div>
 
-    </header>
-</body>
-</html>
+                {% if not 'register' in request.path %}
+                <li class = "menu-item" style = "background-color: blueviolet; margin-left: 1%;"  onclick="location.href='{% url 'register' %}';">
+                    <p name = "hf-text"> Sign Up </p>
+                </li>
+                {% endif %}
+            </div>
+
+            {% endif %}
+        </ul>
+    </div>
+
+</header>
