@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 
+
 class CustomUsersManager(BaseUserManager):
     def create_user(self, email, username, password):
         user = self.model(email=email, username=username, password=password)
@@ -28,7 +29,7 @@ class Users(AbstractBaseUser, PermissionsMixin):
     username = models.CharField(max_length=30)
     displayed_currency = models.CharField(max_length=30, default='ruble')
     balance = models.BigIntegerField(default=0)
-    
+
     is_staff = models.BooleanField(default=False)
     is_email_verified = models.BooleanField(default=False)
 
@@ -45,6 +46,3 @@ class Users(AbstractBaseUser, PermissionsMixin):
 
     def get_short_name(self):
         return self.email
-    
-
-

@@ -14,13 +14,13 @@
             <div class = "right">
                 {% if not 'login' in request.path %}
                 <li class = "menu-item" onclick="location.href='{% url 'login' %}';">
-                    <p name = "hf-text"> Login </p>
+                    <p name = "hf-text"> Авторизация </p>
                 </li>
                 {% endif %}
 
                 {% if not 'register' in request.path %}
                 <li class = "menu-item" style = "background-color: blueviolet; margin-left: 1%;"  onclick="location.href='{% url 'register' %}';">
-                    <p name = "hf-text"> Sign Up </p>
+                    <p name = "hf-text"> Регистрация </p>
                 </li>
                 {% endif %}
             </div>
