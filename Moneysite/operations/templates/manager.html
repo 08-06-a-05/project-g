@@ -12,7 +12,7 @@
 {% block content %}
     <div class="root">
         <div class="main_container">
-            <div class="wallet-wrapper">
+            <div class="upper-content-wrapper">
                 <div class="name">
                     Кошелёк
                 </div>
@@ -31,7 +31,7 @@
                     Всего: {{ total }}
                 </div>
             </div>
-            <div class="add_operation">
+            <div class="down-content-wrapper">
                 <div class="name">
                     Добавить операцию
                 </div>
@@ -63,11 +63,37 @@
             </div>
         </div>
         <div class="main_container">
-            <div class="exchange_rate">
-
+            <div class="upper-content-wrapper">
+                <div class="name">
+                    Последние операции
+                </div>
+                <div class="operations_content">
+                    <div class="content">
+                        {{ currency1 }} : {{ amount }}
+                    </div>
+                    <div class="content">
+                        {{ currency2 }} : {{ amount }}
+                    </div>
+                    <div class="content">
+                        {{ currency3 }} : {{ amount }}
+                    </div>
+                </div>
             </div>
-            <div class="recent_operations">
-
+            <div class="down-content-wrapper">
+                <div class="name">
+                    Текущий курс валют
+                </div>
+                <div class="operations_content">
+                    <div class="content">
+                        {{ currency1 }} : {{ amount }}
+                    </div>
+                    <div class="content">
+                        {{ currency2 }} : {{ amount }}
+                    </div>
+                    <div class="content">
+                        {{ currency3 }} : {{ amount }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>

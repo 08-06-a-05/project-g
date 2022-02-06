@@ -25,20 +25,14 @@ body{
 
 }
 
-.wallet-wrapper{
+.upper-content-wrapper{
     height: 320px;
     width: 100%;
     display:flex;
     margin:auto;
     flex-direction:column;
 }
-.add_operation{
-    height:320px;
-    width:100%;
-    display:flex;
-    margin:auto;
-    flex-direction:column;
-}
+
 .name{
     display:flex;
     margin:auto;
@@ -47,6 +41,7 @@ body{
     font-size: 25px;
     font-family: Raleway;
     align-items: center;
+    margin-top:20px;
 }
 .content{
     display:flex;
@@ -103,5 +98,25 @@ body{
 .form_add_operation{
     height:250px;
     display:flex;
+    flex-direction:column;
+}
+
+.recent_operations_wrapper{
+    display:flex;
+    flex-direction: column;
+}
+
+.operations_content{
+    display:flex;
+    height:231px;
+    flex-direction:column;
+}
+
+
+.down-content-wrapper{
+    height:330px;
+    width: 100%;
+    display:flex;
+    margin:auto;
     flex-direction:column;
 }
