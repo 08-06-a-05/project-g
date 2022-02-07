@@ -17,8 +17,9 @@ body {
 .root{
     display:flex;
     flex-direction: row;
-    min-height: 80vh;
+    min-height: 450px;
     min-width: 300px;
+    height: calc( 100vh - 180px);
 }
 
 .login_container{
