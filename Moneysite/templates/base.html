@@ -12,14 +12,19 @@
     </head>
 
     <body>
-        {% include 'snippets/base_js.js' %}
-        {% include 'snippets/header.html' %}
-
-        {% block content %}
-
-        {% endblock %}
-
-        {% include 'snippets/footer.html' %}
+        <div class="the-main-wrapper">
+            {% include 'snippets/base_js.js' %}
+            <div class="header">
+                {% include 'snippets/header.html' %}
+            </div>
+            <div class="main-content-wrapper">
+                {% block content %}
+                {% endblock %}
+            </div>
+            <div class="footer">
+                {% include 'snippets/footer.html' %}
+            </div>
+        </div>
     </body>
 
 </html>

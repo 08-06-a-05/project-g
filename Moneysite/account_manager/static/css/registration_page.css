@@ -19,7 +19,7 @@ body {
 .root{
     display:flex;
     flex-direction: row;
-    min-height: 100vh;
+    min-height: 80vh;
     min-width: 300px;
 }
 
