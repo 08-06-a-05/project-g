@@ -10,6 +10,7 @@ ul {
 .header-footer {
     background-color: #1f2833;
     width: 100vw;
+    min-width: 280px;
     height: 90px;
 }
 
@@ -43,7 +44,7 @@ ul {
     padding: 15px 20px;
     border: 1px solid #1f2833;
     border-radius: 25px;
-    min-width: 70px;
+    min-width: 100px;
     height: 20%;
     cursor: pointer;
 }
@@ -94,6 +95,7 @@ img[alt="logo"] {
 
     .menu-item {
         min-width: 50px;
+        margin: auto 2px;
     }
 
     p[name = "hf-text"] {
