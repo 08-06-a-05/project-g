@@ -1,21 +1,19 @@
 @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@500;800&display=swap');
 
-html { 
+html {
     position: absolute;
     top: 0;
     bottom: 0;
     left: 0;
-    right: 0;   
-    min-height: 100%; 
+    right: 0;
+    min-height: 100%;
 }
 
-body { 
+body {
     min-height: 100%;
     margin: 0;
 }
-.emails{
-    display: none;
-}
+
 .root{
     display:flex;
     flex-direction: row;
@@ -23,22 +21,14 @@ body {
     min-width: 300px;
 }
 
-.registration_container{
+.login_container{
     display: flex;
     width:50%;
     margin: auto;
     flex-direction: column;
-    height:450px;
+    height:300px;
 }
 
-.information_container{
-    display: flex;
-    width:50%;
-    margin: auto;
-    flex-direction: column;
-    height:100%;
-    
-}
 
 .name{
     font-size: 24px;
@@ -47,7 +37,7 @@ body {
     margin: auto;
 }
 
-.registration_form{
+.login_form{
     width: 400px;
     box-shadow: 0px 0px 10px 0px #0000004a;
     height: 100%;
@@ -62,7 +52,7 @@ body {
     width:90%;
     display: flex;
     flex-direction: column;
-    height: 16.66%;
+    height: 22%;
 }
 
 .form-control{
@@ -130,7 +120,7 @@ body {
     font-size:14px;
 }
 
-.registration_button{
+.login_button{
     font-size: 20px;
     font-family: 'Raleway';
     font-weight: 800;
@@ -145,10 +135,11 @@ body {
     height: auto;
     margin: auto;
 }
+
 .description{
     text-align: left;
     list-style-type: none;
-    width: 300px; 
+    width: 300px;
     margin: 16px auto;
     padding-inline-start: 0;
 }
@@ -175,29 +166,22 @@ body {
     opacity: 0;
     width: 200px;
     max-width: calc((100vw - 800px)/2);
+    right: 390px;
     background-color: red;
     z-index: 100;
-    right: 390px;
     height: 50px;
     clip-path: polygon(0% 0%, 86% 0, 100% 49%, 86% 100%, 0% 100%);
     transition: visibility 0.5s, opacity 0.5s linear;
 }
 
 #error_email_message{
-    top: 72px;
-}
-
-#error_name_message{
-    top: 155px;
+    top: 65px;
 }
 
 #error_password_message{
-    top: 230px;
+    top: 135px;
 }
 
-#error_password_check_message{
-    top: 305px;
-}
 
 @media screen and (max-width:1000px)
 {
@@ -205,9 +189,8 @@ body {
         display: none;
     }
 
-    .registration_container{
+    .login_container{
         width: 100%;
-        height: 500px;
     }
 
     .error_message{
@@ -215,7 +198,7 @@ body {
         width: 100%;
         height:14px;
         max-width: none;
-        
+
         left: 0;
         padding: 0;
         justify-content: center;
@@ -223,19 +206,11 @@ body {
     }
 
     #error_email_message{
-        top: 135px;
-    }
-
-    #error_name_message{
-        top: 230px;
+        top: 120px;
     }
 
     #error_password_message{
-        top: 310px;
-    }
-
-    #error_password_check_message{
-        top: 395px;
+        top: 185px;
     }
 
     .form-text{
@@ -244,18 +219,18 @@ body {
     }
 }
 
-@media screen and (max-width:450px) 
+@media screen and (max-width:450px)
 {
     .information_container{
         display: none;
     }
-    .registration_container{
+    .login_container{
         width: 100%;
     }
-    .registration_form{
+    .login_form{
         width:85vw;
     }
-    .registration_button{
+    .login_button{
         font-size: 0.8em;
     }
     .error_message{

@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block localCssLink %}
+    {% load static %}
+    <link href="{% static 'css/LK.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block name %}
+    Личный кабинет
+{% endblock %}
+
+{% block content %}
+    <div style="width: 70vw; margin-left: auto; margin-right: auto;">
+        <div style="float: left">
+            <div>         
+                <h1>Wallet</h1>
+                <table style="width: 350px; clear: right;">
+                    <tr><td>USD</td><td>10</td></tr>
+                    <tr><td>EUR</td><td>1000</td></tr>
+                    <tr><td>RUB</td><td>500000</td></tr>
+                    <tr><td>TRY</td><td>0</td></tr>
+                </table>
+                <table style="width: 350px; height: 25px; clear: right;">
+                    <tr><td><h2>Total:</h2></td><td><h2>10000 USD</h2></td></tr>
+                </table>
+            </div> 
+            <br><br>
+            <div>
+                <h1>Operation</h1>
+                <table style="width: 350px; height: 105px;">
+                    <tr><td>Type</td></tr>
+                    <tr><td>Currency</td></tr>
+                    <tr><td>Amount</td></tr>
+                </table>
+                <br>
+                <button class="button">submit</button>
+            </div>  
+        </div>
+
+        <div style="float: right">
+            <div>
+                <h1>Exchange rate</h1>
+                <table style="width: 350px;">
+                    <tr><td>USD</td><td>10</td></tr>
+                    <tr><td>EUR</td><td>100</td></tr>
+                    <tr><td>RUB</td><td>1</td></tr>
+                    <tr><td>TRY</td><td>0</td></tr>
+                </table>
+            </div> 
+            <br><br>
+            <div>
+                <h1>Recent operations</h1>
+                <table style="width: 350px;">
+                    <tr><td>Operation 1</td><td>+100 USD</td></tr>
+                    <tr><td>Operation 2</td><td>-15 EUR</td></tr>
+                    <tr><td>Operation 3</td><td>+100000 RUB</td></tr>
+                    <tr><td>Operation 4</td><td>+150 EUR</td></tr>
+                </table>
+            </div> 
+        </div>
+    </div>
+{% endblock %}
+
