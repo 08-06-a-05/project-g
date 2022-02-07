@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block localCssLink %}
+    {% load static %}
+    <link href="{% static 'css/login_page.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block name %}
+    Вход
+{% endblock %}
+
+{% block content %}
+<div class="root">
+
+
+    <div class="login_container">
+        <form class="login_form" method="POST" action="" name="login_form" onsubmit="return validate();" novalidate>
+            {% csrf_token %}
+            <div class="mb-3">
+                <p class="name">Вход</p>
+            </div>
+
+            <div class="mb-3">
+                <input type="email" name="email" class="form-control-with-text" aria-describedby="emailHelp" placeholder="Email" id="email" autofocus="">
+                <div class="line" id="email_line" style="background-position: 100% 0px;"></div>
+                <div class="error_message" id="error_email_message"></div>
+            </div>
+            <div class="mb-3">
+                <input type="password" name="password1" class="form-control" placeholder="Пароль" id="password">
+                <div class="line" id="password_line"></div>
+                <div class="error_message" id="error_password_message"></div>
+            </div>
+            <div class="mb-3">
+                <button type="submit" class="login_button">Войти</button>
+            </div>
+        </form>
+        <script src="{% static 'login_validation.js' %}"></script>
+    </div>
+</div>
+{% endblock %}

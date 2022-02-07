@@ -11,8 +11,9 @@
 
 {% block content %}
     <div class="root">
+        <div class="emails" id="emails">{{emails}}</div>
         <div class="information_container">
-            <img class="logo" src="{% static 'img/logo.png' %}" alt="Упс... Кажется, картинка где-то потерялась. Мы скоро все исправим">
+            <img class="logo" src="{% static 'img/main_logo.png' %}" alt="Упс... Кажется, картинка где-то потерялась. Мы скоро все исправим">
             <ul class="description">
                 <li class="description-item">
                     Отслеживайте свой бюджет
@@ -26,26 +27,44 @@
             </ul>
         </div>
         <div class="registration_container">
-            <form class="registration_form" action="POST" name="registration_form">
+            <form class="registration_form" method="POST" action="" name="registration_form" onsubmit="return validate();" novalidate>
+                {% csrf_token %}
+                <!--{{ form.errors }}-->
                 <div class="mb-3">
                     <p class="name">Регистрация</p>
                 </div>
+                
                 <div class="mb-3">
-                    <input type="email" class="form-control-with-text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email">
+                    <!-- <input type="email" class="form-control-with-text" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email"> -->
+                    {{ form.email }}
+                    <div class="line" id="email_line"></div>
+                    <div class="error_message" id="error_email_message"></div>
                     <div id="emailHelp" class="form-text">Мы никому не передаем ваши данные</div>
                 </div>
                 <div class="mb-3">
-                    <input type="name" class="form-control" id="exampleInputPassword1" placeholder="Имя">
-                    </div>
-                <div class="mb-3">
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Пароль">
+                    {{ form.username }}
+                    
+                    <!-- <input type="name" class="form-control" id="exampleInputPassword1" placeholder="Имя"> -->
+                    <div class="line" id="name_line"></div>
+                    <div class="error_message" id="error_name_message"></div>
                 </div>
                 <div class="mb-3">
-                    <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Повторите пароль">
+                    {{ form.password1 }}
+                    <!-- <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Пароль"> -->
+                    <div class="line" id="password_line"></div>
+                    <div class="error_message" id="error_password_message"></div>
+                </div>
+                <div class="mb-3">
+                    {{ form.password2 }}
+                    <!-- <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Повторите пароль"> -->
+                    <div class="line" id="password_check_line"></div>
+                    <div class="error_message" id="error_password_check_message"></div>
                 </div>
                 <div class="mb-3">
                     <button type="submit" class="registration_button">Зарегистрироваться</button>
                 </div> 
+
+                <script src="{% static 'validation.js' %}"></script>
             </form>
         </div>
     </div>

@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block localCssLink %}
+    {% load static %}
+    <link href="{% static 'css/manager.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block name %}
+    Личный кабинет
+{% endblock %}
+
+{% block content %}
+    <div class="root">
+        <div class="main_container">
+            <div class="upper-content-wrapper">
+                <div class="name">
+                    Кошелёк
+                </div>
+                <div class="wallet">
+                    <div class="content">
+                        {{ currency1 }} : {{ amount }}
+                    </div>
+                    <div class="content">
+                        {{ currency2 }} : {{ amount }}
+                    </div>
+                    <div class="content">
+                        {{ currency3 }} : {{ amount }}
+                    </div>
+                </div>
+                <div class="content" id="total-amount">
+                    Всего: {{ total }}
+                </div>
+            </div>
+            <div class="down-content-wrapper">
+                <div class="name">
+                    Добавить операцию
+                </div>
+                <form class="form_add_operation">
+                    <div class="content">
+                        {#<div class="label">Тип операции</div>#}
+                        <select class="field" name="type" size="1" required >
+                            <option value="" disabled selected hidden>Выберите тип операции</option>
+                            <option value="+">Зачисление</option>
+                            <option value="-">Списание</option>
+                        </select>
+                    </div>
+                    <div class="content">
+                        {#<div class="label">Валюта</div>#}
+                        <select class="field" name="currency" size="1" required>
+                            <option value="" disabled selected hidden>Выберите валюту</option>
+                            <option value="rub">Российский рубль</option>
+                            <option value="usd">Американский доллар</option>
+                        </select>
+                    </div>
+                    <div class="content">
+                        {#<div class="label">Сумма</div>#}
+                        <input class="field" id="amount-field" name="amount" type="text" maxlength="50" required placeholder="Введите сумму">
+                    </div>
+                    <div class="form_button">
+                        <button type="submit">Жмякай</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="main_container">
+            <div class="upper-content-wrapper">
+                <div class="name">
+                    Последние операции
+                </div>
+                <div class="operations_content">
+                    <div class="content">
+                        {{ currency1 }} : {{ amount }}
+                    </div>
+                    <div class="content">
+                        {{ currency2 }} : {{ amount }}
+                    </div>
+                    <div class="content">
+                        {{ currency3 }} : {{ amount }}
+                    </div>
+                </div>
+            </div>
+            <div class="down-content-wrapper">
+                <div class="name">
+                    Текущий курс валют
+                </div>
+                <div class="operations_content">
+                    <div class="content">
+                        {{ currency1 }} : {{ amount }}
+                    </div>
+                    <div class="content">
+                        {{ currency2 }} : {{ amount }}
+                    </div>
+                    <div class="content">
+                        {{ currency3 }} : {{ amount }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
