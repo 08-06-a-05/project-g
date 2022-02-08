@@ -10,3 +10,8 @@ def personal_account(request):
 def example(request):
     context = {}
     return render(request, 'LK.html', context)
+
+
+def example_stat(request):
+    context = {}
+    return render(request, 'LK_statistics.html', context)
