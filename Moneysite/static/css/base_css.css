@@ -9,9 +9,11 @@ ul {
 
 .header-footer {
     background-color: #1f2833;
-    width: 100vw;
     min-width: 280px;
     height: 90px;
+    width: 100%;
+    max-width: 3470px;
+    margin: 0 auto;
 }
 
 .menu {
@@ -61,11 +63,12 @@ ul {
     border-radius: 20px;
     height: 70px;
     width: 70px;
+    align-items: center;
 }
 
 .text {
     display: flex;
-    width: 100%;
+    /*width: 100%;*/
     color: #66fcf1;
     margin:   auto;
     text-decoration: none;

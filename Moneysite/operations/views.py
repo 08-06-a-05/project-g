@@ -1,10 +1,15 @@
 from django.shortcuts import render
-
-
-# Create your views here.
+from account_manager.models import *
+from operations.models import *
 
 def personal_account(request):
-    context = {}
+    user_balances = Balances.objects.select_related().filter(user_id=request.user.id)
+
+    print(user_balances)
+    context = {
+        'balance': user_balances,
+    }
+
     return render(request, 'manager.html', context)
 
 def example(request):
