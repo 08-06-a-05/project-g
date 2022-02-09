@@ -10,7 +10,7 @@ body{
 
 .main_container{
     width: 350px;
-    height: 700px;
+    height: 900px;
     display: flex;
     flex-direction: column;
     margin:0 auto;
@@ -79,6 +79,7 @@ body{
     color: #757575;
     box-shadow: 2px 3px 3px 0px #a8fff9;
     outline: none;
+    background-color: white;
 
 }
 

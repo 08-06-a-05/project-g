@@ -56,6 +56,17 @@
                         {#<div class="label">Сумма</div>#}
                         <input class="field" id="amount-field" name="amount" type="text" maxlength="50" required placeholder="Введите сумму">
                     </div>
+                    <div class="content">
+                        <input class="field" type="date" name="date" required placeholder="Выберите дату">
+                    </div>
+                    <div class="content">
+                        {#<div class="label">Сумма</div>#}
+                        <select class="field" name="category" required size="1">
+                            <option value="" disabled selected hidden>Выберите категорию</option>
+                            <option value="rub">Российский рубль</option>
+                            <option value="usd">Американский доллар</option>
+                        </select>
+                    </div>
                     <div class="form_button">
                         <button type="submit">Жмякай</button>
                     </div>
