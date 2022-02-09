@@ -1,24 +1,53 @@
 {% extends 'base.html' %}
 
 {% block localCssLink %}
-    {% load static %}
-    <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css">
-    <!-- <link href="{% static 'css/registration_page.css' %}" rel="stylesheet" type="text/css"> -->
+{% load static %}
+
+<link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css">
+<!-- <link href="{% static 'css/registration_page.css' %}" rel="stylesheet" type="text/css"> -->
 {% endblock %}
 
 {% block name %}
-    Главная
+Главная
 {% endblock %}
 
 {% block content %}
-    {% for message in messages %}
-        {{ message }}
-    {% endfor %}
 
-    {% if user.is_authenticated %}
-        {{ user.username }}
-        <button><a href="{% url 'logout' %}">Logout</a></button>
-    {% else %}
-        <p>Hi</p>
-    {% endif %}
+{% for message in messages %}
+{{ message }}
+{% endfor %}
+
+{% if user.is_authenticated %}
+{{ user.username }}
+<button><a href="{% url 'logout' %}">Logout</a></button>
+
+{% else %}
+<div class="container">
+    <div class="main_part">
+        <div class="main_part__row">
+            <div class="main_part__photo">
+                <img src="img/about.jpg" alt="main_part_img">
+            </div>
+            <div class="main_part__body">
+                <div class="main_part__title"><h2>Крутой сайт</h2></div>
+                <div class="main_part__text">
+                    <p>
+                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
+                        the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
+                        of type and scrambled it to make a type specimen book. It has survived not only five centuries,
+                        but also the leap into electronic typesetting, remaining essentially unchanged. It was
+                        popularised in the ore recently with desktop publishing software like Aldus PageMaker including
+                        versions of Lorem Ipsum
+                    </p>
+                </div>
+                <a href="404.html" class="main_part__button button ">Регистрация</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p>Hi</p>
+
+{% endif %}
+
 {% endblock %}
