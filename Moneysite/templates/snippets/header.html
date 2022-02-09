@@ -11,16 +11,17 @@
 
             {% if user.is_authenticated %}
                 {% if 'account' in request.path %}
-                    <li class = "menu-item" onclick="location.href='{% url 'LK' %}';">
-                        <p name = "hf-text"> Страница 1 </p>
-                    </li>
-                    <li class = "menu-item" onclick="location.href='{% url 'LK-statistics' %}';">
+                    
+                        <li class = "menu-item" onclick="location.href='{% url 'LK' %}';" {% if 'LK' in request.path %} style = "border: 1px solid #66fcf1;" {% endif %}>
+                            <p name = "hf-text"> Страница 1 </p>
+                        </li>
+                    <li class = "menu-item" onclick="location.href='{% url 'LK-statistics' %}';" {% if 'examplestat' in request.path %} style = "border: 1px solid #66fcf1;" {% endif %}>
                         <p name = "hf-text"> Страница 2 </p>
                     </li>
 
                     <div class = "right">
                         <li class = "menu-item" onclick="location.href='{% url 'logout' %}';">
-                            <p name = "hf-text"> Выйти покурить </p>
+                            <p name = "hf-text"> Выйти </p>
                         </li>
                     </div>
                 {% endif %}
