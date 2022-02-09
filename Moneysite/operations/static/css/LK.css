@@ -26,3 +26,52 @@ h1{
     font-size: 35px;
     font-family: 'Raleway', sans-serif;
 }
+
+.gradient-text {
+    color: transparent;
+    background: conic-gradient(
+        #978ff0 12%, #7348d1 12%,
+        #8d7bb6 33%, #a6c46a 33%,
+        #8cb144 55%, #b35252 55%, 
+        #ca7979 70%, #339ba8 70%, 
+        #318d99 87%, #cc7a46 87%
+    );
+    background-size: 50%;
+    background-clip: text;
+    animation: expand-rev 0.5s ease forwards;
+    cursor: pointer;
+}
+
+.gradient-text:hover{
+    animation: expand 0.5s ease forwards;
+}
+
+@keyframes expand {
+    0% {
+        background-size: 50%;
+        background-position: 0 0;
+    }
+    20% {
+        background-size: 55%;
+        background-position: 0 1em;
+    }
+    0% {
+        background-size: 325%;
+        background-position: -10em -4em;
+    }
+}
+
+@keyframes expand-rev {
+    100% {
+        background-size: 50%;
+        background-position: 0 0;
+    }
+    20% {
+        background-size: 55%;
+        background-position: 0 1em;
+    }
+    0% {
+        background-size: 325%;
+        background-position: -10em -4em;
+    }
+}
