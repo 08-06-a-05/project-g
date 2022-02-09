@@ -10,8 +10,6 @@ def valid_email(request):
         return JsonResponse({'is_exist':'false','is_registered':'false'})
     else:
         if email in list(Users.objects.values_list("email",flat=True)):
-            print(20)
             return JsonResponse({'is_exist':'true','is_registered':'true'})
         else:
-            print(40)
             return JsonResponse({'is_exist':'true','is_registered':'false'})

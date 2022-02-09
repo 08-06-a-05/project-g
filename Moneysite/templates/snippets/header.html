@@ -8,8 +8,22 @@
             <li class = "menu-item" name = "logo">
                 <a href = "{% url 'main' %}" > <img src = "{% static 'img/main_logo.png' %}" alt = "logo"> </a>
             </li>
-            {% if user.is_authenticated %}
 
+            {% if user.is_authenticated %}
+                {% if 'account' in request.path %}
+                    <li class = "menu-item" onclick="location.href='{% url 'LK' %}';">
+                        <p name = "hf-text"> Страница 1 </p>
+                    </li>
+                    <li class = "menu-item" onclick="location.href='{% url 'LK-statistics' %}';">
+                        <p name = "hf-text"> Страница 2 </p>
+                    </li>
+
+                    <div class = "right">
+                        <li class = "menu-item" onclick="location.href='{% url 'logout' %}';">
+                            <p name = "hf-text"> Выйти покурить </p>
+                        </li>
+                    </div>
+                {% endif %}
             {% else %}
             <div class = "right">
                 {% if not 'login' in request.path %}

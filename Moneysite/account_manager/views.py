@@ -21,7 +21,6 @@ from .models import Users
 
 def registration_page(request):
     form = CreateUserForm(use_required_attribute=False)
-    emails=list(Users.objects.values_list('email',flat=True))
     if request.method == 'POST':
         form = CreateUserForm(request.POST, use_required_attribute=False)
         if form.is_valid():
@@ -36,28 +35,29 @@ def registration_page(request):
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': generate_token.make_token(user)
             })
-
+            print(20)
             email = EmailMessage(
                 subject='Активируйте Ваш аккаунт', 
                 body=email_body, 
                 from_email=settings.EMAIL_HOST_USER,
                 to=[form.cleaned_data.get('email')]
             )
-
+            print(20)
             email.send()
-            
+            print(20)
             messages.add_message(request, messages.SUCCESS,
                                  'Мы отправили Вам письмо для подтверждения регистрации.')
-            
+            print(20)
             return redirect('login')
     
 
-    return render(request,'registration_page.html', {'form': form,'emails':emails})
+    return render(request,'registration_page.html', {'form': form})
 
 def authorization_page(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
+        # print(email,password)
         user = authenticate(request, email=email, password=password)
 
         if user is None:
@@ -68,7 +68,7 @@ def authorization_page(request):
             return redirect('login')
         else:
             login(request, user)
-            return redirect('main')
+            return redirect('LK')
     context = {}
     return render(request, 'login.html', context)
 

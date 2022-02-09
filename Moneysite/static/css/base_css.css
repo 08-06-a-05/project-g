@@ -82,6 +82,7 @@ p[name = "hf-text"] {
     text-align: center;
     color: #66fcf1;
     font-size: 16px;
+    font-weight: 700;
 }
 
 img[alt="logo"] {
