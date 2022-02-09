@@ -56,3 +56,4 @@ class Balances(models.Model):
     currency_id = models.ForeignKey(Currency, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=100, decimal_places=2)
 
+

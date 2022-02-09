@@ -16,16 +16,19 @@
                 <div class="name">
                     Кошелёк
                 </div>
+                
                 <div class="wallet">
+                    {% for currency in balance %}
                     <div class="content">
-                        {{ currency1 }} : {{ amount1 }}
+                        {{ currency.currency_id }} : {{ currency.amount }}
                     </div>
-                    <div class="content">
+                    <!-- <div class="content">
                         {{ currency2 }} : {{ amount2 }}
                     </div>
                     <div class="content">
                         {{ currency3 }} : {{ amount3 }}
-                    </div>
+                    </div> -->
+                    {% endfor %}
                 </div>
                 <div class="content" id="total-amount">
                     Всего: {{ total }}
