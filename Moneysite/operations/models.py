@@ -6,6 +6,10 @@ class Categories(models.Model):
     category_name = models.CharField(max_length=60)
     user = models.ForeignKey(accountModels.Users, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return self.category_name
+
+
 class Operations(models.Model):
     user = models.ForeignKey(accountModels.Users, on_delete=models.CASCADE)
     operation_type = models.CharField(max_length=1)

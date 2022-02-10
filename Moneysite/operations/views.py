@@ -13,20 +13,22 @@ def personal_account(request):
 
     context['balance'] = user_balances
     context['categories'] = default_categories
-
+    
     if request.method == 'POST':  
-        form = AddOperationForm(request.POST)
+        
+        form = AddOperationForm(request.POST, user=request.user)
+        
         context['form'] = form
     
         if form.is_valid():
-            data = form.cleaned_data
-            print(data)
-            print('here22')
+            data = form.save(commit=False)
+            data.user = request.user
+            data.save()
+            print('here')
+            
     else:
         form = AddOperationForm()
         context['form'] = form
-        
-        print('here1')
     
     return render(request, 'manager.html', context)
 
