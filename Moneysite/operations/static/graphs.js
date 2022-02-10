@@ -29,7 +29,7 @@ function drawChart3() {
         pieResidueSliceLabel: 'Остальное',
         width: '400',
         height: '400',
-        chartArea: {width: '100%'},
+        chartArea: {width: '90%'},
         };
     var chart3 = new google.visualization.PieChart(document.getElementById('graph3'));
     chart3.draw(data3, options3);
@@ -44,7 +44,7 @@ function drawChart2(){
     width: '400',
     height: '400',
     legend: 'none',
-    chartArea: {width: '100%'},
+    chartArea: {width: '70%'},
     };
     var chart2 = new google.visualization.ColumnChart(document.getElementById('graph2'));
     chart2.draw(data2, options2);
@@ -59,7 +59,7 @@ function drawChart() {
     width: '400',
     height: '400',
     legend: 'none',
-    chartArea: {width: '100%'},
+    chartArea: {width: '70%'},
     };
     var chart = new google.visualization.ColumnChart(document.getElementById('graph'));
     chart.draw(data, options);
