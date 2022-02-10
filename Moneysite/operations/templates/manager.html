@@ -38,7 +38,18 @@
                 <div class="name">
                     Добавить операцию
                 </div>
-                <form class="form_add_operation">
+                <form action="" method="POST">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <datalist id="categories">
+                        {% for cat in categories %}
+                            <option value = {{ cat.category_name }} ></option>
+                        {% endfor %}
+                    </datalist>
+                    <input type="submit" value="submit_operation">
+                </form>
+                
+                <!-- <form class="form_add_operation">
                     <div class="content">
                         {#<div class="label">Тип операции</div>#}
                         <select class="field" name="type" size="1" required >
@@ -73,7 +84,7 @@
                     <div class="form_button">
                         <button type="submit">Жмякай</button>
                     </div>
-                </form>
+                </form> -->
             </div>
         </div>
         <div class="main_container">
