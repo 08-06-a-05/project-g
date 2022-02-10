@@ -3,6 +3,7 @@
 {% block localCssLink %}
     {% load static %}
     <link href="{% static 'css/LK_stats.css' %}" rel="stylesheet" type="text/css">
+
 {% endblock %}
 
 {% block name %}
@@ -23,15 +24,46 @@
                     </select>
                 </div>
                 <div class="graph" id="graph">
-                    <script src="https://www.google.com/jsapi"></script>
-                    <script src="{% static 'graphs.js' %}"></script>
+                </div>
+            </div>
+
+            <div class="graph-wrapper">
+                <div class="name">
+                    Состояние кошелька
+                </div>
+                <div class="filters">
+                </div>
+                <div class="graph" id="graph2">
                 </div>
             </div>
         </div>
         <div class="main-container">
-
+            <div class="graph-wrapper">
+                <div class="name">
+                    Траты по категориям
+                </div>
+                <div class="filters">
+                </div>
+                <div class="graph" id="graph3">
+                </div>
+            </div>
+            <div class="graph-wrapper">
+                <div class="name" id="export-name">
+                    Экспорт данных в exsel
+                </div>
+                <div class="filters" id="export-filters">
+                    <div class="fields-and-labels">Выберите даты:</div>
+                    <input class="fields-and-labels" id="start-export-date" type="date" name="start-date" placeholder="Выберите дату">
+                    <input class="fields-and-labels" id="end-export-date" type="date" name="end-date" placeholder="Выберите дату">
+                </div>
+                <div class="export">
+                    <input type="submit" class="button">
+                </div>
+            </div>
 
         </div>
+        <script src="https://www.google.com/jsapi"></script>
+        <script src="{% static 'graphs.js' %}"></script>
     </div>
 {% endblock %}
 
