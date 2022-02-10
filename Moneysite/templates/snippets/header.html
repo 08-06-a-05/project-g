@@ -25,6 +25,15 @@
                         </li>
                     </div>
                 {% endif %}
+
+                {% if not 'account' in request.path %}
+                    <div class = "right">
+                        <li class = "menu-item" onclick="location.href = '{% url 'LK' %}'; ">
+                            <p name = "hf-text"> Личный Кабинет </p>
+                        </li>
+                    </div>
+                {% endif %}
+
             {% else %}
             <div class = "right">
                 {% if not 'login' in request.path %}
