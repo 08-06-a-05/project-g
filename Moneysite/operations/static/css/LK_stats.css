@@ -1,0 +1,80 @@
+.root{
+    width: 95vw;
+    margin: 0 auto;
+    display:flex;
+    flex-direction: row;
+}
+.main-container{
+    width: 400px;
+    margin: 10px auto;
+    height: 1000px;
+    display:flex;
+    flex-direction: column;
+}
+.graph-wrapper{
+    height:500px;
+    width:100%;
+    display: flex;
+    flex-direction:column;
+}
+.name{
+    display:flex;
+    height:50px;
+    width:100%;
+    margin: auto;
+    font-size: 18px;
+    font-family: 'Raleway';
+    align-items: center;
+    margin-top:0;
+}
+.filters{
+    display:flex;
+    height:50px;
+    width: 100%;
+    margin: auto;
+    flex-direction: row;
+    align-items: center;
+}
+.field{
+    display:flex;
+    height: 30px;
+    width: 80px;
+}
+
+.graph{
+    display:flex;
+    height: 400px;
+    width: 100%;
+    margin: auto;
+}
+.export{
+    display:flex;
+    width:100%;
+    height:80px;
+    margin:20px auto;
+}
+.button{
+    height: 70px;
+    margin:auto;
+    width: 70%;
+}
+#export-filters{
+    margin: 20px auto;
+}
+#export-name{
+    margin: 20px auto;
+}
+.fields-and-labels{
+    margin:auto;
+    width:120px;
+    height:40px;
+    align-items: center;
+    display: flex;
+    font-size: 15px;
+    font-family: 'Raleway';
+    font-weight: 500;
+}
+#start-export-date, #end-export-date{
+    font-size:14px;
+    font-family: 'monospace'
+}
