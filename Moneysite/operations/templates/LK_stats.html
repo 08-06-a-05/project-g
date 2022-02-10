@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block localCssLink %}
+    {% load static %}
+    <link href="{% static 'css/LK_stats.css' %}" rel="stylesheet" type="text/css">
+{% endblock %}
+
+{% block name %}
+    Личный кабинет
+{% endblock %}
+
+{% block content %}
+    <div class="root">
+        <div class="main-container">
+            <div class="graph-wrapper">
+                <div class="name">
+                    Траты и доходы
+                </div>
+                <div class="filters">
+                    <select class="field" name="type" size="1" id="type">
+                        <option>Доходы</option>
+                        <option>Расходы</option>
+                    </select>
+                </div>
+                <div class="graph" id="graph">
+                    <script src="https://www.google.com/jsapi"></script>
+                    <script src="{% static 'graphs.js' %}"></script>
+                </div>
+            </div>
+        </div>
+        <div class="main-container">
+
+
+        </div>
+    </div>
+{% endblock %}
+

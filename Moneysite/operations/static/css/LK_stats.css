@@ -1,0 +1,47 @@
+.root{
+    width: 95vw;
+    margin: 0 auto;
+    display:flex;
+    flex-direction: row;
+}
+.main-container{
+    width: 400px;
+    margin: 10px auto;
+    height: 1200px;
+    display:flex;
+}
+.graph-wrapper{
+    height:500px;
+    width:100%;
+    display: flex;
+    flex-direction:column;
+}
+.name{
+    display:flex;
+    height:50px;
+    width:100%;
+    margin: auto;
+    font-size: 18px;
+    font-family: 'Raleway';
+    align-items: center;
+}
+.filters{
+    display:flex;
+    height:50px;
+    width: 100%;
+    margin: auto;
+    flex-direction: row;
+    align-items: center;
+}
+.field{
+    display:flex;
+    height: 30px;
+    width: 80px;
+}
+
+.graph{
+    display:flex;
+    height: 400px;
+    width: 100%;
+    margin: auto;
+}
