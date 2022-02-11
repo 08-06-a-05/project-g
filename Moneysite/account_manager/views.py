@@ -35,19 +35,19 @@ def registration_page(request):
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
                 'token': generate_token.make_token(user)
             })
-            print(20)
+        
             email = EmailMessage(
                 subject='Активируйте Ваш аккаунт', 
                 body=email_body, 
                 from_email=settings.EMAIL_HOST_USER,
                 to=[form.cleaned_data.get('email')]
             )
-            print(20)
+            
             email.send()
-            print(20)
+            
             messages.add_message(request, messages.SUCCESS,
                                  'Мы отправили Вам письмо для подтверждения регистрации.')
-            print(20)
+            
             return redirect('login')
     
 

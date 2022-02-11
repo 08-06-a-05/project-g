@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from account_manager.models import *
 from operations.models import *
@@ -15,20 +15,19 @@ def personal_account(request):
     context['categories'] = default_categories
     
     if request.method == 'POST':  
-        
-        form = AddOperationForm(request.POST, user=request.user)
-        
-        context['form'] = form
+        form_operation = AddOperationForm(request.user, request.POST)
+        context['form'] = form_operation
     
-        if form.is_valid():
-            data = form.save(commit=False)
+        if form_operation.is_valid():
+            data = form_operation.save(commit=False)
             data.user = request.user
             data.save()
-            print('here')
+            
+            return redirect('LK')
             
     else:
-        form = AddOperationForm()
-        context['form'] = form
+        form_operation = AddOperationForm(request.user)
+        context['form'] = form_operation
     
     return render(request, 'manager.html', context)
 

@@ -40,13 +40,30 @@
                 </div>
                 <form action="" method="POST">
                     {% csrf_token %}
-                    {{ form.as_p }}
-                    <datalist id="categories">
-                        {% for cat in categories %}
-                            <option value = {{ cat }} ></option>
-                        {% endfor %}
-                    </datalist>
-                    <input type="submit" value="Submit">
+                    <div class="content">
+                        {{ form.operation_type }}
+                    </div>
+                    <div class="content">
+                        {{ form.currency }}
+                    </div>
+                    <div class="content">
+                        {{ form.amount }}
+                    </div>
+                    <div class="content">
+                        {{ form.datetime }}
+                    </div>
+                    <div class="content">
+                        {{ form.category }}
+                    </div>
+                    <div class="content">
+                        {{ form.new_category }}
+                    </div>
+                    <div class="content">
+                        {{ form.description }}
+                    </div>
+                    <div class="form_button">
+                        <input type="submit" value="Добавить операцию">
+                    </div>
                 </form>
                 
                 <!-- <form class="form_add_operation">
@@ -83,8 +100,8 @@
                     </div>
                     <div class="form_button">
                         <button type="submit">Жмякай</button>
-                    </div>
-                </form> -->
+                    </div> -->
+                </form>
             </div>
         </div>
         <div class="main_container">
