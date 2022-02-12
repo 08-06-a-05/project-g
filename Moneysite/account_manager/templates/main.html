@@ -25,28 +25,30 @@
 <div class="container">
     <div class="main_part">
         <div class="main_part__row">
-            <div class="main_part__photo">
-                <img src="img/about.jpg" alt="main_part_img">
-            </div>
             <div class="main_part__body">
-                <div class="main_part__title"><h2>Крутой сайт</h2></div>
+                <div class="main_part__title"><h2>Project g</h2></div>
                 <div class="main_part__text">
                     <p>
-                        Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been
-                        the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley
-                        of type and scrambled it to make a type specimen book. It has survived not only five centuries,
-                        but also the leap into electronic typesetting, remaining essentially unchanged. It was
-                        popularised in the ore recently with desktop publishing software like Aldus PageMaker including
-                        versions of Lorem Ipsum
+                        Сервис для контроля личных финансов.
                     </p>
+                    <ul>
+                        <li> Отслеживайте свой бюджет</li>
+                        <li> Стройте графики расходов и доходов</li>
+                        <li> Прогнозируйте свой бюджет на будущее с учётом инфляции</li>
+                    </ul>
                 </div>
-                <a href="404.html" class="main_part__button button ">Регистрация</a>
+                <span class = "button" style = "background-color: blueviolet; margin-left: 1%;"  onclick="location.href='{% url 'register' %}';">
+                    <p name = "hf-text"> Регистрация </p>
+                </span>
+
             </div>
+            <div class="main_part__photo">
+                <img src="{% static 'img/main_logo.png' %}" alt="main_part_img">
+            </div>
+
         </div>
     </div>
 </div>
-
-<p>Hi</p>
 
 {% endif %}
 
