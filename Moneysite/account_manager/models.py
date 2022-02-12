@@ -26,7 +26,7 @@ class CustomUsersManager(BaseUserManager):
 class Users(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     username = models.CharField(max_length=30)
-    displayed_currency = models.CharField(max_length=30, default='RUR')
+    displayed_currency = models.CharField(max_length=30, default='RUB')
     
     is_staff = models.BooleanField(default=False)
     is_email_verified = models.BooleanField(default=False)
@@ -54,6 +54,6 @@ class Currency(models.Model):
 class Balances(models.Model):
     user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
     currency_id = models.ForeignKey(Currency, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=100, decimal_places=2)
+    amount = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=0.00)
 
 
