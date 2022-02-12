@@ -15,10 +15,6 @@ from .utils import generate_token
 from .models import Users
 
 
-
-# Create your views here.
-
-
 def registration_page(request):
     form = CreateUserForm(use_required_attribute=False)
     if request.method == 'POST':
@@ -49,22 +45,19 @@ def registration_page(request):
                                  'Мы отправили Вам письмо для подтверждения регистрации.')
             
             return redirect('login')
-    
 
     return render(request,'registration_page.html', {'form': form})
+
 
 def authorization_page(request):
     if request.method == 'POST':
         email = request.POST.get('email')
         password = request.POST.get('password')
-        # print(email,password)
         user = authenticate(request, email=email, password=password)
 
         if user is None:
-            messages.add_message(request, messages.ERROR, 'Обнаружены ошибки в пароле или электронной почте. Проверьте, пожалуйста, правильность введенных данных.')
             return redirect('login')
         elif not user.is_email_verified:
-            messages.add_message(request, messages.ERROR, 'Ваша элеткронная почта не подтверждена. Проверьте, пожалуйста, почтовый ящик.')
             return redirect('login')
         else:
             login(request, user)
@@ -72,9 +65,9 @@ def authorization_page(request):
     context = {}
     return render(request, 'login.html', context)
 
+
 def logout_request(request):
     logout(request)
-    messages.info(request, "Вы вышли из аккаунта.")
     return redirect('main')
     
 
@@ -94,6 +87,7 @@ def activate_user(request, uidb64, token):
     
     return HttpResponse('failed')
 
+
 def main_page(request):
     context = {}
-    return render(request, 'main.html', context) 
+    return render(request, 'main.html', context)

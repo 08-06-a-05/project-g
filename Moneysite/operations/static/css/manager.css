@@ -199,3 +199,8 @@ body{
     width: 30%;
     margin: auto;
 }
+
+#select-state{
+    height: 35px;
+    width: 50%;
+}

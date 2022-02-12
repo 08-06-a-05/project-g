@@ -12,7 +12,7 @@ def personal_account(request):
 
     user_balances = Balances.objects.select_related().filter(user_id=request.user.id)
     default_categories = Categories.objects.select_related().filter(user_id=9)
-
+    default_currencies = Currency.objects.select_related()
 
     # for balance in user_balances:
     #     print(balance.currency_id)
@@ -23,6 +23,7 @@ def personal_account(request):
         user_operations = Operations.objects.select_related().filter(user_id=request.user.id).order_by('-datetime')
 
     context['balance'] = user_balances
+    context['currencies'] = default_currencies
     context['categories'] = default_categories
     context['operations'] = user_operations
 

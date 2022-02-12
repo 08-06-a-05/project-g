@@ -3,6 +3,9 @@
 {% block localCssLink %}
     {% load static %}
     <link href="{% static 'css/manager.css' %}" rel="stylesheet" type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 {% endblock %}
 
 {% block name %}
@@ -16,6 +19,19 @@
                 <div class="name">
                     Кошелёк
                 </div>
+                <form method="GET">
+                    <select id="select-state" placeholder="Выберите валюты" multiple>
+                        {% for currency in currencies %}
+                            <option>{{ currency.name }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+                <script>
+                    $('#select-state').select2({
+                        placeholder: "Выберите валюты",
+                        allowClear: true
+                    });
+                </script>
                 <div class="wallet">
                     {% for currency in balance %}
                     <div class="content">
@@ -76,7 +92,7 @@
                 <div class="operations_content">
                     {% regroup operations by datetime as operations_list %}
                     {% for operation in operations_list %}
-                        <div class="date_grouper">{{ operation.grouper }}</div>
+                        <div class="date_grouper">{{ operation.grouper|date:"d-m-Y" }}</div>
                         {% for one_operation in operation.list %}
                             <div class="content operation-details">
                                 {% if one_operation.operation_type == '+' %}
