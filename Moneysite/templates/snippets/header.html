@@ -15,7 +15,7 @@
                         <li class = "menu-item" onclick="location.href='{% url 'LK' %}';" {% if 'LK' in request.path %} style = "border: 1px solid #66fcf1;" {% endif %}>
                             <p name = "hf-text"> Личный кабинет </p>
                         </li>
-                    <li class = "menu-item" onclick="location.href='{% url 'LK-statistics' %}';" {% if 'examplestat' in request.path %} style = "border: 1px solid #66fcf1;" {% endif %}>
+                    <li class = "menu-item" onclick="location.href='{% url 'LK-stats' %}';" {% if 'examplestat' in request.path %} style = "border: 1px solid #66fcf1;" {% endif %}>
                         <p name = "hf-text"> Статистика </p>
                     </li>
 

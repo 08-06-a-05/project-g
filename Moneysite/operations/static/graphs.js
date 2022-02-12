@@ -46,7 +46,7 @@ function drawChart2(){
     legend: 'none',
     chartArea: {width: '70%'},
     };
-    var chart2 = new google.visualization.ColumnChart(document.getElementById('graph2'));
+    var chart2 = new google.visualization.LineChart(document.getElementById('graph2'));
     chart2.draw(data2, options2);
 }
 

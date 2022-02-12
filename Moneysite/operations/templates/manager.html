@@ -16,18 +16,11 @@
                 <div class="name">
                     Кошелёк
                 </div>
-                
                 <div class="wallet">
                     {% for currency in balance %}
                     <div class="content">
                         {{ currency.currency_id }} : {{ currency.amount }}
                     </div>
-                    <!-- <div class="content">
-                        {{ currency2 }} : {{ amount2 }}
-                    </div>
-                    <div class="content">
-                        {{ currency3 }} : {{ amount3 }}
-                    </div> -->
                     {% endfor %}
                 </div>
                 <div class="content" id="total-amount">
@@ -66,43 +59,6 @@
                         <input type="submit" value="Добавить операцию">
                     </div>
                 </form>
-                
-                <!-- <form class="form_add_operation">
-                    <div class="content">
-                        {#<div class="label">Тип операции</div>#}
-                        <select class="field" name="type" size="1" required >
-                            <option value="" disabled selected hidden>Выберите тип операции</option>
-                            <option value="+">Зачисление</option>
-                            <option value="-">Списание</option>
-                        </select>
-                    </div>
-                    <div class="content">
-                        {#<div class="label">Валюта</div>#}
-                        <select class="field" name="currency" size="1" required>
-                            <option value="" disabled selected hidden>Выберите валюту</option>
-                            <option value="rub">Российский рубль</option>
-                            <option value="usd">Американский доллар</option>
-                        </select>
-                    </div>
-                    <div class="content">
-                        {#<div class="label">Сумма</div>#}
-                        <input class="field" id="amount-field" name="amount" type="text" maxlength="50" required placeholder="Введите сумму">
-                    </div>
-                    <div class="content">
-                        <input class="field" type="date" name="date" required placeholder="Выберите дату">
-                    </div>
-                    <div class="content">
-                        {#<div class="label">Сумма</div>#}
-                        <select class="field" name="category" required size="1">
-                            <option value="" disabled selected hidden>Выберите категорию</option>
-                            <option value="rub">Российский рубль</option>
-                            <option value="usd">Американский доллар</option>
-                        </select>
-                    </div>
-                    <div class="form_button">
-                        <button type="submit">Жмякай</button>
-                    </div> -->
-                </form>
             </div>
         </div>
         <div class="main_container">
@@ -111,15 +67,26 @@
                     Последние операции
                 </div>
                 <div class="operations_content">
-                    <div class="content">
-                        {{ currency1 }} : {{ amount }}
-                    </div>
-                    <div class="content">
-                        {{ currency2 }} : {{ amount }}
-                    </div>
-                    <div class="content">
-                        {{ currency3 }} : {{ amount }}
-                    </div>
+                    {% regroup operations by datetime as operations_list %}
+                    {% for operation in operations_list %}
+                        <div class="date_grouper">{{ operation.grouper }}</div>
+                        {% for one_operation in operation.list %}
+                            <div class="content">
+                                {% if one_operation.operation_type == '+' %}
+                                    <div class="type_image" style="background-image: url({% static 'plus-sign.png' %}"></div>
+                                {% else %}
+                                    <div class="type_image" style="background-image: url({% static 'minus-sign.png' %}"></div>
+                                {% endif %}
+                                <div class="operation-wrapper">
+                                    <div class="category-label"> {{ one_operation.category }}</div>
+                                    <div class="amount-wrapper">
+                                        <div class="amount-label">{{ one_operation.amount }}</div>
+                                        <div class="currency-label">{{ one_operation.currency }}</div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% endfor %}
                 </div>
             </div>
             <div class="down-content-wrapper">
