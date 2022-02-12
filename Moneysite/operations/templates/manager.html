@@ -38,7 +38,36 @@
                 <div class="name">
                     Добавить операцию
                 </div>
-                <form class="form_add_operation">
+                <form action="" method="POST" class="form_add_operation">
+                    {% csrf_token %}
+                    <div class="content">
+                        {{ form.operation_type }}
+                    </div>
+                    <div class="content">
+                        {{ form.currency }}
+                    </div>
+                    <div class="content">
+                        {{ form.amount }}
+                    </div>
+                    <div class="content">
+                        {{ form.datetime }}
+                    </div>
+                    <div class="content" id="category">
+                        {{ form.category }}
+                    </div>
+                    <div class="content" id="new_category">
+                        {{ form.new_category }}
+                    </div>
+                    <div id="swap-category">Добавить категорию</div>
+                    <div class="content">
+                        {{ form.description }}
+                    </div>
+                    <div class="form_button">
+                        <input type="submit" value="Добавить операцию">
+                    </div>
+                </form>
+                
+                <!-- <form class="form_add_operation">
                     <div class="content">
                         {#<div class="label">Тип операции</div>#}
                         <select class="field" name="type" size="1" required >
@@ -72,7 +101,7 @@
                     </div>
                     <div class="form_button">
                         <button type="submit">Жмякай</button>
-                    </div>
+                    </div> -->
                 </form>
             </div>
         </div>
@@ -110,6 +139,7 @@
                 </div>
             </div>
         </div>
+        <script src="{% static 'dropdown.js' %}"></script>
     </div>
 {% endblock %}
 
