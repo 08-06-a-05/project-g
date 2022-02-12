@@ -1,24 +1,55 @@
 {% extends 'base.html' %}
 
 {% block localCssLink %}
-    {% load static %}
-    <link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css">
-    <!-- <link href="{% static 'css/registration_page.css' %}" rel="stylesheet" type="text/css"> -->
+{% load static %}
+
+<link href="{% static 'css/main.css' %}" rel="stylesheet" type="text/css">
+<!-- <link href="{% static 'css/registration_page.css' %}" rel="stylesheet" type="text/css"> -->
 {% endblock %}
 
 {% block name %}
-    Главная
+Главная
 {% endblock %}
 
 {% block content %}
-    {% for message in messages %}
-        {{ message }}
-    {% endfor %}
 
-    {% if user.is_authenticated %}
-        {{ user.username }}
-        <button><a href="{% url 'logout' %}">Logout</a></button>
-    {% else %}
-        <p>Hi</p>
-    {% endif %}
+{% for message in messages %}
+{{ message }}
+{% endfor %}
+
+{% if user.is_authenticated %}
+{{ user.username }}
+<button><a href="{% url 'logout' %}">Logout</a></button>
+
+{% else %}
+<div class="container">
+    <div class="main_part">
+        <div class="main_part__row">
+            <div class="main_part__body">
+                <div class="main_part__title"><h2>Project g</h2></div>
+                <div class="main_part__text">
+                    <p>
+                        Сервис для контроля личных финансов.
+                    </p>
+                    <ul>
+                        <li> Отслеживайте свой бюджет</li>
+                        <li> Стройте графики расходов и доходов</li>
+                        <li> Прогнозируйте свой бюджет на будущее с учётом инфляции</li>
+                    </ul>
+                </div>
+                <span class = "button" style = "background-color: blueviolet; margin-left: 1%;"  onclick="location.href='{% url 'register' %}';">
+                    <p name = "hf-text"> Регистрация </p>
+                </span>
+
+            </div>
+            <div class="main_part__photo">
+                <img src="{% static 'img/main_logo.png' %}" alt="main_part_img">
+            </div>
+
+        </div>
+    </div>
+</div>
+
+{% endif %}
+
 {% endblock %}
