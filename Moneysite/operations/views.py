@@ -12,15 +12,24 @@ def personal_account(request):
 
     user_balances = Balances.objects.select_related().filter(user_id=request.user.id)
     default_categories = Categories.objects.select_related().filter(user_id=9)
-    user_operations = Operations.objects.select_related().filter(user_id=request.user.id).order_by('-datetime')
+
+
+    # for balance in user_balances:
+    #     print(balance.currency_id)
+    # print(CurrencyConverter.get_currency_exchange_rate('dollar', 'ruble'))
+    print(request.GET)
+    if request.method =='GET' and 'start-date' in request.GET:
+        print(request.GET['start-date'])
+        user_operations = Operations.objects.select_related().filter(user_id=request.user.id, datetime__range=[request.GET['start-date'], request.GET['end-date']]).order_by('-datetime')
+    else:
+        user_operations = Operations.objects.select_related().filter(user_id=request.user.id).order_by('-datetime')
 
     context['balance'] = user_balances
     context['categories'] = default_categories
     context['operations'] = user_operations
 
-    # print(CurrencyConverter.get_currency_exchange_rate('dollar', 'ruble'))
+    if request.method == 'POST':
 
-    if request.method == 'POST':  
         form_operation = AddOperationForm(request.user, request.POST)
         context['form'] = form_operation
     
@@ -28,7 +37,7 @@ def personal_account(request):
             data = form_operation.save(commit=False)
             data.user = request.user
             data.save()
-            
+
             return redirect('LK')
             
     else:

@@ -56,7 +56,7 @@
                         {{ form.description }}
                     </div>
                     <div class="form_button">
-                        <input type="submit" value="Добавить операцию">
+                        <input type="submit" value="Добавить операцию" id="add_operation">
                     </div>
                 </form>
             </div>
@@ -66,12 +66,19 @@
                 <div class="name">
                     Последние операции
                 </div>
+                <div class="filters-wrapper">
+                    <form method="GET">
+                        <input  class="filter" id="start-export-date" type="date" name="start-date" placeholder="Выберите дату" required>
+                        <input  class="filter" id="end-export-date" type="date" name="end-date" placeholder="Выберите дату" required>
+                        <button class="filter" type="submit" id="add_filter">Отправить</button>
+                    </form>
+                </div>
                 <div class="operations_content">
                     {% regroup operations by datetime as operations_list %}
                     {% for operation in operations_list %}
                         <div class="date_grouper">{{ operation.grouper }}</div>
                         {% for one_operation in operation.list %}
-                            <div class="content">
+                            <div class="content operation-details">
                                 {% if one_operation.operation_type == '+' %}
                                     <div class="type_image" style="background-image: url({% static 'plus-sign.png' %}"></div>
                                 {% else %}
