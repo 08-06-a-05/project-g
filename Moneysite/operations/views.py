@@ -17,9 +17,7 @@ def personal_account(request):
     # for balance in user_balances:
     #     print(balance.currency_id)
     # print(CurrencyConverter.get_currency_exchange_rate('dollar', 'ruble'))
-    print(request.GET)
     if request.method =='GET' and 'start-date' in request.GET:
-        print(request.GET['start-date'])
         user_operations = Operations.objects.select_related().filter(user_id=request.user.id, datetime__range=[request.GET['start-date'], request.GET['end-date']]).order_by('-datetime')
     else:
         user_operations = Operations.objects.select_related().filter(user_id=request.user.id).order_by('-datetime')
