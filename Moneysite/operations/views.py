@@ -40,3 +40,7 @@ def example(request):
 def example_stat(request):
     context = {}
     return render(request, 'LK_statistics.html', context)
+
+def stats(request):
+    context = {}
+    return render(request, 'LK_stats.html', context)

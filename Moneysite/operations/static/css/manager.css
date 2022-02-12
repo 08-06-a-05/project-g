@@ -80,6 +80,8 @@ body{
     box-shadow: 2px 3px 3px 0px #a8fff9;
     outline: none;
     background-color: white;
+    margin: auto 0;
+    margin-right: auto;
 
 }
 
@@ -97,7 +99,7 @@ body{
 }
 
 .form_add_operation{
-    height:250px;
+    height:450px;
     display:flex;
     flex-direction:column;
 }
@@ -115,9 +117,19 @@ body{
 
 
 .down-content-wrapper{
-    height:330px;
+    height:530px;
     width: 100%;
     display:flex;
     margin:auto;
     flex-direction:column;
+}
+#swap-category{
+    margin-top: 0;
+    height: 20px;
+    font-size: 15px;
+    width: 40%;
+    cursor: pointer;
+}
+#new_category{
+    display:none;
 }
