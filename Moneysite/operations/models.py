@@ -16,6 +16,6 @@ class Operations(models.Model):
     datetime = models.DateTimeField(default=timezone.now)
     category = models.ForeignKey(Categories, on_delete=models.CASCADE)
     amount = models.DecimalField(max_digits=100, decimal_places=2)
-    currency = models.CharField(max_length=60, default='RUR')
+    currency = models.CharField(max_length=60, default='RUB')
     description = models.TextField(blank=True)
 

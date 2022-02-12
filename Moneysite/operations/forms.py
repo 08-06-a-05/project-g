@@ -1,7 +1,7 @@
 from django import forms
 from django.db.models import Q
 from operations.models import Operations, Categories
-from account_manager.models import Currency
+from account_manager.models import Currency, Balances
 
 class AddOperationForm(forms.ModelForm):
     OPERATION_CHOICES = (('+', 'Зачисление'), ('-', 'Списание'))
@@ -77,7 +77,7 @@ class AddOperationForm(forms.ModelForm):
         self.user = user
         super(AddOperationForm, self).__init__(*args, **kwargs)
         self.fields['category'] = forms.ModelChoiceField(
-            queryset=Categories.objects.filter(Q(user=self.user.id) | Q(user=9)), 
+            queryset=Categories.objects.filter(Q(user=self.user.id) | Q(user=2)), 
             empty_label='Категория',
             required=False,
             widget=forms.Select(attrs={
@@ -90,11 +90,23 @@ class AddOperationForm(forms.ModelForm):
     def clean(self):
         new_category = self.cleaned_data.get('new_category')
         category = self.cleaned_data.get('category')
+        currency = self.cleaned_data.get('currency')
+        operation_type = self.cleaned_data.get('operation_type')
+        amount = self.cleaned_data.get('amount')
         
         if not new_category and not category:
             raise forms.ValidationError('Нужно указать либо существующую категорию, либо новую.')
         elif not category:
             category = Categories.objects.create(category_name=new_category, user=self.user)
             self.cleaned_data['category'] = category
+        elif new_category and category:
+            raise forms.ValidationError('Нужно выбрать что-то одно: либо существующую, либо новую категорию.')
+        
+        currency_wallet = Balances.objects.get_or_create(user_id=self.user, currency_id=currency)
+        if operation_type == '+':
+            currency_wallet[0].amount += int(amount)
+        else:
+            currency_wallet[0].amount -= int(amount)
+        currency_wallet[0].save()
 
         return super(AddOperationForm, self).clean()
