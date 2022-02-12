@@ -6,7 +6,7 @@ swap_button.addEventListener("click", function (event) {
         category.style.display = "none";
         add_category.style.display = "flex";
         swap_button.textContent="Выбрать из уже существующих";
-        swap_button.style.width = "60%";'
+        swap_button.style.width = "60%";
 
     } else {
         category.style.display = "flex";
