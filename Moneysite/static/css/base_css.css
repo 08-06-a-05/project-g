@@ -34,7 +34,7 @@ ul {
 
 .right {
     display: flex;
-    width: 300px;
+    width: 600px;
     margin-left: auto;
     margin-right: 5%;
     justify-content: flex-end;
