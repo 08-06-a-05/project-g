@@ -1,17 +1,34 @@
 google.load("visualization", "1", {packages:["corechart"]});
 var type='Доходы';
-var list=[['Месяц', 'Доходы'],
-            ['сентябрь', 1200],
-            ['октябрь', 2000],
-            ['ноябрь', 1210]];
-var list2=[['День', 'Сумма'],
+var income_data = []
+var outlay_data = []
+var budget_data = []
+function initialization(list_income,list_outlay,list_budget){
+    income_data = list_income;
+    outlay_data = list_outlay;
+    budget_data = list_budget;
+    income_data.unshift(['Дата', 'Доходы']);
+    outlay_data.unshift(['Дата', 'Расходы'])
+    budget_data.unshift(['Дата', 'Сумма'])
+    drawChart();
+    drawChart2();
+    drawChart3();
+}
+
+var outlay_data = [
+            ['Месяц', 'Расходы'],
+            ['сентябрь', 32200],
+            ['октябрь', 232000],
+            ['ноябрь', 12410]
+            ];
+var budget_data = [
+            ['День', 'Сумма'],
             ['01.03.2021', 12200],
             ['02.03.2021', -2000],
-            ['07.03.2021', 5210]];
+            ['07.03.2021', 5210]
+            ];
+var use = 0;
 var button = document.getElementById('type');
-google.setOnLoadCallback(drawChart);
-google.setOnLoadCallback(drawChart2);
-google.setOnLoadCallback(drawChart3);
 
 
 function drawChart3() {
@@ -36,7 +53,7 @@ function drawChart3() {
 };
 
 function drawChart2(){
-    var data2 = google.visualization.arrayToDataTable(list2);
+    var data2 = google.visualization.arrayToDataTable(budget_data);
     var options2 = {
     title: 'Состояние кошелька',
     hAxis: {title: 'День'},
@@ -51,7 +68,11 @@ function drawChart2(){
 }
 
 function drawChart() {
-    var data = google.visualization.arrayToDataTable(list);
+    if (use == 0){
+        var data = google.visualization.arrayToDataTable(income_data);
+    } else {
+        var data = google.visualization.arrayToDataTable(outlay_data);
+    }
     var options = {
     title: type,
     hAxis: {title: 'Месяц'},
@@ -68,20 +89,10 @@ function drawChart() {
 
 button.addEventListener("change", function (event) {
     if (button.value=='Доходы'){
-        list=[
-            ['Месяц', 'Доходы'],
-            ['сентябрь', 1200],
-            ['октябрь', 2000],
-            ['ноябрь', 1210]
-            ];
+        use = 0;
         type='Доходы';
     } else {
-        list=[
-            ['Месяц', 'Расходы'],
-            ['сентябрь', 32200],
-            ['октябрь', 232000],
-            ['ноябрь', 12410]
-            ];
+        use = 1;
         type='Расходы';
     }
     drawChart();

@@ -11,6 +11,13 @@
 {% endblock %}
 
 {% block content %}
+
+    <script>
+        window.onpageshow = function() {
+          initialization({{data_income|safe}}, {{data_outlay|safe}}, {{data_budget|safe}});
+        };
+    </script>
+
     <div class="root">
         <div class="main-container">
             <div class="graph-wrapper">
