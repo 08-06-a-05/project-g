@@ -3,36 +3,21 @@ var type='Доходы';
 var income_data = []
 var outlay_data = []
 var budget_data = []
-function initialization(list_income,list_outlay,list_budget){
+var categories_data = []
+function initialization(list_income,list_outlay,list_budget,list_categories){
     income_data = list_income;
     outlay_data = list_outlay;
     budget_data = list_budget;
+    categories_data = list_categories;
     income_data.unshift(['Дата', 'Доходы']);
-    outlay_data.unshift(['Дата', 'Расходы'])
-    budget_data.unshift(['Дата', 'Сумма'])
+    outlay_data.unshift(['Дата', 'Расходы']);
+    budget_data.unshift(['Дата', 'Сумма']);
+    categories_data.unshift(['Трата', '%']);
     drawChart();
     drawChart2();
     drawChart3();
 }
-
-var outlay_data = [
-            ['Месяц', 'Расходы'],
-            ['сентябрь', 32200],
-            ['октябрь', 232000],
-            ['ноябрь', 12410]
-            ];
-var budget_data = [
-            ['День', 'Сумма'],
-            ['01.03.2021', 12200],
-            ['02.03.2021', -2000],
-            ['07.03.2021', 5210]
-            ];
-var use = 0;
-var button = document.getElementById('type');
-
-
-function drawChart3() {
-    var data3 = google.visualization.arrayToDataTable([
+/*[
         ['Трата', '%'],
         ['Рестораны',     9],
         ['Такси', 10],
@@ -40,7 +25,14 @@ function drawChart3() {
         ['Продуктовые магазины', 20],
         ['Продуктовые магазины', 20],
         ['Коммунальные платежы', 11]
-        ]);
+        ]);*/
+
+var use = 0;
+var button = document.getElementById('type');
+
+
+function drawChart3() {
+    var data3 = google.visualization.arrayToDataTable(categories_data);
     var options3 = {
         is3D: true,
         pieResidueSliceLabel: 'Остальное',

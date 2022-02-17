@@ -78,3 +78,6 @@
     font-size:14px;
     font-family: 'monospace'
 }
+#income_and_outlays{
+    display: flex;
+}

@@ -2,6 +2,7 @@ from django import forms
 from django.db.models import Q
 from operations.models import Operations, Categories
 from account_manager.models import Currency, Balances
+from decimal import Decimal
 
 class AddOperationForm(forms.ModelForm):
     OPERATION_CHOICES = (('+', 'Зачисление'), ('-', 'Списание'))
@@ -104,9 +105,10 @@ class AddOperationForm(forms.ModelForm):
         
         currency_wallet = Balances.objects.get_or_create(user_id=self.user, currency_id=currency)
         if operation_type == '+':
-            currency_wallet[0].amount += int(amount)
+            # decimal.Decimal
+            currency_wallet[0].amount += Decimal(amount)
         else:
-            currency_wallet[0].amount -= int(amount)
+            currency_wallet[0].amount -= Decimal(amount)
         currency_wallet[0].save()
 
         return super(AddOperationForm, self).clean()

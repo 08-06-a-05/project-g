@@ -205,3 +205,10 @@ body{
     height: 35px;
     width: 50%;
 }
+
+@media screen and (max-width:1000px)
+{
+    .root{
+        flex-direction: column;
+    }
+}

@@ -14,7 +14,7 @@
 
     <script>
         window.onpageshow = function() {
-          initialization({{data_income|safe}}, {{data_outlay|safe}}, {{data_budget|safe}});
+          initialization({{data_income|safe}}, {{data_outlay|safe}}, {{data_budget|safe}}, {{data_categories|safe}});
         };
     </script>
 
@@ -30,8 +30,11 @@
                         <option>Расходы</option>
                     </select>
                     <div class="fields-and-labels">Выберите период:</div>
-                    <input class="fields-and-labels" id="start-export-date" type="date" name="start-date" placeholder="Выберите дату">
-                    <input class="fields-and-labels" id="end-export-date" type="date" name="end-date" placeholder="Выберите дату">
+                    <form id="income_and_outlays" method="GET">
+                        <input class="fields-and-labels" id="start-export-date" type="date" name="start-date" placeholder="Выберите дату">
+                        <input class="fields-and-labels" id="end-export-date" type="date" name="end-date" placeholder="Выберите дату">
+                        <button type="submit">Send</button>
+                    </form>
                 </div>
                 <div class="graph" id="graph">
                 </div>
@@ -43,8 +46,8 @@
                 </div>
                 <div class="filters">
                     <div class="fields-and-labels">Выберите период:</div>
-                    <input class="fields-and-labels" id="start-export-date" type="date" name="start-date" placeholder="Выберите дату">
-                    <input class="fields-and-labels" id="end-export-date" type="date" name="end-date" placeholder="Выберите дату">
+                    <input class="fields-and-labels" id="1start-export-date" type="date" name="start-date" placeholder="Выберите дату">
+                    <input class="fields-and-labels" id="1end-export-date" type="date" name="end-date" placeholder="Выберите дату">
                 </div>
                 <div class="graph" id="graph2">
                 </div>
@@ -57,8 +60,8 @@
                 </div>
                 <div class="filters">
                     <div class="fields-and-labels">Выберите период:</div>
-                    <input class="fields-and-labels" id="start-export-date" type="date" name="start-date" placeholder="Выберите дату">
-                    <input class="fields-and-labels" id="end-export-date" type="date" name="end-date" placeholder="Выберите дату">
+                    <input class="fields-and-labels" id="2start-export-date" type="date" name="start-date" placeholder="Выберите дату">
+                    <input class="fields-and-labels" id="2end-export-date" type="date" name="end-date" placeholder="Выберите дату">
                 </div>
                 <div class="graph" id="graph3">
                 </div>
@@ -69,8 +72,8 @@
                 </div>
                 <div class="filters" id="export-filters">
                     <div class="fields-and-labels">Выберите период:</div>
-                    <input class="fields-and-labels" id="start-export-date" type="date" name="start-date" placeholder="Выберите дату">
-                    <input class="fields-and-labels" id="end-export-date" type="date" name="end-date" placeholder="Выберите дату">
+                    <input class="fields-and-labels" id="3start-export-date" type="date" name="start-date" placeholder="Выберите дату">
+                    <input class="fields-and-labels" id="3end-export-date" type="date" name="end-date" placeholder="Выберите дату">
                 </div>
                 <div class="export">
                     <input type="submit" class="button">
