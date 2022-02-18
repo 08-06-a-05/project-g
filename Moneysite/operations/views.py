@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.db.models import Sum
+from django.db.models.functions import ExtractMonth, ExtractDay
 from account_manager.models import *
 from operations.models import *
 from operations.forms import AddOperationForm
@@ -9,6 +10,7 @@ from datetime import timedelta
 from json import dumps
 from .currency_exchange_rate_parsing.parsing import CurrencyConverter
 import itertools
+import numpy as np
 
 
 def personal_account(request):
@@ -25,13 +27,16 @@ def personal_account(request):
     #    print(balance.currency_id)
     # print(CurrencyConverter.get_currency_exchange_rate('dollar', 'ruble'))
     if request.method == 'GET' and 'start-date' in request.GET:
-        user_operations = Operations.objects.select_related().filter(user_id=request.user.id,
-                                                                     datetime__range=[request.GET['start-date'],
-                                                                                      request.GET[
-                                                                                          'end-date']]).order_by(
-            '-datetime')
+        user_operations = Operations.objects.select_related().filter(
+            user_id=request.user.id,
+            datetime__range=[
+                request.GET['start-date'],
+                request.GET['end-date']
+        ]).order_by('-datetime')
     else:
-        user_operations = Operations.objects.select_related().filter(user_id=request.user.id).order_by('-datetime')
+        user_operations = Operations.objects.select_related().filter(
+            user_id=request.user.id
+        ).order_by('-datetime')
 
     context['balance'] = user_balances
     context['currencies'] = default_currencies
@@ -70,25 +75,51 @@ def example_stat(request):
 def stats(request):
     context = {}
 
-    example_outlay_data = Operations.objects.select_related().filter(user_id=request.user.id, operation_type='-',
-                                                                     datetime__range=[date.today() - timedelta(days=10),
-                                                                                      date.today()]).values('datetime').annotate(total=Sum('amount'))
+    monthly_outlay_data = Operations.objects.select_related().filter(
+        user_id=request.user.id, 
+        operation_type='-'
+    ).annotate(month=ExtractMonth('datetime'), day=ExtractDay('datetime')).values('month', 'day', 'amount').filter(month=2)
+
+    example_outlay_data = Operations.objects.select_related().filter(
+        user_id=request.user.id, 
+        operation_type='-',
+        datetime__range=[
+            date.today() - timedelta(days=10),
+            date.today()
+        ]
+    ).values('datetime').annotate(total=Sum('amount'))
+
+    # print(example_outlay_data)
 
     example_budget_data = []
     if 'start-date' in request.GET:
-        example_income_data = Operations.objects.select_related().filter(user_id=request.user.id, operation_type='+',
-                                                                         datetime__range=[
-                                                                             request.GET['start-date'],
-                                                                             request.GET['end-date']]).values('datetime').annotate(total=Sum('amount'))
+        example_income_data = Operations.objects.select_related().filter(
+            user_id=request.user.id, 
+            operation_type='+',
+            datetime__range=[
+                request.GET['start-date'],
+                request.GET['end-date']
+            ]   
+        ).values('datetime').annotate(total=Sum('amount'))
     else:
-        example_income_data = Operations.objects.select_related().filter(user_id=request.user.id, operation_type='+',
-                                                                     datetime__range=[date.today() - timedelta(days=10),
-                                                                                      date.today()]).values('datetime').annotate(total=Sum('amount'))
+        example_income_data = Operations.objects.select_related().filter(
+            user_id=request.user.id, 
+            operation_type='+',
+            datetime__range=[
+                date.today() - timedelta(days=10),
+                date.today()
+            ]
+        ).values('datetime').annotate(total=Sum('amount'))
 
-    example_category_data= Operations.objects.select_related('category__category_name').filter(user_id=request.user.id, operation_type='-',
-                                                                     datetime__range=[date.today() - timedelta(days=10),
-                                                                                      date.today()]).values('category__category_name').annotate(total=Sum('amount'))
-    print(request.GET)
+    example_category_data= Operations.objects.select_related('category__category_name').filter(
+        user_id=request.user.id, 
+        operation_type='-',
+        datetime__range=[
+            date.today() - timedelta(days=10),
+            date.today()
+        ]
+    ).values('category__category_name').annotate(total=Sum('amount'))
+
     data_formatted = []
     for elem in example_income_data:
         data_formatted.append([elem['datetime'].strftime("%Y-%m-%d"), float(elem['total'])])
@@ -107,6 +138,37 @@ def stats(request):
 
     context['data_categories'] = data_formatted
 
+    data_formatted = []
+    days = []
+    outlays = []
+    amount = 0.0
+    for elem in monthly_outlay_data:
+        amount += float(elem['amount'])
+        data_formatted.append([elem['day'], amount])
+        days.append(elem['day'])
+        outlays.append(amount)
+
+    coefficients = estimate_coefficients(days, outlays)
+    context['monthly_outlay_data'] = data_formatted
+    context['coefficients'] = coefficients
+    print(coefficients)
+
     context['data_budget'] = example_budget_data
 
     return render(request, 'LK_stats.html', context)
+
+def estimate_coefficients(list_x, list_y):
+    x = np.array(list_x)
+    y = np.array(list_y)
+
+    n = np.size(x)
+    mean_x, mean_y = np.mean(x), np.mean(y) 
+
+    SS_xy = np.sum(y * x - n * mean_y * mean_x) 
+    SS_xx = np.sum(x * x - n * mean_x * mean_x) 
+
+    b_1 = SS_xy / SS_xx 
+    b_0 = mean_y - b_1 * mean_x 
+
+    return [[0, b_0], [31, b_0 + 31 * b_0]]
+

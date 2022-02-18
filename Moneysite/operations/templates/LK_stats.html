@@ -14,7 +14,7 @@
 
     <script>
         window.onpageshow = function() {
-          initialization({{data_income|safe}}, {{data_outlay|safe}}, {{data_budget|safe}}, {{data_categories|safe}});
+          initialization({{data_income|safe}}, {{data_outlay|safe}}, {{data_budget|safe}}, {{data_categories|safe}}, {{monthly_outlay_data|safe}}, {{coefficients|safe}});
         };
     </script>
 
@@ -68,7 +68,7 @@
             </div>
             <div class="graph-wrapper">
                 <div class="name" id="export-name">
-                    Экспорт данных в exsel
+                    Экспорт данных в excel
                 </div>
                 <div class="filters" id="export-filters">
                     <div class="fields-and-labels">Выберите период:</div>
@@ -79,7 +79,13 @@
                     <input type="submit" class="button">
                 </div>
             </div>
-
+            <div class="graph-wrapper">
+                <div class="name">
+                    Прогноз месячных расходов
+                </div>
+                <div class="graph" id="graph4">
+                </div>
+            </div>
         </div>
         <script src="https://www.google.com/jsapi"></script>
         <script src="{% static 'graphs.js' %}"></script>
