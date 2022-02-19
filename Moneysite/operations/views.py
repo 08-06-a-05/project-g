@@ -11,6 +11,7 @@ from json import dumps
 from .currency_exchange_rate_parsing.parsing import CurrencyConverter
 import itertools
 import numpy as np
+from decimal import Decimal
 
 
 def personal_account(request):
@@ -77,8 +78,7 @@ def stats(request):
         return redirect('login')
     context = {}
 
-    user_balances = Balances.objects.select_related().filter(user_id=request.user.id)
-    context['user_balances'] = user_balances
+    
 
     monthly_outlay_data = Operations.objects.select_related().filter(
         user_id=request.user.id, 
@@ -93,6 +93,16 @@ def stats(request):
             date.today()
         ]
     ).values('datetime').annotate(total=Sum('amount'))
+    # infliation = 0.06
+    if request.GET.get('scroll'):
+        infliation = int(request.GET['scroll'])
+        user_balances = Balances.objects.select_related().filter(user_id=request.user.id,currency_id__name='RUB')
+        for balance in user_balances:
+            balance.amount = balance.amount*Decimal((1-infliation/100))
+    else:
+        user_balances=[]
+    
+    context['user_balances'] = user_balances
 
     example_budget_data = []
     if request.GET.get('wallet-start-date') and request.GET.get('wallet-end-date'):
