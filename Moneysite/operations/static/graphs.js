@@ -112,3 +112,7 @@ var scroll_label = document.getElementById('scroll-label');
 scroll.addEventListener("change", function() {
     scroll_label.textContent = scroll.value+"%";
 });
+var scroll_top = document.getElementById('scroll-name');
+if (window.location.href.indexOf('scroll')!=-1){
+    scroll_top.scrollIntoView();
+}

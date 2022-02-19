@@ -57,15 +57,23 @@
                 </div>
             </div>
             <div class="graph-wrapper">
-                <div class="name">
+                <div class="name" id="scroll-name">
                     Остаток с учетом инфляции
                 </div>
-                <div class="filters">
-                    <div class="fields-and-labels">Выберите период:</div>
-                    <input class="fields-and-labels" id="13start-export-date" type="date" name="start-date" placeholder="Выберите дату">
-                    <input class="fields-and-labels" id="13end-export-date" type="date" name="end-date" placeholder="Выберите дату">
-                    <input id="percent-scroll" type="range" min="1" max="100" step="1" value="5">
-                    <div id="scroll-label"></div>
+                <form method="GET">
+                <div class="filters" id="infliation">
+                    <div class="cont1">
+                        <div class="fields-and-labels">Выберите период:</div>
+                        <input class="fields-and-labels" id="13start-export-date" type="date" name="scroll-start-date" placeholder="Выберите дату">
+                        <input class="fields-and-labels" id="13end-export-date" type="date" name="scroll-end-date" placeholder="Выберите дату">
+                    </div>   
+                    <div class="cont1">
+                        <div>Выберите величину инфляции</div>
+                        <input id="percent-scroll" type="range" min="1" max="100" step="1" value="5" name="scroll">
+                        <div id="scroll-label">5%</div>
+                    </div>
+                    <button type="submit">Рассчитать</button>
+                </form>
                 </div>
                 {% for balance in user_balances %}
                 <div class="content">
