@@ -12,12 +12,6 @@
 
 {% block content %}
 
-    <script>
-        window.onpageshow = function() {
-          initialization({{data_income|safe}}, {{data_outlay|safe}}, {{data_budget|safe}}, {{data_categories|safe}}, {{monthly_outlay_data|safe}}, {{coefficients|safe}});
-        };
-    </script>
-
     <div class="root">
         <div class="main-container">
             <div class="graph-wrapper">
@@ -25,15 +19,25 @@
                     Траты и доходы
                 </div>
                 <div class="filters">
-                    <select class="field" name="type" size="1" id="type">
-                        <option>Доходы</option>
-                        <option>Расходы</option>
-                    </select>
-                    <div class="fields-and-labels">Выберите период:</div>
-                    <form id="income_and_outlays" method="GET">
-                        <input class="fields-and-labels" id="start-export-date" type="date" name="start-date" placeholder="Выберите дату">
-                        <input class="fields-and-labels" id="end-export-date" type="date" name="end-date" placeholder="Выберите дату">
-                        <button type="submit">Send</button>
+                    <form id="wallet-filters" class="filters-form" method="GET">
+                        <div class="part-filters">
+                            <select class="field" name="wallet-type" size="1" id="type">
+                                <option selected="true" disabled="disabled">По умолчанию: доходы</option>
+                                <option>Доходы</option>
+                                <option>Расходы</option>
+                            </select>
+                            <select class="field" name="wallet-currency" size="1" id="currency">
+                                <option selected="true" disabled="disabled">По умолчанию: USD</option>
+                                <option>USD</option>
+                                <option>RUB</option>
+                            </select>
+                        </div>
+                        <div class="part-filters">
+                            <div class="fields-and-labels">Выберите период:</div>
+                            <input class="fields-and-labels" id="start-export-date" type="date" name="wallet-start-date" placeholder="Выберите дату">
+                            <input class="fields-and-labels" id="end-export-date" type="date" name="wallet-end-date" placeholder="Выберите дату">
+                            <button type="submit">Send</button>
+                        </div>
                     </form>
                 </div>
                 <div class="graph" id="graph">
@@ -52,6 +56,23 @@
                 <div class="graph" id="graph2">
                 </div>
             </div>
+            <div class="graph-wrapper">
+                <div class="name">
+                    Остаток с учетом инфляции
+                </div>
+                <div class="filters">
+                    <div class="fields-and-labels">Выберите период:</div>
+                    <input class="fields-and-labels" id="13start-export-date" type="date" name="start-date" placeholder="Выберите дату">
+                    <input class="fields-and-labels" id="13end-export-date" type="date" name="end-date" placeholder="Выберите дату">
+                    <input id="percent-scroll" type="range" min="1" max="100" step="1" value="5">
+                    <div id="scroll-label"></div>
+                </div>
+                {% for balance in user_balances %}
+                <div class="content">
+                    {{ balance.currency_id }} : {{ balance.amount }}
+                </div>
+                {% endfor %}
+            </div>
         </div>
         <div class="main-container">
             <div class="graph-wrapper">
@@ -59,9 +80,21 @@
                     Траты по категориям
                 </div>
                 <div class="filters">
-                    <div class="fields-and-labels">Выберите период:</div>
-                    <input class="fields-and-labels" id="2start-export-date" type="date" name="start-date" placeholder="Выберите дату">
-                    <input class="fields-and-labels" id="2end-export-date" type="date" name="end-date" placeholder="Выберите дату">
+                    <form method="GET" id="currency-filters" class="filters-form">
+                        <div class="part-filters">
+                            <select class="field" name="category-currency" size="1" id="category-currency">
+                                <option selected="true" disabled="disabled">По умолчанию: USD</option>
+                                <option>USD</option>
+                                <option>RUB</option>
+                            </select>
+                        </div>
+                        <div class="part-filters">
+                            <div class="fields-and-labels">Выберите период:</div>
+                            <input class="fields-and-labels" id="category-start-export-date" type="date" name="category-start-date" placeholder="Выберите дату">
+                            <input class="fields-and-labels" id="category-end-export-date" type="date" name="category-end-date" placeholder="Выберите дату">
+                            <button type="submit">Отправить</button>
+                        </div>
+                    </form>
                 </div>
                 <div class="graph" id="graph3">
                 </div>
@@ -88,7 +121,14 @@
             </div>
         </div>
         <script src="https://www.google.com/jsapi"></script>
+        <script>google.load("visualization", "1.0", {packages:["corechart"]})</script>
         <script src="{% static 'graphs.js' %}"></script>
+        <script>
+            window.onpageshow = function() {
+                initialization({{data_income|safe}}, {{data_budget|safe}}, {{data_categories|safe}}, {{monthly_outlay_data|safe}}, {{coefficients|safe}});
+            };
+        </script>
+
     </div>
 {% endblock %}
 

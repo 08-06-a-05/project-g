@@ -73,7 +73,12 @@ def example_stat(request):
 
 
 def stats(request):
+    if request.user.id is None:
+        return redirect('login')
     context = {}
+
+    user_balances = Balances.objects.select_related().filter(user_id=request.user.id)
+    context['user_balances'] = user_balances
 
     monthly_outlay_data = Operations.objects.select_related().filter(
         user_id=request.user.id, 
@@ -84,41 +89,62 @@ def stats(request):
         user_id=request.user.id, 
         operation_type='-',
         datetime__range=[
-            date.today() - timedelta(days=10),
+            date.today() - timedelta(days=30),
             date.today()
         ]
     ).values('datetime').annotate(total=Sum('amount'))
 
-    # print(example_outlay_data)
-
     example_budget_data = []
-    if 'start-date' in request.GET:
-        example_income_data = Operations.objects.select_related().filter(
-            user_id=request.user.id, 
-            operation_type='+',
-            datetime__range=[
-                request.GET['start-date'],
-                request.GET['end-date']
-            ]   
-        ).values('datetime').annotate(total=Sum('amount'))
+    if request.GET.get('wallet-start-date') and request.GET.get('wallet-end-date'):
+        range=[request.GET['wallet-start-date'],
+                request.GET['wallet-end-date']]
     else:
-        example_income_data = Operations.objects.select_related().filter(
-            user_id=request.user.id, 
-            operation_type='+',
+        range=[date.today() - timedelta(days=30),
+               date.today()]
+    if request.GET.get('wallet-currency'):
+        currency = request.GET['wallet-currency']
+    else:
+        currency = 'RUB'
+    if request.GET.get('wallet-type')=='Расходы':
+        type = '-'
+    else:
+        type = '+'
+    example_income_data = Operations.objects.select_related().filter(
+        user_id=request.user.id,
+        operation_type=type,
+        datetime__range=range,
+        currency=currency
+    ).values('datetime').annotate(total=Sum('amount'))
+    '''if 'currency' in request.GET:
+        example_category_data= Operations.objects.select_related('category__category_name').filter(
+            user_id=request.user.id,
+            operation_type='-',
             datetime__range=[
-                date.today() - timedelta(days=10),
+                date.today() - timedelta(days=30),
                 date.today()
-            ]
-        ).values('datetime').annotate(total=Sum('amount'))
-
-    example_category_data= Operations.objects.select_related('category__category_name').filter(
-        user_id=request.user.id, 
+            ],
+            currency=request.GET['currency']
+        ).values('category__category_name').annotate(total=Sum('amount'))
+        print(example_category_data)
+        print(1)
+    else:'''
+    if request.GET.get('category-start-date') and request.GET.get('category-end-date'):
+        category_daterange = [request.GET['category-start-date'],
+                 request.GET['category-end-date']]
+    else:
+        category_daterange = [date.today() - timedelta(days=30),
+                 date.today()]
+    if request.GET.get('category-currency'):
+        category_currency = request.GET['category-currency']
+    else:
+        category_currency = request.user.displayed_currency
+    example_category_data = Operations.objects.select_related('category__category_name').filter(
+        user_id=request.user.id,
         operation_type='-',
-        datetime__range=[
-            date.today() - timedelta(days=10),
-            date.today()
-        ]
+        datetime__range=category_daterange,
+        currency=category_currency
     ).values('category__category_name').annotate(total=Sum('amount'))
+        # print(example_category_data)
 
     data_formatted = []
     for elem in example_income_data:
@@ -151,7 +177,7 @@ def stats(request):
     coefficients = estimate_coefficients(days, outlays)
     context['monthly_outlay_data'] = data_formatted
     context['coefficients'] = coefficients
-    print(coefficients)
+    # print(coefficients)
 
     context['data_budget'] = example_budget_data
 
