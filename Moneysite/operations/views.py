@@ -5,7 +5,7 @@ from account_manager.models import *
 from operations.models import *
 from operations.forms import AddOperationForm
 from django.db.models.functions import TruncDay
-from datetime import date
+from datetime import date, datetime
 from datetime import timedelta
 from json import dumps
 from .currency_exchange_rate_parsing.parsing import CurrencyConverter
@@ -83,7 +83,12 @@ def stats(request):
     monthly_outlay_data = Operations.objects.select_related().filter(
         user_id=request.user.id, 
         operation_type='-'
-    ).annotate(month=ExtractMonth('datetime'), day=ExtractDay('datetime')).values('month', 'day', 'amount').filter(month=2)
+    ).annotate(
+        month=ExtractMonth('datetime'), 
+        day=ExtractDay('datetime')
+    ).values('month', 'day', 'amount').filter(
+        month = request.GET.get('outlay-month-select') if request.GET.get('outlay-month-select') else datetime.now().month
+    )
 
     example_outlay_data = Operations.objects.select_related().filter(
         user_id=request.user.id, 
@@ -96,23 +101,23 @@ def stats(request):
 
     example_budget_data = []
     if request.GET.get('wallet-start-date') and request.GET.get('wallet-end-date'):
-        range=[request.GET['wallet-start-date'],
+        date_range=[request.GET['wallet-start-date'],
                 request.GET['wallet-end-date']]
     else:
-        range=[date.today() - timedelta(days=30),
+        date_range=[date.today() - timedelta(days=30),
                date.today()]
     if request.GET.get('wallet-currency'):
         currency = request.GET['wallet-currency']
     else:
         currency = 'RUB'
     if request.GET.get('wallet-type')=='Расходы':
-        type = '-'
+        operation_type = '-'
     else:
-        type = '+'
+        operation_type = '+'
     example_income_data = Operations.objects.select_related().filter(
         user_id=request.user.id,
-        operation_type=type,
-        datetime__range=range,
+        operation_type=operation_type,
+        datetime__range=date_range,
         currency=currency
     ).values('datetime').annotate(total=Sum('amount'))
     '''if 'currency' in request.GET:
@@ -171,13 +176,21 @@ def stats(request):
     for elem in monthly_outlay_data:
         amount += float(elem['amount'])
         data_formatted.append([elem['day'], amount])
-        days.append(elem['day'])
+        days.append(int(elem['day']))
         outlays.append(amount)
 
     coefficients = estimate_coefficients(days, outlays)
+
+    amount = 0.0
+    start_day, end_day = min(days), max(days)
+    print(type(start_day))
+    for i in range(start_day, end_day + 1):
+        amount += coefficients[1] * i + coefficients[0]
+
+    print(amount)
+
     context['monthly_outlay_data'] = data_formatted
-    context['coefficients'] = coefficients
-    # print(coefficients)
+    context['expected_outlay'] = int(amount)
 
     context['data_budget'] = example_budget_data
 
@@ -196,5 +209,5 @@ def estimate_coefficients(list_x, list_y):
     b_1 = SS_xy / SS_xx 
     b_0 = mean_y - b_1 * mean_x 
 
-    return [[0, b_0], [31, b_0 + 31 * b_0]]
+    return [b_0, b_1]
 
