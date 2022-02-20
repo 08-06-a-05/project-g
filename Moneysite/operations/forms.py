@@ -109,7 +109,6 @@ class AddOperationForm(forms.ModelForm):
         
         currency_wallet = Balances.objects.get_or_create(user_id=self.user, currency_id=currency)
         if operation_type == '+':
-            # decimal.Decimal
             currency_wallet[0].amount += Decimal(amount)
         else:
             currency_wallet[0].amount -= Decimal(amount)

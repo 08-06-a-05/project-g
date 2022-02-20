@@ -15,7 +15,7 @@ function initialization(list_income,list_budget,list_categories,list_monthly_out
     budget_data.unshift(['Дата', 'Сумма']);
     categories_data.unshift(['Трата', '%']);
     monthly_outlay_data.unshift(['', ''])
-    //drawChart();
+    drawChart();
     drawChart3();
     drawChart4();
 }
@@ -107,12 +107,16 @@ function drawChart() {
     var chart = new google.visualization.ColumnChart(document.getElementById('graph'));
     chart.draw(data, options);
 }
+document.addEventListener("DOMContentLoaded", scroll_to_down);
 var scroll = document.getElementById('percent-scroll');
 var scroll_label = document.getElementById('scroll-label');
 scroll.addEventListener("change", function() {
     scroll_label.textContent = scroll.value+"%";
 });
-var scroll_top = document.getElementById('scroll-name');
-if (window.location.href.indexOf('scroll')!=-1){
-    scroll_top.scrollIntoView();
+//window.onload()=scroll_to_down();
+function scroll_to_down(){
+    var scroll_top = document.getElementById('scroll-name');
+    if (window.location.href.indexOf('scroll-date')!=-1){
+        scroll_top.scrollIntoView();
+    }
 }

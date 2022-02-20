@@ -224,15 +224,19 @@ def stats(request):
     coefficients = estimate_coefficients(days, outlays)
 
     amount = 0.0
-    start_day, end_day = min(days), max(days)
-    print(type(start_day))
+    if days:
+        start_day, end_day = min(days), max(days)
+    else:
+        start_day=0
+        end_day=0
+    # print(type(start_day))
     for i in range(start_day, end_day + 1):
         amount += coefficients[1] * i + coefficients[0]
 
-    print(amount)
+    # print(amount)
 
     context['monthly_outlay_data'] = data_formatted
-    context['expected_outlay'] = int(amount)
+    context['expected_outlay'] = amount
 
     context['data_budget'] = example_budget_data
 
