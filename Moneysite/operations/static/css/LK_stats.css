@@ -7,12 +7,12 @@
 .main-container{
     width: 400px;
     margin: 10px auto;
-    height: 1000px;
+    height: 1600px;
     display:flex;
     flex-direction: column;
 }
 .graph-wrapper{
-    height:500px;
+    height:530px;
     width:100%;
     display: flex;
     flex-direction:column;
@@ -28,8 +28,8 @@
     margin-top:0;
 }
 .filters{
-    display:flex;
-    height:50px;
+    display: flex;
+    height: 100px;
     width: 100%;
     margin: auto;
     flex-direction: row;
@@ -78,6 +78,38 @@
     font-size:14px;
     font-family: 'monospace'
 }
-#income_and_outlays{
+.filters-form{
     display: flex;
+    flex-direction: column;
+}
+.part-filters{
+    display: flex;
+    flex-direction: row;
+    height: 45px;
+    margin: auto;
+}
+
+.content{
+    height: 50px;
+    width: 90%;
+    margin: auto;
+    display: flex;
+}
+
+.cont1{
+    display: flex;
+    flex-direction: column;
+}
+
+#infliation{
+    flex-direction: column;
+    align-items: flex-start;
+    height: 200px;
+}
+
+@media screen and (max-width:1000px)
+{
+    .root{
+        flex-direction: column;
+    }
 }
