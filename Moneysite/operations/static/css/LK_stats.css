@@ -27,6 +27,29 @@
     align-items: center;
     margin-top:0;
 }
+
+.inflation-name {
+    display:flex;
+    height:50px;
+    width:100%;
+    margin: top;
+    font-size: 18px;
+    font-family: 'Raleway';
+    align-items: center;
+    margin-top:0;
+} 
+
+.outlay-name {
+    display:flex;
+    height:50px;
+    width:100%;
+    margin: top;
+    font-size: 18px;
+    font-family: 'Raleway';
+    align-items: center;
+    margin-top:0;
+} 
+
 .filters{
     display: flex;
     height: 100px;
@@ -35,6 +58,16 @@
     flex-direction: row;
     align-items: center;
 }
+
+.outlay-filters{
+    display: flex;
+    height: 100px;
+    width: 100%;
+    margin: top;
+    flex-direction: row;
+    align-items: center;
+}
+
 .field{
     display:flex;
     height: 30px;
@@ -81,7 +114,7 @@
 .filters-form{
     display: flex;
     flex-direction: column;
-    margin: auto;
+    margin: top;
 }
 .part-filters{
     display: flex;

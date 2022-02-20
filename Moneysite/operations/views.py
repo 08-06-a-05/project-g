@@ -239,15 +239,18 @@ def stats(request):
         outlays.append(amount)
 
     if days:
-        coefficients = estimate_coefficients(days, outlays)
-        amount = 0.0
-        start_day, end_day = min(days), max(days) #monthrange(int(datetime.now().year), month)
-        
-        for i in range(start_day, end_day + 1):
-            amount += coefficients[1] * i + coefficients[0]
-
+        if len(days) != 1:
+            coefficients = estimate_coefficients(days, outlays)
+            amount = 0.0
+            start_day, end_day = min(days), monthrange(datetime.now().year, int(month))
+            
+            for i in range(start_day, end_day[1] + 1):
+                amount += coefficients[1] * i + coefficients[0]
+        else:
+            amount = outlays[0]
+            
         context['monthly_outlay_data'] = data_formatted
-        context['expected_outlay'] = amount
+        context['expected_outlay'] = toFixed(amount, 2)
         context['outlay_data_flag'] = True
     else:
         context['outlay_data_flag'] = False
