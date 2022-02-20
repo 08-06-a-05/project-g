@@ -1,3 +1,3 @@
-web: gunicorn Moneysite.wsgi:application --chdir Moneysite
-python Moneysite/manage.py collectstatic --noinput
-Moneysite/manage.py migrate
+web: gunicorn Moneysite.wsgi --log-file
+python manage.py collectstatic --noinput
+manage.py migrate
