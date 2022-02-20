@@ -120,3 +120,8 @@
     width: 80px;
     margin: auto;
 }
+
+#prediction{
+    display: flex;
+    width: 100%;
+}
