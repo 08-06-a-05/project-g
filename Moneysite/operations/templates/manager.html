@@ -135,16 +135,12 @@
                 <div class="name">
                     Текущий курс валют
                 </div>
-                <div class="operations_content">
-                    <div class="content">
-                        {{ currency1 }} : {{ amount }}
-                    </div>
-                    <div class="content">
-                        {{ currency2 }} : {{ amount }}
-                    </div>
-                    <div class="content">
-                        {{ currency3 }} : {{ amount }}
-                    </div>
+                <div class="operations_content" id="exchange_rates">
+                    {% for rate in exchange_rate %}
+                        <div class="content">
+                            {{ rate.currency }} : {{ rate.rate }} RUB
+                        </div>
+                    {% endfor %}
                 </div>
             </div>
         </div>
