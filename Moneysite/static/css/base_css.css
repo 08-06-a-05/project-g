@@ -98,12 +98,16 @@ img[alt="logo"] {
     }
 
     .menu-item {
-        min-width: 50px;
+        min-width: 45px;
         margin: auto 2px;
     }
 
     p[name = "hf-text"] {
-        font-size: 13px;
+        font-size: 8px;
+    }
+
+    .right {
+        margin-left: 0;
     }
 }
 
