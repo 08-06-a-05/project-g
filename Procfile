@@ -1,0 +1,1 @@
+web: gunicorn Moneysite.wsgi --chdir Moneysite 
