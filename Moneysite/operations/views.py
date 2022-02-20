@@ -1,4 +1,5 @@
 from locale import currency
+from urllib import request
 from django.shortcuts import render, redirect
 from django.db.models import Sum
 from django.db.models.functions import ExtractMonth, ExtractDay
@@ -14,10 +15,23 @@ import itertools
 from calendar import monthrange
 import numpy as np
 from decimal import Decimal
+# from datetime import da
 from .IPC import IPC
+import requests
+import xml.etree.ElementTree as ET
 
 from dateutil.relativedelta import relativedelta
 
+def get_courses():
+    res = requests.get('https://www.cbr.ru/scripts/XML_daily.asp?date_req=20/02/2022')
+    tree = res.text
+    root = ET.fromstring(tree)
+    courses=[]
+    for child in root:
+        courses_currency = child[1].text
+        courses_course = child[4].text
+        courses.append({'rate':courses_course,'currency': courses_currency})
+    return courses
 
 def toFixed(numObj, digits=0):
     return f"{numObj:.{digits}f}"
@@ -28,6 +42,8 @@ def personal_account(request):
 
     context = {}
 
+    courses = get_courses()
+    context['exchange_rate'] = courses
     test=Balances.objects.select_related().filter(currency_id__name='ABC')
     for i in test:
         print(type(i.amount))
