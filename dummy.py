@@ -17,7 +17,7 @@ def estimate_coefficients(x, y):
     b_1 = SS_xy / SS_xx 
     b_0 = mean_y - b_1 * mean_x 
   
-    return(b_0, b_1)
+    return (b_0, b_1)
 
     # x,y are the location of points on graph
     # color of the points change it to red blue orange play around

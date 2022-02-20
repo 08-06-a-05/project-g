@@ -5,56 +5,49 @@ var income_data = []
 var budget_data = []
 var categories_data = []
 
-function initialization(list_income,list_budget,list_categories,list_monthly_outlay,list_line_dots){
+function initialization(list_income,list_budget,list_categories,list_monthly_outlay,list_coefficients){
     income_data = list_income;
     budget_data = list_budget;
     categories_data = list_categories;
-    console.log(categories_data);
     monthly_outlay_data = list_monthly_outlay;
-    line_dots_data = list_line_dots;
+    coefficients = list_coefficients
     income_data.unshift(['Дата', 'Доходы']);
     budget_data.unshift(['Дата', 'Сумма']);
     categories_data.unshift(['Трата', '%']);
-    monthly_outlay_data.unshift(['День', 'Количество'])
-    drawChart();
+    monthly_outlay_data.unshift(['', ''])
+    //drawChart();
     drawChart3();
+    drawChart4();
 }
-/*
-
-    drawChart3();
-    drawChart4();*/
-
 
 function drawChart4() {
-    var scatter = google.visualization.arrayToDataTable(monthly_outlay_data)
-    var line = new google.visualization.DataView(scatter);
-    line.setColumns([100, 200, {
-        type: 'number',
-        calc: function (dt, row) {
-            console.log(dt, row)
-          return dt.getValue(row, 0)
-        }
-    }]);
-
-    var options4 = {
-        title: 'Прогноз месячных расходов',
+    var data = google.visualization.arrayToDataTable(monthly_outlay_data);
+    
+    var options = {
+        label: 'Прямая линейной регресии',
+        title: 'Прямая линейной регресии',
         width: '400',
         height: '400',
-
-        hAxis: {minValue: 1, maxValue: 30},
-        vAxis: {minValue: 1, maxValue: 30},
-
-        seriesType: 'scatter',
-        series: {
-            1: {
-                type: 'line'
+        hAxis: {
+            title: 'День',
+        },
+        vAxis: {
+            title: 'Трата',
+        },
+        legend: {
+            position: 'none'
+        },
+        trendlines: {
+            0: {
+            visibleInLegend: 'none',
+            title: 'Прямая линейной регресии'
             }
         }
     };
-
-    var chart4 = new google.visualization.ComboChart(document.getElementById('graph4'));
-    chart4.draw(line, options4);
-};
+  
+    var chart = new google.visualization.ScatterChart(document.getElementById('graph4'));
+    chart.draw(data, options);
+}
 
 function drawChart3() {
     if (window.location.href.indexOf('category-currency=')!=-1){
