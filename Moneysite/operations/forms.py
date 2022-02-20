@@ -5,14 +5,15 @@ from account_manager.models import Currency, Balances
 from decimal import Decimal
 
 class AddOperationForm(forms.ModelForm):
-    OPERATION_CHOICES = (('+', 'Зачисление'), ('-', 'Списание'))
+    OPERATION_CHOICES = (('','placeholder'),('+', 'Зачисление'), ('-', 'Списание'))
 
     operation_type = forms.ChoiceField(
         choices=OPERATION_CHOICES, 
         widget=forms.Select(attrs={
             'class': 'field',
             'name': 'type',
-            'size': '1'
+            'size': '1',
+            'id':'operations_type'
         }
     ))
 
@@ -22,7 +23,8 @@ class AddOperationForm(forms.ModelForm):
         widget=forms.Select(attrs={
             'class': 'field',
             'name': 'currency',
-            'size': '1'
+            'size': '1',
+            'id' : 'operations_currency',
         }
     ))
 
@@ -33,7 +35,7 @@ class AddOperationForm(forms.ModelForm):
             'size': '1',
             'type': 'text', 
             'maxlength': '50',
-            'placeholder': 'Введите сумму'
+            'placeholder': 'Введите сумму',
         }
     ))
 
@@ -42,7 +44,8 @@ class AddOperationForm(forms.ModelForm):
             'class': 'field',
             'type': 'date',
             'name': 'date', 
-            'placeholder': 'Выберите дату'
+            'placeholder': 'Выберите дату',
+            'id':'operations_date'
         }
     ))
     
@@ -84,7 +87,8 @@ class AddOperationForm(forms.ModelForm):
             widget=forms.Select(attrs={
                 'class': 'field',
                 'name': 'category',
-                'size': '1'
+                'size': '1',
+                'id':'operations_category'
             }
         ))
 

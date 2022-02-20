@@ -72,20 +72,33 @@ body{
 .field{
     font-size: 18px;
     display: flex;
-    width:70%;
+    width:245px;
     height: 29px;
     border: 0;
     border-color: #A5A5A5;
     border-radius: 5px;
-    color: #757575;
+    /*color: #757575;*/
     box-shadow: 2px 3px 3px 0px #a8fff9;
     outline: none;
     background-color: white;
     margin: auto 0;
     margin-right: auto;
-
+    line-height: 28px;
+    white-space: nowrap;
+    color: #444;
+    -webkit-user-select: none;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 400;
+    padding: 0;
+    text-indent: 8px;
 }
-
+.field::placeholder{
+    color:#999;
+}
+#operations_date{
+    text-indent: 0;
+    color:#999;
+}
 .label{
     font-size: 15px;
     color: #fdf;
@@ -201,11 +214,24 @@ body{
     margin: auto;
 }
 
-#select-state{
-    height: 35px;
-    width: 50%;
+.select2-container--default, .select2-selection--single, .select2-selection__rendered{
+    border: 0 !important;
+    box-shadow: 2px 3px 3px 0px #a8fff9;
+    color:#757575;
 }
 
+#wallet-currency{
+    width:245px;
+}
+#wallet-filters{
+    display: flex;
+    flex-direction: row;
+}
+#wallet-filters-button{
+    width: 80px;
+    margin: auto;
+    height: 32px;
+}
 @media screen and (max-width:1000px)
 {
     .root{

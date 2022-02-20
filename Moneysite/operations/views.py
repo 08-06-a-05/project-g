@@ -1,3 +1,4 @@
+from locale import currency
 from django.shortcuts import render, redirect
 from django.db.models import Sum
 from django.db.models.functions import ExtractMonth, ExtractDay
@@ -12,7 +13,13 @@ from .currency_exchange_rate_parsing.parsing import CurrencyConverter
 import itertools
 import numpy as np
 from decimal import Decimal
+from .IPC import IPC
 
+from dateutil.relativedelta import relativedelta
+
+
+def toFixed(numObj, digits=0):
+    return f"{numObj:.{digits}f}"
 
 def personal_account(request):
     if request.user.id is None:
@@ -20,10 +27,19 @@ def personal_account(request):
 
     context = {}
 
-    user_balances = Balances.objects.select_related().filter(user_id=request.user.id)
+    test=Balances.objects.select_related().filter(currency_id__name='ABC')
+    for i in test:
+        print(type(i.amount))
+    
     default_categories = Categories.objects.select_related().filter(user_id=9)
     default_currencies = Currency.objects.select_related()
+    # print(dict(request.GET)['wallet-currency'])
+    if request.GET.get('wallet-currency'):
+        cur = dict(request.GET)['wallet-currency']
+    else:
+        cur=list(Currency.objects.all())
 
+    user_balances = Balances.objects.select_related().filter(user_id=request.user.id,currency_id__name__in=cur)
     # for balance in user_balances:
     #    print(balance.currency_id)
     # print(CurrencyConverter.get_currency_exchange_rate('dollar', 'ruble'))
@@ -94,11 +110,27 @@ def stats(request):
         ]
     ).values('datetime').annotate(total=Sum('amount'))
     # infliation = 0.06
-    if request.GET.get('scroll'):
-        infliation = int(request.GET['scroll'])
+    if request.GET.get('scroll-date'):
         user_balances = Balances.objects.select_related().filter(user_id=request.user.id,currency_id__name='RUB')
+        smart_percent=100
+        need_date = date.today()+relativedelta(months=-12-int(request.GET['scroll-date']))
+        current_year = int(need_date.strftime("%Y"))
+        current_month = int(need_date.strftime("%m"))-1
+        print(current_month, current_year)
+        # if current_year!=date.today().strftime("%Y"):
+        for z in range(int(request.GET['scroll-date'])):
+            smart_percent = smart_percent * IPC[current_month][current_year-1991]/100
+            current_month=(current_month+1)%12
+            if current_month == 0:
+                current_year+=1
+        # while current_month<12:
+            
+        # for i in range(scroll_date_range):
+        print(smart_percent)
         for balance in user_balances:
-            balance.amount = balance.amount*Decimal((1-infliation/100))
+            print(balance.amount*Decimal((smart_percent-100)/100))
+            balance.amount = toFixed(balance.amount - balance.amount*Decimal((smart_percent-100)/100),2)
+            
     else:
         user_balances=[]
     
@@ -106,10 +138,10 @@ def stats(request):
 
     example_budget_data = []
     if request.GET.get('wallet-start-date') and request.GET.get('wallet-end-date'):
-        range=[request.GET['wallet-start-date'],
+        bud_range=[request.GET['wallet-start-date'],
                 request.GET['wallet-end-date']]
     else:
-        range=[date.today() - timedelta(days=30),
+        bud_range=[date.today() - timedelta(days=30),
                date.today()]
     if request.GET.get('wallet-currency'):
         currency = request.GET['wallet-currency']
@@ -122,7 +154,7 @@ def stats(request):
     example_income_data = Operations.objects.select_related().filter(
         user_id=request.user.id,
         operation_type=type,
-        datetime__range=range,
+        datetime__range=bud_range,
         currency=currency
     ).values('datetime').annotate(total=Sum('amount'))
     '''if 'currency' in request.GET:

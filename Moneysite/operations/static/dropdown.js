@@ -20,3 +20,12 @@ swap_button.addEventListener("click", function (event) {
 });
 
 var select_currency= document.getElementById("select_currency");
+
+var operations_date = document.getElementById("operations_date");
+operations_date.addEventListener("change",function(){
+    if (operations_date.value){
+        operations_date.style.color="#444";
+    } else {
+        operations_date.style.color="#999";
+    }
+});

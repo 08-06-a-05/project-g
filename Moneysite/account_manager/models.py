@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from decimal import Decimal
 
 class CustomUsersManager(BaseUserManager):
     def create_user(self, email, username, password):
@@ -54,6 +55,6 @@ class Currency(models.Model):
 class Balances(models.Model):
     user_id = models.ForeignKey(Users, on_delete=models.CASCADE)
     currency_id = models.ForeignKey(Currency, on_delete=models.CASCADE)
-    amount = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=0.00)
+    amount = models.DecimalField(max_digits=100, decimal_places=2, null=True, blank=True, default=Decimal(0.00))
 
 

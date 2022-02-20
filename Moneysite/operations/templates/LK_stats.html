@@ -60,17 +60,15 @@
                 <div class="name" id="scroll-name">
                     Остаток с учетом инфляции
                 </div>
-                <form method="GET">
+                <form method="GET" class="filters-form">
                 <div class="filters" id="infliation">
                     <div class="cont1">
                         <div class="fields-and-labels">Выберите период:</div>
-                        <input class="fields-and-labels" id="13start-export-date" type="date" name="scroll-start-date" placeholder="Выберите дату">
-                        <input class="fields-and-labels" id="13end-export-date" type="date" name="scroll-end-date" placeholder="Выберите дату">
-                    </div>   
-                    <div class="cont1">
-                        <div>Выберите величину инфляции</div>
-                        <input id="percent-scroll" type="range" min="1" max="100" step="1" value="5" name="scroll">
-                        <div id="scroll-label">5%</div>
+                        <select name="scroll-date">
+                            <option value="3">3 Месяца</option>
+                            <option value="6">6 Месяцев</option>
+                            <option value="12">Год</option>
+                        </select>
                     </div>
                     <button type="submit">Рассчитать</button>
                 </form>
