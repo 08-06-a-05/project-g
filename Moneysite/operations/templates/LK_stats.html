@@ -3,7 +3,9 @@
 {% block localCssLink %}
     {% load static %}
     <link href="{% static 'css/LK_stats.css' %}" rel="stylesheet" type="text/css">
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 {% endblock %}
 
 {% block name %}
@@ -127,8 +129,8 @@
                         <div class="fields-and-labels">Выберите месяц:</div>
                         <div class="filters">
                             <select id="gMonth1" name="outlay-month-select">
-                                <option value=''>Выберите месяц</option>
-                                <option selected value='1'>Январь</option>
+                                <option></option>
+                                <option value='1'>Январь</option>
                                 <option value='2'>Февраль</option>
                                 <option value='3'>Март</option>
                                 <option value='4'>Апрель</option>
@@ -141,18 +143,27 @@
                                 <option value='11'>Ноябрь</option>
                                 <option value='12'>Декабрь</option>
                             </select> 
+                        
+                            <div class="outlay-month-select-submit">
+                                <input type="submit" class="button">
+                            </div>
                         </div>
-                        <div class="outlay-month-select-submit">
-                            <input type="submit" class="button">
-                        </div>
+                        <script>
+                            $('#gMonth1').select2({
+                                placeholder: "Выберите месяц",
+                                minimumResultsForSearch: Infinity
+                            });
+                        </script>
                     </form>
-                    
                 </div>
-                <div class="graph" id="graph4">
-                </div>
-                <div class="estimated-outlay">
-                    Рассчитываемые расходы: {{ expected_outlay }}
-                </div>
+                {% if outlay_data_flag %}
+                    <div class="graph" id="graph4"></div>
+                    <div class="estimated-outlay">
+                        Рассчитываемые расходы: {{ expected_outlay }}
+                    </div>
+                {% else %}
+                    <div>В этом месяце вы ничего не потратили :)</div>
+                {% endif %}
             </div>
         </div>
         <script src="https://www.google.com/jsapi"></script>
@@ -160,7 +171,7 @@
         <script src="{% static 'graphs.js' %}"></script>
         <script>
             window.onpageshow = function() {
-                initialization({{data_income|safe}}, {{data_budget|safe}}, {{data_categories|safe}}, {{monthly_outlay_data|safe}}, {{coefficients|safe}});
+                initialization({{data_income|safe}}, {{data_budget|safe}}, {{data_categories|safe}}, {{monthly_outlay_data|safe}});
             }; 
         </script>
 

@@ -11,6 +11,7 @@ from datetime import timedelta
 from json import dumps
 from .currency_exchange_rate_parsing.parsing import CurrencyConverter
 import itertools
+from calendar import monthrange
 import numpy as np
 from decimal import Decimal
 from .IPC import IPC
@@ -95,7 +96,7 @@ def stats(request):
     context = {}
 
     
-
+    month = request.GET.get('outlay-month-select') if request.GET.get('outlay-month-select') else datetime.now().month
     monthly_outlay_data = Operations.objects.select_related().filter(
         user_id=request.user.id, 
         operation_type='-'
@@ -103,7 +104,7 @@ def stats(request):
         month=ExtractMonth('datetime'), 
         day=ExtractDay('datetime')
     ).values('month', 'day', 'amount').filter(
-        month = request.GET.get('outlay-month-select') if request.GET.get('outlay-month-select') else datetime.now().month
+        month=month
     )
 
     example_outlay_data = Operations.objects.select_related().filter(
@@ -221,25 +222,22 @@ def stats(request):
         days.append(int(elem['day']))
         outlays.append(amount)
 
-    coefficients = estimate_coefficients(days, outlays)
-
-    amount = 0.0
     if days:
-        start_day, end_day = min(days), max(days)
+        coefficients = estimate_coefficients(days, outlays)
+        amount = 0.0
+        start_day, end_day = min(days), max(days) #monthrange(int(datetime.now().year), month)
+        
+        for i in range(start_day, end_day + 1):
+            amount += coefficients[1] * i + coefficients[0]
+
+        context['monthly_outlay_data'] = data_formatted
+        context['expected_outlay'] = amount
+        context['outlay_data_flag'] = True
     else:
-        start_day=0
-        end_day=0
-    # print(type(start_day))
-    for i in range(start_day, end_day + 1):
-        amount += coefficients[1] * i + coefficients[0]
-
-    # print(amount)
-
-    context['monthly_outlay_data'] = data_formatted
-    context['expected_outlay'] = amount
+        context['outlay_data_flag'] = False
+        context['monthly_outlay_data'] = [[0, 0]]
 
     context['data_budget'] = example_budget_data
-
     return render(request, 'LK_stats.html', context)
 
 def estimate_coefficients(list_x, list_y):

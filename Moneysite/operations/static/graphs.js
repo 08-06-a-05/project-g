@@ -5,16 +5,15 @@ var income_data = []
 var budget_data = []
 var categories_data = []
 
-function initialization(list_income,list_budget,list_categories,list_monthly_outlay,list_coefficients){
+function initialization(list_income,list_budget,list_categories,list_monthly_outlay) {
     income_data = list_income;
     budget_data = list_budget;
     categories_data = list_categories;
     monthly_outlay_data = list_monthly_outlay;
-    coefficients = list_coefficients
     income_data.unshift(['Дата', 'Доходы']);
     budget_data.unshift(['Дата', 'Сумма']);
     categories_data.unshift(['Трата', '%']);
-    monthly_outlay_data.unshift(['', ''])
+    monthly_outlay_data.unshift(['', '']);
     drawChart();
     drawChart3();
     drawChart4();
@@ -108,12 +107,7 @@ function drawChart() {
     chart.draw(data, options);
 }
 document.addEventListener("DOMContentLoaded", scroll_to_down);
-var scroll = document.getElementById('percent-scroll');
-var scroll_label = document.getElementById('scroll-label');
-scroll.addEventListener("change", function() {
-    scroll_label.textContent = scroll.value+"%";
-});
-//window.onload()=scroll_to_down();
+
 function scroll_to_down(){
     var scroll_top = document.getElementById('scroll-name');
     if (window.location.href.indexOf('scroll-date')!=-1){

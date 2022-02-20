@@ -114,3 +114,9 @@
         flex-direction: column;
     }
 }
+
+.outlay-month-select-submit {
+    height: 40px;
+    width: 80px;
+    margin: auto;
+}
