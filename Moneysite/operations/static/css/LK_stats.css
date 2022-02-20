@@ -83,13 +83,13 @@
 .export{
     display:flex;
     width:100%;
-    height:80px;
+    height:50px;
     margin:20px auto;
 }
 .button{
-    height: 70px;
+    height: 40px;
     margin:auto;
-    width: 70%;
+    width: 80px;
 }
 #export-filters{
     margin: 20px auto;
@@ -99,14 +99,24 @@
 }
 .fields-and-labels{
     margin:auto;
-    width:120px;
+    width:90px;
     height:40px;
     align-items: center;
     display: flex;
-    font-size: 15px;
+    font-size: 14px;
     font-family: 'Raleway';
     font-weight: 500;
 }
+
+#scroll-date-id{
+    margin: auto 0;
+}
+
+#infliation-content{
+    height: 100px;
+    margin-top: 20px;
+}
+
 #start-export-date, #end-export-date{
     font-size:14px;
     font-family: 'monospace'
@@ -115,12 +125,14 @@
     display: flex;
     flex-direction: column;
     margin: top;
+    width: 100%;
 }
 .part-filters{
     display: flex;
     flex-direction: row;
     height: 45px;
     margin: auto;
+    width: 95%;
 }
 
 .content{
@@ -133,6 +145,7 @@
 .cont1{
     display: flex;
     flex-direction: column;
+    height: 100px;
 }
 
 #infliation{
@@ -140,11 +153,33 @@
     align-items: flex-start;
     height: 200px;
 }
-
+#infliation-button{
+    margin: auto 0;
+}
 @media screen and (max-width:1000px)
 {
     .root{
         flex-direction: column;
+    }
+}
+
+@media screen and (max-width:400px)
+{
+
+    .fields-and-labels{
+        width: 70px;
+        margin: auto;
+        font-size: 11px;
+        font-family: 'Raleway';
+        font-weight: 500;
+        align-items: center;
+        heigth: 40px;
+    }
+    .part-filters{
+        width: 310px;
+    }
+    .main-container{
+        width: 315px;
     }
 }
 

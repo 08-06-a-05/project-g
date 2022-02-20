@@ -15,7 +15,6 @@ import itertools
 from calendar import monthrange
 import numpy as np
 from decimal import Decimal
-# from datetime import da
 from .IPC import IPC
 import requests
 import xml.etree.ElementTree as ET
@@ -30,6 +29,7 @@ def get_courses():
     for child in root:
         courses_currency = child[1].text
         courses_course = child[4].text
+        courses_course = courses_course.replace(',','.',1)
         courses.append({'rate':courses_course,'currency': courses_currency})
     return courses
 
@@ -44,22 +44,18 @@ def personal_account(request):
 
     courses = get_courses()
     context['exchange_rate'] = courses
-    test=Balances.objects.select_related().filter(currency_id__name='ABC')
-    for i in test:
-        print(type(i.amount))
+
+
     
     default_categories = Categories.objects.select_related().filter(user_id=9)
     default_currencies = Currency.objects.select_related()
-    # print(dict(request.GET)['wallet-currency'])
     if request.GET.get('wallet-currency'):
         cur = dict(request.GET)['wallet-currency']
     else:
         cur=list(Currency.objects.all())
 
-    user_balances = Balances.objects.select_related().filter(user_id=request.user.id,currency_id__name__in=cur)
-    # for balance in user_balances:
-    #    print(balance.currency_id)
-    # print(CurrencyConverter.get_currency_exchange_rate('dollar', 'ruble'))
+    user_balances = Balances.objects.select_related().filter(user_id=request.user.id, currency_id__name__in=cur)
+
     if request.method == 'GET' and 'start-date' in request.GET:
         user_operations = Operations.objects.select_related().filter(
             user_id=request.user.id,
@@ -113,6 +109,7 @@ def stats(request):
 
     
     month = request.GET.get('outlay-month-select') if request.GET.get('outlay-month-select') else datetime.now().month
+
     monthly_outlay_data = Operations.objects.select_related().filter(
         user_id=request.user.id, 
         operation_type='-'
@@ -131,33 +128,46 @@ def stats(request):
             date.today()
         ]
     ).values('datetime').annotate(total=Sum('amount'))
-    # infliation = 0.06
     if request.GET.get('scroll-date'):
         user_balances = Balances.objects.select_related().filter(user_id=request.user.id,currency_id__name='RUB')
         smart_percent=100
         need_date = date.today()+relativedelta(months=-12-int(request.GET['scroll-date']))
         current_year = int(need_date.strftime("%Y"))
         current_month = int(need_date.strftime("%m"))-1
-        print(current_month, current_year)
-        # if current_year!=date.today().strftime("%Y"):
         for z in range(int(request.GET['scroll-date'])):
             smart_percent = smart_percent * IPC[current_month][current_year-1991]/100
             current_month=(current_month+1)%12
             if current_month == 0:
                 current_year+=1
-        # while current_month<12:
-            
-        # for i in range(scroll_date_range):
-        print(smart_percent)
+
         for balance in user_balances:
-            print(balance.amount*Decimal((smart_percent-100)/100))
             balance.amount = toFixed(balance.amount - balance.amount*Decimal((smart_percent-100)/100),2)
             
     else:
         user_balances=[]
     
     context['user_balances'] = user_balances
-
+    balances = Balances.objects.select_related('currency_id').filter(user_id=request.user.id)
+    courses=get_courses()
+    result = []
+    all_amount = 0
+    for i in balances:
+        for z in courses:
+            if str(z['currency']) == str(i.currency_id):
+                ch = float(i.amount) * float(z['rate'])
+                result.append([str(i.currency_id), ch])
+                # print(str(i.currency_id))
+                # print(float(i.amount/z[i.currency_id]))
+                all_amount += float(i.amount) * float(z['rate'])
+                break
+        else:
+            result.append(['RUB', float(i.amount)])
+            all_amount +=float(i.amount)
+    answer=[]
+    for i in result:
+        answer.append([i[0], i[1] / all_amount*100])
+    # print(answer)
+    context['exchanged_balances']= answer
     example_budget_data = []
     if request.GET.get('wallet-start-date') and request.GET.get('wallet-end-date'):
         date_range=[request.GET['wallet-start-date'],
@@ -179,19 +189,6 @@ def stats(request):
         datetime__range=date_range,
         currency=currency
     ).values('datetime').annotate(total=Sum('amount'))
-    '''if 'currency' in request.GET:
-        example_category_data= Operations.objects.select_related('category__category_name').filter(
-            user_id=request.user.id,
-            operation_type='-',
-            datetime__range=[
-                date.today() - timedelta(days=30),
-                date.today()
-            ],
-            currency=request.GET['currency']
-        ).values('category__category_name').annotate(total=Sum('amount'))
-        print(example_category_data)
-        print(1)
-    else:'''
     if request.GET.get('category-start-date') and request.GET.get('category-end-date'):
         category_daterange = [request.GET['category-start-date'],
                  request.GET['category-end-date']]
@@ -208,7 +205,6 @@ def stats(request):
         datetime__range=category_daterange,
         currency=category_currency
     ).values('category__category_name').annotate(total=Sum('amount'))
-        # print(example_category_data)
 
     data_formatted = []
     for elem in example_income_data:

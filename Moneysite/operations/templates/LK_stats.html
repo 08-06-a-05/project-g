@@ -38,7 +38,7 @@
                             <div class="fields-and-labels">Выберите период:</div>
                             <input class="fields-and-labels" id="start-export-date" type="date" name="wallet-start-date" placeholder="Выберите дату">
                             <input class="fields-and-labels" id="end-export-date" type="date" name="wallet-end-date" placeholder="Выберите дату">
-                            <button type="submit">Send</button>
+                            <button type="submit" class="fields-and-labels">Отправить</button>
                         </div>
                     </form>
                 </div>
@@ -63,20 +63,20 @@
                     Остаток с учетом инфляции
                 </div>
                 <form method="GET" class="filters-form">
-                <div class="filters" id="infliation">
-                    <div class="cont1">
-                        <div class="fields-and-labels">Выберите период:</div>
-                        <select name="scroll-date">
-                            <option value="3">3 Месяца</option>
-                            <option value="6">6 Месяцев</option>
-                            <option value="12">Год</option>
-                        </select>
+                    <div class="filters" id="infliation">
+                        <div class="cont1">
+                            <div class="fields-and-labels">Выберите период:</div>
+                            <select name="scroll-date" id="scroll-date-id">
+                                <option value="3">3 Месяца</option>
+                                <option value="6">6 Месяцев</option>
+                                <option value="12">Год</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="fields-and-labels" id="infliation-button">Рассчитать</button>
                     </div>
-                    <button type="submit">Рассчитать</button>
                 </form>
-                </div>
                 {% for balance in user_balances %}
-                <div class="content">
+                <div class="content" id="infliation-content">
                     {{ balance.currency_id }} : {{ balance.amount }}
                 </div>
                 {% endfor %}
@@ -100,14 +100,14 @@
                             <div class="fields-and-labels">Выберите период:</div>
                             <input class="fields-and-labels" id="category-start-export-date" type="date" name="category-start-date" placeholder="Выберите дату">
                             <input class="fields-and-labels" id="category-end-export-date" type="date" name="category-end-date" placeholder="Выберите дату">
-                            <button type="submit">Отправить</button>
+                            <button type="submit" class="fields-and-labels">Отправить</button>
                         </div>
                     </form>
                 </div>
                 <div class="graph" id="graph3">
                 </div>
             </div>
-            <div class="graph-wrapper">
+            <div class="graph-wrapper" id="export-wrapper">
                 <div class="name" id="export-name">
                     Экспорт данных в excel
                 </div>
@@ -117,7 +117,7 @@
                     <input class="fields-and-labels" id="3end-export-date" type="date" name="end-date" placeholder="Выберите дату">
                 </div>
                 <div class="export">
-                    <input type="submit" class="button">
+                    <input type="submit" class="fields-and-labels">
                 </div>
             </div>
             <div class="graph-wrapper">
@@ -145,7 +145,7 @@
                             </select> 
                         
                             <div class="outlay-month-select-submit">
-                                <input type="submit" class="button">
+                                <input type="submit"  class="fields-and-labels">
                             </div>
                         </div>
                         <script>
@@ -171,7 +171,7 @@
         <script src="{% static 'graphs.js' %}"></script>
         <script>
             window.onpageshow = function() {
-                initialization({{data_income|safe}}, {{data_budget|safe}}, {{data_categories|safe}}, {{monthly_outlay_data|safe}});
+                initialization({{data_income|safe}}, {{data_budget|safe}}, {{data_categories|safe}}, {{monthly_outlay_data|safe}}, {{exchanged_balances|safe}});
             }; 
         </script>
 

@@ -4,17 +4,19 @@ var type='Доходы';
 var income_data = []
 var budget_data = []
 var categories_data = []
-
-function initialization(list_income,list_budget,list_categories,list_monthly_outlay) {
+function initialization(list_income,list_budget,list_categories,list_monthly_outlay, exchanged_list) {
     income_data = list_income;
     budget_data = list_budget;
     categories_data = list_categories;
+    exchanged_data = exchanged_list;
     monthly_outlay_data = list_monthly_outlay;
     income_data.unshift(['Дата', 'Доходы']);
     budget_data.unshift(['Дата', 'Сумма']);
     categories_data.unshift(['Трата', '%']);
     monthly_outlay_data.unshift(['', '']);
+    exchanged_data.unshift(['Валюта','%']);
     drawChart();
+    drawChart2();
     drawChart3();
     drawChart4();
 }
@@ -25,7 +27,7 @@ function drawChart4() {
     var options = {
         label: 'Прямая линейной регресии',
         title: 'Прямая линейной регресии',
-        width: '400',
+        // width: '400',
         height: '400',
         hAxis: {
             title: 'День',
@@ -59,7 +61,7 @@ function drawChart3() {
         title: category_currency,
         is3D: true,
         pieResidueSliceLabel: 'Остальное',
-        width: '400',
+        // width: '400',
         height: '400',
         chartArea: {width: '90%'},
         };
@@ -68,17 +70,16 @@ function drawChart3() {
 };
 
 function drawChart2(){
-    var data2 = google.visualization.arrayToDataTable(budget_data);
+    var data2 = google.visualization.arrayToDataTable(exchanged_data);
     var options2 = {
+    is3D: true,
     title: 'Состояние кошелька',
-    hAxis: {title: 'День'},
-    vAxis: {title: 'USD($)'},
-    width: '400',
+    // width: '400',
     height: '400',
     legend: 'none',
-    chartArea: {width: '70%'},
+    chartArea: {width: '90%'},
     };
-    var chart2 = new google.visualization.LineChart(document.getElementById('graph2'));
+    var chart2 = new google.visualization.PieChart(document.getElementById('graph2'));
     chart2.draw(data2, options2);
 }
 
@@ -98,7 +99,7 @@ function drawChart() {
     title: type,
     hAxis: {title: 'Месяц'},
     vAxis: {title: wallet_currency},
-    width: '400',
+    // width: '400',
     height: '400',
     legend: 'none',
     chartArea: {width: '70%'},
