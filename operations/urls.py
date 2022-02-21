@@ -8,5 +8,5 @@ urlpatterns = [
     path('example/', views.example, name='LK2'),
     path('examplestat/', views.example_stat, name='LK-statistics'),
     path('stats/', views.stats, name='LK-stats'),
-    path('answer/', answer.ans, name='answer')
+    path('answer/', answer.ans, name='answer'),
 ] + staticfiles_urlpatterns()
