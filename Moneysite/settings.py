@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-!&#w077)_8m*8q(k=b%u=&-6!^hd&pepya23l30nb4o&qt(vyl
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['money--site.herokuapp.com', '127.0.0.1']
+ALLOWED_HOSTS = ['money--site.herokuapp.com', '127.0.0.1', '0.0.0.0']
 
 
 # Application definition
@@ -82,10 +82,15 @@ WSGI_APPLICATION = 'Moneysite.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'dfgolhf2m4k5r2',
+        'HOST': 'ec2-63-35-79-208.eu-west-1.compute.amazonaws.com',
+        'PORT': 5432,
+        'USER': 'athbuteurhngoz',
+        'PASSWORD': '4607c205aad7f46daa89e490209802556599483a8563c832b34d2bae6abc4aa5'
     }
 }
+
 
 
 # Password validation
