@@ -107,12 +107,12 @@
                     Экспорт данных в excel
                 </div>
                 <div class="filters" id="export-filters">
-                    <div class="fields-and-labels">Выберите период:</div>
-                    <input class="fields-and-labels" id="3start-export-date" type="date" name="start-date" placeholder="Выберите дату">
-                    <input class="fields-and-labels" id="3end-export-date" type="date" name="end-date" placeholder="Выберите дату">
-                </div>
-                <div class="export">
-                    <input type="submit" class="fields-and-labels">
+                    <form method="GET">
+                        <div class="fields-and-labels">Выберите период:</div>
+                        <input class="fields-and-labels" id="3start-export-date" type="date" name="export-start-date" placeholder="Выберите дату">
+                        <input class="fields-and-labels" id="3end-export-date" type="date" name="export-end-date" placeholder="Выберите дату">
+                        <button type="submit" class="fields-and-labels">Экспорт</button>
+                    </form>
                 </div>
             </div>
             <div class="graph-wrapper">

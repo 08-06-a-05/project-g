@@ -1,6 +1,7 @@
 from locale import currency
 from urllib import request
 from django.shortcuts import render, redirect
+from django.http.response import HttpResponse
 from django.db.models import Sum
 from django.db.models.functions import ExtractMonth, ExtractDay
 from account_manager.models import *
@@ -18,6 +19,7 @@ from decimal import Decimal
 from .IPC import IPC
 import requests
 import xml.etree.ElementTree as ET
+import xlwt
 
 from dateutil.relativedelta import relativedelta
 
@@ -104,8 +106,8 @@ def example_stat(request):
 def stats(request):
     if request.user.id is None:
         return redirect('login')
+    
     context = {}
-
 
     month = request.GET.get('outlay-month-select') if request.GET.get('outlay-month-select') else datetime.now().month
 
@@ -127,6 +129,7 @@ def stats(request):
             date.today()
         ]
     ).values('datetime').annotate(total=Sum('amount'))
+
     if request.GET.get('scroll-date'):
         user_balances = Balances.objects.select_related().filter(user_id=request.user.id,currency_id__name='RUB')
         smart_percent=100
@@ -159,18 +162,23 @@ def stats(request):
                 break
         else:
             result.append(['RUB', float(i.amount)])
-            all_amount +=float(i.amount)
-    answer=[]
+            all_amount += float(i.amount)
+
+    answer = []
     for i in result:
         answer.append([i[0], i[1] / all_amount*100])
     context['exchanged_balances']= answer
     example_budget_data = []
     if request.GET.get('wallet-start-date') and request.GET.get('wallet-end-date'):
-        date_range=[request.GET['wallet-start-date'],
-                request.GET['wallet-end-date']]
+        date_range = [
+            request.GET['wallet-start-date'],
+            request.GET['wallet-end-date']
+        ]
     else:
-        date_range=[date.today() - timedelta(days=30),
-               date.today()]
+        date_range = [
+            date.today() - timedelta(days=30),
+            date.today()
+        ]
     if request.GET.get('wallet-currency'):
         wallet_currency = request.GET['wallet-currency']
     else:
@@ -192,12 +200,14 @@ def stats(request):
 
     context['income_currency'] = wallet_currency
     context['wallet_type']=operation_type
+
     if request.GET.get('category-start-date') and request.GET.get('category-end-date'):
         category_daterange = [request.GET['category-start-date'],
                  request.GET['category-end-date']]
     else:
         category_daterange = [date.today() - timedelta(days=30),
                  date.today()]
+
     if request.GET.get('category-currency'):
         category_currency = request.GET['category-currency']
     else:
@@ -209,8 +219,56 @@ def stats(request):
         currency=category_currency
     ).values('category__category_name').annotate(total=Sum('amount'))
     context['category_currency'] = category_currency
+
+    if request.GET.get('export-start-date') and request.GET.get('export-end-date'):
+        date_range = [
+            request.GET.get('export-start-date'),
+            request.GET.get('export-end-date')
+        ]
+
+        response = HttpResponse(content_type='application/ms-excel')
+        response['Content-Disposition'] = 'attachment; filename=Expenses' + str(datetime.now()) + '.xls'
+
+        wb = xlwt.Workbook(encoding='utf-8')
+        ws = wb.add_sheet('Операции')
+        
+        row_num = 0
+        font_style = xlwt.XFStyle()
+        font_style.font.bold = True
+
+        columns = ['Тип операции', 'Категория', 'Сумма', 'Валюта', 'Дата', 'Описание']
+        for col_num in range(len(columns)):
+            ws.write(row_num, col_num, columns[col_num], font_style)
+        
+        font_style = xlwt.XFStyle()
+
+        rows = Operations.objects.filter(
+            user=request.user.id,
+            datetime__range=date_range,
+        ).values_list(
+            'operation_type', 
+            'category_id__category_name', 
+            'amount', 
+            'currency', 
+            'datetime', 
+            'description'
+        )
+
+        print(rows)
+
+        for row in rows:
+            row_num += 1
+
+            for col_num in range(len(row)):
+                ws.write(row_num, col_num, str(row[col_num]), font_style)
+        
+        wb.save(response)
+        
+        return response
+
     data_formatted = []
     for elem in example_income_data:
+        print(type(elem['datetime']))
         data_formatted.append([elem['datetime'].strftime("%Y-%m-%d"), float(elem['total'])])
 
     context['data_income'] = data_formatted
@@ -273,3 +331,4 @@ def estimate_coefficients(list_x, list_y):
 
     return [b_0, b_1]
 
+   
