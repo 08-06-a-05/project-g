@@ -1,20 +1,25 @@
 //google.load('visualization', '1.0', {'packages':['corechart']});
 //google.setOnLoadCallback(initialization);
-var type='Доходы';
+var type='';
 var income_data = []
 var budget_data = []
 var categories_data = []
-function initialization(list_income,list_budget,list_categories,list_monthly_outlay, exchanged_list) {
+var category_currency = '';
+var income_currency = '';
+function initialization(list_income,list_budget,list_categories,list_monthly_outlay, exchanged_list, income_cur, wal_type, cat_cur){
     income_data = list_income;
     budget_data = list_budget;
     categories_data = list_categories;
     exchanged_data = exchanged_list;
     monthly_outlay_data = list_monthly_outlay;
-    income_data.unshift(['Дата', 'Доходы']);
+    income_data.unshift(['Дата', 'Доходы/Расходы']);
     budget_data.unshift(['Дата', 'Сумма']);
     categories_data.unshift(['Трата', '%']);
     monthly_outlay_data.unshift(['', '']);
     exchanged_data.unshift(['Валюта','%']);
+    income_currency = String(income_cur);
+    category_currency = cat_cur
+    type = wal_type;
     drawChart();
     drawChart2();
     drawChart3();
@@ -51,11 +56,6 @@ function drawChart4() {
 }
 
 function drawChart3() {
-    if (window.location.href.indexOf('category-currency=')!=-1){
-        var category_currency = window.location.href.substr(window.location.href.indexOf('category-currency=')+18,3)
-    } else {
-        var category_currency = 'RUB'
-    }
     var data3 = google.visualization.arrayToDataTable(categories_data);
     var options3 = {
         title: category_currency,
@@ -84,21 +84,16 @@ function drawChart2(){
 }
 
 function drawChart() {
-    if (window.location.href.indexOf('type=Расходы')!=-1){
-        type = 'Расходы';
-    } else {
-        type = 'Доходы';
-    }
-    if (window.location.href.indexOf('wallet-currency=')!=-1){
-        var wallet_currency = window.location.href.substr(window.location.href.indexOf('wallet-currency=')+16,3)
-    } else {
-        var wallet_currency = 'RUB'
-    }
     var data = google.visualization.arrayToDataTable(income_data);
+    if (type=='+'){
+        type='Доходы';
+    } else {
+        type = 'Расходы';
+    }
     var options = {
     title: type,
-    hAxis: {title: 'Месяц'},
-    vAxis: {title: wallet_currency},
+    hAxis: {title: 'Дата'},
+    vAxis: {title: income_currency},
     // width: '400',
     height: '400',
     legend: 'none',

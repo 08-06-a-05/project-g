@@ -22,15 +22,16 @@ import xml.etree.ElementTree as ET
 from dateutil.relativedelta import relativedelta
 
 def get_courses():
-    res = requests.get('https://www.cbr.ru/scripts/XML_daily.asp?date_req=20/02/2022')
+
+    res = requests.get('https://www.cbr.ru/scripts/XML_daily.asp?date_req='+date.today().strftime("%d/%m/%Y"))
     tree = res.text
     root = ET.fromstring(tree)
-    courses=[]
+    courses = []
     for child in root:
         courses_currency = child[1].text
         courses_course = child[4].text
-        courses_course = courses_course.replace(',','.',1)
-        courses.append({'rate':courses_course,'currency': courses_currency})
+        courses_course = courses_course.replace(',', '.', 1)
+        courses.append({'rate':courses_course, 'currency': courses_currency})
     return courses
 
 def toFixed(numObj, digits=0):
@@ -46,7 +47,6 @@ def personal_account(request):
     context['exchange_rate'] = courses
 
 
-    
     default_categories = Categories.objects.select_related().filter(user_id=9)
     default_currencies = Currency.objects.select_related()
     if request.GET.get('wallet-currency'):
@@ -55,8 +55,7 @@ def personal_account(request):
         cur=list(Currency.objects.all())
 
     user_balances = Balances.objects.select_related().filter(user_id=request.user.id, currency_id__name__in=cur)
-
-    if request.method == 'GET' and 'start-date' in request.GET:
+    if request.method == 'GET' and request.GET.get('start-date') and request.GET.get('end-date'):
         user_operations = Operations.objects.select_related().filter(
             user_id=request.user.id,
             datetime__range=[
@@ -107,21 +106,21 @@ def stats(request):
         return redirect('login')
     context = {}
 
-    
+
     month = request.GET.get('outlay-month-select') if request.GET.get('outlay-month-select') else datetime.now().month
 
     monthly_outlay_data = Operations.objects.select_related().filter(
-        user_id=request.user.id, 
+        user_id=request.user.id,
         operation_type='-'
     ).annotate(
-        month=ExtractMonth('datetime'), 
+        month=ExtractMonth('datetime'),
         day=ExtractDay('datetime')
     ).values('month', 'day', 'amount').filter(
         month=month
     )
 
     example_outlay_data = Operations.objects.select_related().filter(
-        user_id=request.user.id, 
+        user_id=request.user.id,
         operation_type='-',
         datetime__range=[
             date.today() - timedelta(days=30),
@@ -142,10 +141,10 @@ def stats(request):
 
         for balance in user_balances:
             balance.amount = toFixed(balance.amount - balance.amount*Decimal((smart_percent-100)/100),2)
-            
+
     else:
         user_balances=[]
-    
+
     context['user_balances'] = user_balances
     balances = Balances.objects.select_related('currency_id').filter(user_id=request.user.id)
     courses=get_courses()
@@ -156,8 +155,6 @@ def stats(request):
             if str(z['currency']) == str(i.currency_id):
                 ch = float(i.amount) * float(z['rate'])
                 result.append([str(i.currency_id), ch])
-                # print(str(i.currency_id))
-                # print(float(i.amount/z[i.currency_id]))
                 all_amount += float(i.amount) * float(z['rate'])
                 break
         else:
@@ -166,7 +163,6 @@ def stats(request):
     answer=[]
     for i in result:
         answer.append([i[0], i[1] / all_amount*100])
-    # print(answer)
     context['exchanged_balances']= answer
     example_budget_data = []
     if request.GET.get('wallet-start-date') and request.GET.get('wallet-end-date'):
@@ -176,9 +172,13 @@ def stats(request):
         date_range=[date.today() - timedelta(days=30),
                date.today()]
     if request.GET.get('wallet-currency'):
-        currency = request.GET['wallet-currency']
+        wallet_currency = request.GET['wallet-currency']
     else:
-        currency = 'RUB'
+        try:
+            cur = Balances.objects.select_related().filter(user_id=request.user.id).values('currency_id__name')
+            wallet_currency = cur[0]['currency_id__name']
+        except:
+            wallet_currency = ''
     if request.GET.get('wallet-type')=='Расходы':
         operation_type = '-'
     else:
@@ -187,8 +187,11 @@ def stats(request):
         user_id=request.user.id,
         operation_type=operation_type,
         datetime__range=date_range,
-        currency=currency
+        currency=wallet_currency
     ).values('datetime').annotate(total=Sum('amount'))
+
+    context['income_currency'] = wallet_currency
+    context['wallet_type']=operation_type
     if request.GET.get('category-start-date') and request.GET.get('category-end-date'):
         category_daterange = [request.GET['category-start-date'],
                  request.GET['category-end-date']]
@@ -205,7 +208,7 @@ def stats(request):
         datetime__range=category_daterange,
         currency=category_currency
     ).values('category__category_name').annotate(total=Sum('amount'))
-
+    context['category_currency'] = category_currency
     data_formatted = []
     for elem in example_income_data:
         data_formatted.append([elem['datetime'].strftime("%Y-%m-%d"), float(elem['total'])])
@@ -239,12 +242,12 @@ def stats(request):
             coefficients = estimate_coefficients(days, outlays)
             amount = 0.0
             start_day, end_day = min(days), monthrange(datetime.now().year, int(month))
-            
+
             for i in range(start_day, end_day[1] + 1):
                 amount += coefficients[1] * i + coefficients[0]
         else:
             amount = outlays[0]
-            
+
         context['monthly_outlay_data'] = data_formatted
         context['expected_outlay'] = toFixed(amount, 2)
         context['outlay_data_flag'] = True
@@ -260,13 +263,13 @@ def estimate_coefficients(list_x, list_y):
     y = np.array(list_y)
 
     n = np.size(x)
-    mean_x, mean_y = np.mean(x), np.mean(y) 
+    mean_x, mean_y = np.mean(x), np.mean(y)
 
-    SS_xy = np.sum(y * x - n * mean_y * mean_x) 
-    SS_xx = np.sum(x * x - n * mean_x * mean_x) 
+    SS_xy = np.sum(y * x - n * mean_y * mean_x)
+    SS_xx = np.sum(x * x - n * mean_x * mean_x)
 
-    b_1 = SS_xy / SS_xx 
-    b_0 = mean_y - b_1 * mean_x 
+    b_1 = SS_xy / SS_xx
+    b_0 = mean_y - b_1 * mean_x
 
     return [b_0, b_1]
 

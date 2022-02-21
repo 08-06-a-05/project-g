@@ -166,7 +166,7 @@
         <script src="{% static 'graphs.js' %}"></script>
         <script>
             window.onpageshow = function() {
-                initialization({{data_income|safe}}, {{data_budget|safe}}, {{data_categories|safe}}, {{monthly_outlay_data|safe}}, {{exchanged_balances|safe}});
+                initialization({{data_income|safe}}, {{data_budget|safe}}, {{data_categories|safe}}, {{monthly_outlay_data|safe}}, {{exchanged_balances|safe}}, '{{income_currency|safe}}','{{wallet_type|safe}}', '{{category_currency|safe}}');
             }; 
         </script>
 

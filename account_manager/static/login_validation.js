@@ -4,7 +4,7 @@ function isNumeric(value) {
 
 
 function send_JSON() {
-    var url= "http://127.0.0.1:8000/abra/";
+    var url= window.location.origin+'/abra/';
     xhr.open("POST",url,true);
     xhr.setRequestHeader("X-CSRFToken",token,"Content-Type","application/json");
     var data=JSON.stringify({"email":email.value});
