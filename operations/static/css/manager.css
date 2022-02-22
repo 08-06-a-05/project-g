@@ -239,6 +239,32 @@ body{
     height: 450px;
 }
 
+.full_information{
+    display: none;
+    position: fixed;
+    min-height: 400px;
+    width: 300px;
+    z-index: 10;
+    top: calc(50% - 200px);
+    left: calc(50% - 150px);
+    justify-content: center;
+    align-items: center;
+    border-radius: 10px;
+    border: 2px solid black;
+    flex-direction: column;
+    background-color: white;
+}
+#close_button{
+    position: absolute;
+    top: 5px;
+    left: 280px;
+    width: 15px;
+    height: 15px;
+    background-image: url('https://upload.wikimedia.org/wikipedia/commons/4/4e/%D0%9A%D1%80%D0%B0%D1%81%D0%BD%D1%8B%D0%B9_%D0%BA%D1%80%D0%B5%D1%81%D1%82.webp');
+    background-size: 100%;
+    cursor: pointer;
+}
+
 
 @media screen and (max-width:1000px)
 {

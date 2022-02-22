@@ -1,5 +1,3 @@
-from locale import currency
-from urllib import request
 from django.shortcuts import render, redirect
 from django.http.response import HttpResponse
 from django.db.models import Sum
@@ -7,12 +5,8 @@ from django.db.models.functions import ExtractMonth, ExtractDay
 from account_manager.models import *
 from operations.models import *
 from operations.forms import AddOperationForm
-from django.db.models.functions import TruncDay
 from datetime import date, datetime
 from datetime import timedelta
-from json import dumps
-from .currency_exchange_rate_parsing.parsing import CurrencyConverter
-import itertools
 from calendar import monthrange
 import numpy as np
 from decimal import Decimal
@@ -23,8 +17,8 @@ import xlwt
 
 from dateutil.relativedelta import relativedelta
 
-def get_courses():
 
+def get_courses():
     res = requests.get('https://www.cbr.ru/scripts/XML_daily.asp?date_req='+date.today().strftime("%d/%m/%Y"))
     tree = res.text
     root = ET.fromstring(tree)
@@ -36,8 +30,10 @@ def get_courses():
         courses.append({'rate':courses_course, 'currency': courses_currency})
     return courses
 
+
 def toFixed(numObj, digits=0):
     return f"{numObj:.{digits}f}"
+
 
 def personal_account(request):
     if request.user.id is None:
@@ -47,7 +43,6 @@ def personal_account(request):
 
     courses = get_courses()
     context['exchange_rate'] = courses
-
 
     default_categories = Categories.objects.select_related().filter(user_id=9)
     default_currencies = Currency.objects.select_related()
@@ -93,21 +88,15 @@ def personal_account(request):
     return render(request, 'manager.html', context)
 
 
-def example(request):
-    context = {}
-    return render(request, 'LK.html', context)
-
-
-def example_stat(request):
-    context = {}
-    return render(request, 'LK_statistics.html', context)
-
-
 def stats(request):
     if request.user.id is None:
         return redirect('login')
     
     context = {}
+
+    user_currencies = Balances.objects.select_related().filter(user_id=request.user.id).values('currency_id__name')
+
+    context['user_currencies'] = user_currencies
 
     month = request.GET.get('outlay-month-select') if request.GET.get('outlay-month-select') else datetime.now().month
 
@@ -120,15 +109,6 @@ def stats(request):
     ).values('month', 'day', 'amount').filter(
         month=month
     )
-
-    example_outlay_data = Operations.objects.select_related().filter(
-        user_id=request.user.id,
-        operation_type='-',
-        datetime__range=[
-            date.today() - timedelta(days=30),
-            date.today()
-        ]
-    ).values('datetime').annotate(total=Sum('amount'))
 
     if request.GET.get('scroll-date'):
         user_balances = Balances.objects.select_related().filter(user_id=request.user.id,currency_id__name='RUB')
@@ -176,7 +156,7 @@ def stats(request):
         ]
     else:
         date_range = [
-            date.today() - timedelta(days=30),
+            date.today() - timedelta(days=180),
             date.today()
         ]
     if request.GET.get('wallet-currency'):
@@ -187,10 +167,13 @@ def stats(request):
             wallet_currency = cur[0]['currency_id__name']
         except:
             wallet_currency = ''
-    if request.GET.get('wallet-type')=='Расходы':
+    if request.GET.get('wallet-type') == 'Расходы':
         operation_type = '-'
+        context['wallet_type'] = 'Расходы'
     else:
         operation_type = '+'
+        context['wallet_type'] = 'Доходы'
+
     example_income_data = Operations.objects.select_related().filter(
         user_id=request.user.id,
         operation_type=operation_type,
@@ -199,25 +182,30 @@ def stats(request):
     ).values('datetime').annotate(total=Sum('amount'))
 
     context['income_currency'] = wallet_currency
-    context['wallet_type']=operation_type
 
     if request.GET.get('category-start-date') and request.GET.get('category-end-date'):
         category_daterange = [request.GET['category-start-date'],
                  request.GET['category-end-date']]
     else:
-        category_daterange = [date.today() - timedelta(days=30),
+        category_daterange = [date.today() - timedelta(days=180),
                  date.today()]
 
     if request.GET.get('category-currency'):
         category_currency = request.GET['category-currency']
     else:
-        category_currency = request.user.displayed_currency
+        try:
+            cat_cur = Balances.objects.select_related().filter(user_id=request.user.id).values('currency_id__name')
+            category_currency = cat_cur[0]['currency_id__name']
+        except:
+            category_currency = ''
+
     example_category_data = Operations.objects.select_related('category__category_name').filter(
         user_id=request.user.id,
         operation_type='-',
         datetime__range=category_daterange,
         currency=category_currency
     ).values('category__category_name').annotate(total=Sum('amount'))
+
     context['category_currency'] = category_currency
 
     if request.GET.get('export-start-date') and request.GET.get('export-end-date'):
@@ -254,8 +242,6 @@ def stats(request):
             'description'
         )
 
-        print(rows)
-
         for row in rows:
             row_num += 1
 
@@ -268,16 +254,10 @@ def stats(request):
 
     data_formatted = []
     for elem in example_income_data:
-        print(type(elem['datetime']))
         data_formatted.append([elem['datetime'].strftime("%Y-%m-%d"), float(elem['total'])])
 
     context['data_income'] = data_formatted
 
-    data_formatted = []
-    for elem in example_outlay_data:
-        data_formatted.append([elem['datetime'].strftime("%Y-%m-%d"), float(elem['total'])])
-
-    context['data_outlay'] = data_formatted
 
     data_formatted = []
     for elem in example_category_data:
@@ -316,6 +296,7 @@ def stats(request):
     context['data_budget'] = example_budget_data
     return render(request, 'LK_stats.html', context)
 
+
 def estimate_coefficients(list_x, list_y):
     x = np.array(list_x)
     y = np.array(list_y)
@@ -330,5 +311,3 @@ def estimate_coefficients(list_x, list_y):
     b_0 = mean_y - b_1 * mean_x
 
     return [b_0, b_1]
-
-   

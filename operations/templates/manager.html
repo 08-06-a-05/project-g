@@ -13,7 +13,16 @@
 {% endblock %}
 
 {% block content %}
-    <div class="root">
+    <div class="full_information" id="operation_information">
+                <div id="close_button" onclick="close_information()"></div>
+                <div class="content" id="operation_information_currency"></div>
+                <div class="content" id="operation_information_date"></div>
+                <div class="content" id="operation_information_category"></div>
+                <div class="content" id="operation_information_amount"></div>
+                <div class="content" id="operation_information_description"></div>
+                <!--<div class="content"></div>-->
+            </div>
+    <div class="root" id="root">
         <div class="main_container">
             <div class="upper-content-wrapper">
                 <div class="name">
@@ -113,7 +122,7 @@
                     {% for operation in operations_list %}
                         <div class="date_grouper">{{ operation.grouper|date:"d-m-Y" }}</div>
                         {% for one_operation in operation.list %}
-                            <div class="content operation-details">
+                            <div class="content operation-details" onclick="show_operation_information('{{one_operation.category}}','{{ one_operation.amount }}', '{{ one_operation.currency }}', '{{ one_operation.description }}', '{{ one_operation.datetime }}' )">
                                 {% if one_operation.operation_type == '+' %}
                                     <div class="type_image" style="background-image: url({% static 'plus-sign.png' %}"></div>
                                 {% else %}

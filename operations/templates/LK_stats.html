@@ -24,15 +24,28 @@
                     <form id="wallet-filters" class="filters-form" method="GET">
                         <div class="part-filters">
                             <select class="field" name="wallet-type" size="1" id="type">
-                                <option selected="true" disabled="disabled">По умолчанию: доходы</option>
+                                <option></option>
                                 <option>Доходы</option>
                                 <option>Расходы</option>
                             </select>
+                            <script>
+                                $('#type').select2({
+                                    placeholder: '{{wallet_type}}',
+                                    minimumResultsForSearch: Infinity
+                                });
+                            </script>
                             <select class="field" name="wallet-currency" size="1" id="currency">
-                                <option selected="true" disabled="disabled">По умолчанию: USD</option>
-                                <option>USD</option>
-                                <option>RUB</option>
+                                <option></option>
+                                {% for us_cur in user_currencies %}
+                                    <option>{{us_cur.currency_id__name}}</option>
+                                {% endfor %}
                             </select>
+                            <script>
+                                $('#currency').select2({
+                                    placeholder: '{{income_currency}}',
+                                    minimumResultsForSearch: Infinity
+                                });
+                            </script>
                         </div>
                         <div class="part-filters">
                             <div class="fields-and-labels">Выберите период:</div>
@@ -70,11 +83,18 @@
                         <button type="submit" class="fields-and-labels" id="infliation-button">Рассчитать</button>
                     </div>
                 </form>
+                <div class="content">Работает только для RUB, т.к для других валют проблематично получать данные об инфляции</div>
                 {% for balance in user_balances %}
                 <div class="content" id="infliation-content">
                     {{ balance.currency_id }} : {{ balance.amount }}
                 </div>
                 {% endfor %}
+                <!--<div class="name">Пересчет в условных единицах</div>
+                <div class="part-filters">
+                    <select>
+                        <option>Хлеб</option>
+                    </select>
+                </div>-->
             </div>
         </div>
         <div class="main-container">
@@ -86,10 +106,17 @@
                     <form method="GET" id="currency-filters" class="filters-form">
                         <div class="part-filters">
                             <select class="field" name="category-currency" size="1" id="category-currency">
-                                <option selected="true" disabled="disabled">По умолчанию: USD</option>
-                                <option>USD</option>
-                                <option>RUB</option>
+                                <option></option>
+                                {% for us_cur in user_currencies %}
+                                    <option>{{us_cur.currency_id__name}}</option>
+                                {% endfor %}
                             </select>
+                            <script>
+                                $('#category-currency').select2({
+                                    placeholder: '{{category_currency}}',
+                                    minimumResultsForSearch: Infinity
+                                });
+                            </script>
                         </div>
                         <div class="part-filters">
                             <div class="fields-and-labels">Выберите период:</div>
@@ -108,10 +135,12 @@
                 </div>
                 <div class="filters" id="export-filters">
                     <form method="GET">
-                        <div class="fields-and-labels">Выберите период:</div>
-                        <input class="fields-and-labels" id="3start-export-date" type="date" name="export-start-date" placeholder="Выберите дату">
-                        <input class="fields-and-labels" id="3end-export-date" type="date" name="export-end-date" placeholder="Выберите дату">
-                        <button type="submit" class="fields-and-labels">Экспорт</button>
+                        <div class="part-filters">
+                            <div class="fields-and-labels">Выберите период:</div>
+                            <input class="fields-and-labels" id="3start-export-date" type="date" name="export-start-date" required placeholder="Выберите дату">
+                            <input class="fields-and-labels" id="3end-export-date" type="date" name="export-end-date" required placeholder="Выберите дату">
+                            <button type="submit" class="fields-and-labels">Экспорт</button>
+                        </div>
                     </form>
                 </div>
             </div>

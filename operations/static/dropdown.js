@@ -29,3 +29,26 @@ operations_date.addEventListener("change",function(){
         operations_date.style.color="#999";
     }
 });
+
+function show_operation_information(category, amount, currency, description, date){
+    var root = document.getElementById("root");
+    root.style="filter:blur(15px); pointer-events: none";
+    var operation_details = document.getElementById('operation_information');
+    var operation_date = document.getElementById('operation_information_date');
+    var operation_currency = document.getElementById('operation_information_currency');
+    var operation_category = document.getElementById('operation_information_category');
+    var operation_amount = document.getElementById('operation_information_amount');
+    var operation_description = document.getElementById('operation_information_description');
+    operation_date.textContent = "Дата:"+date;
+    operation_amount.textContent = "Сумма:"+amount;
+    operation_category.textContent = "Категория:"+category;
+    operation_description.textContent = "Описание:"+description;
+    operation_currency.textContent = "Валюта:"+currency;
+    operation_details.style.display = "flex";
+};
+function close_information(){
+    var operation_details = document.getElementById('operation_information');
+    operation_details.style.display = "none";
+    var root = document.getElementById("root");
+    root.style="filter:none; pointer-events: auto";
+}
