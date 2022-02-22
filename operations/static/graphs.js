@@ -85,11 +85,6 @@ function drawChart2(){
 
 function drawChart() {
     var data = google.visualization.arrayToDataTable(income_data);
-    if (type=='+'){
-        type='Доходы';
-    } else {
-        type = 'Расходы';
-    }
     var options = {
     title: type,
     hAxis: {title: 'Дата'},
