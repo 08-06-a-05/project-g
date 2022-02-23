@@ -34,7 +34,7 @@
                                     minimumResultsForSearch: Infinity
                                 });
                             </script>
-                            <select class="field" name="wallet-currency" size="1" id="currency">
+                            <select class="field" name="outlay-currency" size="1" id="currency">
                                 <option></option>
                                 {% for us_cur in user_currencies %}
                                     <option>{{us_cur.currency_id__name}}</option>
@@ -167,7 +167,18 @@
                                 <option value='11'>Ноябрь</option>
                                 <option value='12'>Декабрь</option>
                             </select> 
-                        
+                            <select class="field" name="outlay-currency" size="1" id="outlay-currency">
+                                <option></option>
+                                {% for us_cur in user_currencies %}
+                                    <option>{{us_cur.currency_id__name}}</option>
+                                {% endfor %}
+                            </select>
+                            <script>
+                                $('#outlay-currency').select2({
+                                    placeholder: '{{income_currency}}',
+                                    minimumResultsForSearch: Infinity
+                                });
+                            </script>
                             <div class="outlay-month-select-submit">
                                 <input type="submit"  class="fields-and-labels">
                             </div>

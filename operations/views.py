@@ -99,6 +99,7 @@ def stats(request):
     context['user_currencies'] = user_currencies
 
     month = request.GET.get('outlay-month-select') if request.GET.get('outlay-month-select') else datetime.now().month
+    outlay_currency = request.GET.get('outlay-currency') if request.GET.get('outlay-currency') else user_currencies[0]['currency_id__name']
 
     monthly_outlay_data = Operations.objects.select_related().filter(
         user_id=request.user.id,
@@ -107,7 +108,8 @@ def stats(request):
         month=ExtractMonth('datetime'),
         day=ExtractDay('datetime')
     ).values('month', 'day', 'amount').filter(
-        month=month
+        month=month,
+        currency=outlay_currency
     )
 
     if request.GET.get('scroll-date'):
