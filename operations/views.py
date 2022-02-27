@@ -21,7 +21,10 @@ from dateutil.relativedelta import relativedelta
 def get_courses():
     res = requests.get('https://www.cbr.ru/scripts/XML_daily.asp?date_req='+date.today().strftime("%d/%m/%Y"))
     tree = res.text
-    root = ET.fromstring(tree)
+    # print('https://www.cbr.ru/scripts/XML_daily.asp?date_req='+date.today().strftime("%d/%m/%Y"))
+    # print(tree)
+    # root = ET.fromstring(tree)
+    root=''
     courses = []
     for child in root:
         courses_currency = child[1].text
