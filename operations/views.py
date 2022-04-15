@@ -88,7 +88,16 @@ def personal_account(request):
     else:
         form_operation = AddOperationForm(request.user)
         context['form'] = form_operation
-
+    # print(form_operation.errors["__all__"].as_data()[0].code)
+    form_errors=[]
+    if form_operation.errors:
+        for per in form_operation.errors["__all__"].as_data():
+            form_errors.append({'message':per.message,'code':per.code})
+        #context['form_errors'] = form_operation.errors["__all__"].as_data()
+        #print(context['form_errors'])
+        context['form_errors'] = form_errors
+    else:
+        context['form_errors'] = []
     return render(request, 'manager.html', context)
 
 

@@ -3,6 +3,8 @@ from django.db.models import Q
 from operations.models import Operations, Categories
 from account_manager.models import Currency, Balances
 from decimal import Decimal
+import gettext
+_ = gettext.gettext
 
 class AddOperationForm(forms.ModelForm):
     OPERATION_CHOICES = (('','placeholder'),('+', 'Зачисление'), ('-', 'Списание'))
@@ -93,6 +95,7 @@ class AddOperationForm(forms.ModelForm):
         ))
 
     def clean(self):
+        errors=[]
         new_category = self.cleaned_data.get('new_category')
         category = self.cleaned_data.get('category')
         currency = self.cleaned_data.get('currency')
@@ -100,13 +103,14 @@ class AddOperationForm(forms.ModelForm):
         amount = self.cleaned_data.get('amount')
         
         if not new_category and not category:
-            raise forms.ValidationError('Нужно указать либо существующую категорию, либо новую.')
+            errors.append(forms.ValidationError(_('Нужно указать либо существующую категорию, либо новую.'), code='invalid_category'))
         elif not category:
             category = Categories.objects.create(category_name=new_category, user=self.user)
             self.cleaned_data['category'] = category
         elif new_category and category:
-            raise forms.ValidationError('Нужно выбрать что-то одно: либо существующую, либо новую категорию.')
-        
+            errors.append( forms.ValidationError(_('Нужно выбрать что-то одно: либо существующую, либо новую категорию.'), code='invalid_category'))
+        if errors:
+            raise forms.ValidationError(errors)
         currency_wallet = Balances.objects.get_or_create(user_id=self.user, currency_id=currency)
         if operation_type == '+':
             currency_wallet[0].amount += Decimal(amount)

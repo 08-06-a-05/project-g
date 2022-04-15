@@ -19,7 +19,7 @@
                 <div class="name">
                     Кошелёк
                 </div>
-                <form method="GET" id="wallet-filters">
+                <form method="GET" id="wallet-filters" >
                     <select name="wallet-currency" id="wallet-currency" placeholder="Выберите валюты" multiple>
                         {% for currency in currencies %}
                             <option>{{ currency.name }}</option>
@@ -48,10 +48,11 @@
                 <div class="name">
                     Добавить операцию
                 </div>
-                <form action="" method="POST" class="form_add_operation">
+                <form action="" method="POST" class="form_add_operation" onsubmit="return validation();">
                     {% csrf_token %}
                     <div class="content">
                         {{ form.operation_type }}
+                        <div class="error_message" id="error_type_message"></div>
                     </div>
                     <script>
                         $('#operations_type').select2({
@@ -61,6 +62,7 @@
                     </script>
                     <div class="content">
                         {{ form.currency }}
+                        <div class="error_message" id="error_currency_message"></div>
                     </div>
                     <script>
                         $('#operations_currency').select2({
@@ -69,13 +71,15 @@
                     </script>
                     <div class="content">
                         {{ form.amount }}
+                        <div class="error_message" id="error_amount_message"></div>
                     </div>
                     <div class="content">
                         {{ form.datetime }}
+                        <div class="error_message" id="error_datetime_message"></div>
                     </div>
                     <div class="content" id="category">
                         {{ form.category }}
-                        
+                        <div class="error_message" id="error_category_message"></div>
                     </div>
                     <script>
                         $('#operations_category').select2({
@@ -85,10 +89,12 @@
                     </script>
                     <div class="content" id="new_category">
                         {{ form.new_category }}
+                        <div class="error_message" id="error_new_category_message"></div>
                     </div>
                     <div id="swap-category">Добавить категорию</div>
-                    <div class="content">
+                    <div class="content" id="description_message">
                         {{ form.description }}
+                        <div class="error_message" id="error_description_message"></div>
                     </div>
                     <div class="form_button">
                         <input type="submit" value="Добавить операцию" id="add_operation">
@@ -145,6 +151,11 @@
             </div>
         </div>
         <script src="{% static 'dropdown.js' %}"></script>
+        <script>
+            window.onpageshow = function() {
+                initialization({{form_errors|safe}});
+            };
+        </script>
     </div>
 {% endblock %}
 

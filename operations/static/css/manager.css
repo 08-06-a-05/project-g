@@ -52,6 +52,7 @@ body{
     font-size:18px;
     flex-direction:row;
     align-items: center;
+    position: relative;
 }
 
 #total-amount{
@@ -116,6 +117,7 @@ body{
     height:450px;
     display:flex;
     flex-direction:column;
+    position:relative;
 }
 
 .recent_operations_wrapper{
@@ -200,7 +202,7 @@ body{
 
 }
 .operation-details{
-
+    cursor:pointer;
 }
 
 .filters-wrapper{
@@ -220,7 +222,32 @@ body{
     color:#757575;
 }
 
+.error_message{
+    display: flex;
+    align-items: center;
+    padding-left: 20px;
+    padding-right: 5px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    font-size:12px;
+    font-family: 'Raleway';
+    font-weight: 500;
+    position: absolute;
+    visibility: hidden;
+    opacity: 0;
+    width: 200px;
+    max-width: calc((100vw - 700px)/2);
+    left: 255px;
+    background-color: red;
+    z-index: 100;
+    height: 50px;
+    clip-path: polygon(14% 0, 100% 0, 100% 100%, 14% 99%, 0 50%);
+    transition: visibility 0.5s, opacity 0.5s linear;
+}
 
+#error_amount_message{
+    top: 0;
+}
 
 #wallet-currency{
     width:245px;
@@ -245,8 +272,27 @@ body{
     .root{
         flex-direction: column;
     }
+    #error_amount_message{
+        max-width: calc((100vw - 300px)/2);
+    }
 }
-
+@media screen and (max-width: 500px)
+{
+    .error_message{
+        background: none;
+        width: 245px;
+        height: 14px;
+        max-width: none !important;
+        padding: 0;
+        justify-content: center;
+        color: red;
+        clip-path: none;
+        left: 0;
+    }
+    #error_amount_message{
+        top: 50px;
+    }
+}
 @media screen and (max-width:350px)
 {
     .select2-container{

@@ -13,6 +13,10 @@ function send_JSON() {
 
 
 function validate() { // При нажатии на кнопку отправки форма еще раз проходит валидацию
+    valid = true;
+    if (!can_use){
+        valid = false;
+    }
     if (!email.value){
         error_email_message.textContent="Пожалуйста, введите email";
         perekras(email_line,error_email_message,false);
@@ -64,6 +68,7 @@ var token = document.getElementsByName('csrfmiddlewaretoken')[0].value;
 var result;
 var xhr = new XMLHttpRequest();
 var valid=true;
+var can_use=false;
 
 
 email.addEventListener("blur", function (event) {
@@ -77,21 +82,19 @@ email.addEventListener("blur", function (event) {
 
 xhr.onreadystatechange = function (){
     if (xhr.readyState === XMLHttpRequest.DONE && xhr.status === 200) {
+        can_use = false;
         var answer = JSON.parse(this.responseText);
         if (answer.is_exist=="false"){
             error_email_message.textContent="Такой email не существует";
             perekras(email_line,error_email_message,false);
-            valid = false;
         }
         else if (answer.is_registered=='false') {
             error_email_message.textContent="Этот email не зарегестрирован";
             perekras(email_line,error_email_message,false);
-            valid = false;
         } else {
             perekras(email_line,error_email_message,true);
-            valid = true;
+            can_use = true;
         }
-        can_use = true;
     }
 }
 
