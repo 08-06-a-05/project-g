@@ -10,9 +10,15 @@
 {% endblock %}
 
 {% block content %}
+
+
+
 <div class="root">
-
-
+    <div class="accept_message">
+        {% for message in messages %}
+        {{ message }}
+        {% endfor %}
+    </div>  
     <div class="login_container">
         <form class="login_form" method="POST" action="" name="login_form" onsubmit="return validate();" novalidate>
             {% csrf_token %}
